@@ -19,19 +19,23 @@ package editor.view.ui
 			super();
 			_fieldW = w;
 			_fieldH = h;
-			this.setStyle("backgroundColor" , 0xff0000);
+			this.setStyle("backgroundColor" , 0xdddddd);
 			this.addEventListener(Event.ADDED_TO_STAGE, addToStageHandler);
 		}
 		
 		protected function addToStageHandler(evt:Event):void {
-			this.addEventListener(MouseEvent.MOUSE_DOWN, function(evt:Event) {startDrag()});
-			this.addEventListener(MouseEvent.MOUSE_UP, function(evt:Event) {stopDrag()});
-			graphics.beginFill(0x333333, 0.5);
-			graphics.drawRect(0, 0, _fieldW, _fieldH);
-			graphics.endFill();
-			var label:Label = new Label();
-			label.text = "ABCDEFG";
-			this.addChild(label);
+			this.addEventListener(MouseEvent.MOUSE_DOWN, function(evt:Event) {
+				startDrag()}
+			);
+			this.addEventListener(MouseEvent.MOUSE_UP, function(evt:Event) {
+				stopDrag()}
+			);
+//			graphics.beginFill(0x333333, 0.5);
+//			graphics.drawRect(0, 0, _fieldW, _fieldH);
+//			graphics.endFill();
+//			var label:Label = new Label();
+//			label.text = "ABCDEFG";
+//			this.addChild(label);
 		}
 	}
 }

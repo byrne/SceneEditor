@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<s:WindowedApplication xmlns:fx="http://ns.adobe.com/mxml/2009" 
+<app:SceneEditorApp xmlns:fx="http://ns.adobe.com/mxml/2009" 
 					   xmlns:s="library://ns.adobe.com/flex/spark" 
 					   xmlns:mx="library://ns.adobe.com/flex/mx"
+					   xmlns:mxml="editor.view.ui.mxml.*"
+					   xmlns:app="editor.*"
 					   width="1000" height="700"
-					   applicationComplete="facade.startup(this)" xmlns:mxml="editor.view.ui.mxml.*"
+					   applicationComplete="facade.startup(this)" 
 					   >
 	<!--fx:Style> 
 		@namespace s "library://ns.adobe.com/flex/spark"; 
@@ -23,10 +25,9 @@
 	
 	<fx:Script>
 		<![CDATA[
-			private var facade:ApplicationFacade = ApplicationFacade.getInstance();
 			
 //			[Bindable] public var appVisible:Boolean = false;
 		]]>
 	</fx:Script>
-	<mxml:MainWindow id="rssWrapper" x="0" y="0" height="100%" width="100%"/>
-</s:WindowedApplication>
+	<mxml:MainWindow id="mainWindow" x="0" y="0" height="100%" width="100%"/>
+</app:SceneEditorApp>

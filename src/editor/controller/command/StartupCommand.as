@@ -1,5 +1,6 @@
 package editor.controller.command
 {
+	import editor.SceneEditorApp;
 	import editor.view.mediator.ApplicationMediator;
 	
 	import org.puremvc.as3.interfaces.INotification;
@@ -15,7 +16,7 @@ package editor.controller.command
 		
 		override public function execute( note:INotification ) :void	{
 			
-			var app:SceneEditor = note.getBody() as SceneEditor;
+			var app:SceneEditorApp = note.getBody() as SceneEditorApp;
 			facade.registerMediator(new ApplicationMediator(app));
 			sendNotification( DesktopCitizenConstants.WINDOW_OPEN, app.stage );
 		}

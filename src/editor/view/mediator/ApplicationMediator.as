@@ -1,5 +1,6 @@
 package editor.view.mediator
 {
+	import editor.SceneEditorApp;
 	import editor.constant.MediatorDef;
 	
 	import org.puremvc.as3.interfaces.INotification;
@@ -26,7 +27,7 @@ package editor.view.mediator
 		override public function handleNotification(notification:INotification):void {
 			switch(notification.getName()) {
 				case DesktopCitizenConstants.WINDOW_OPEN:
-					
+					app.initializeViews();
 					break;
 				
 				default:
