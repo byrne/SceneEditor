@@ -14,12 +14,12 @@ package editor.view.ui
 		private var _fieldW:int;
 		private var _fieldH:int;
 		
-		public function MainCanvas(w:int=ScreenDef.DEFAULT_CANVAS_W, h:int=ScreenDef.DEFAULT_CANVAS_H)
+		public function MainCanvas()
 		{
 			super();
-			_fieldW = w;
-			_fieldH = h;
 			this.setStyle("backgroundColor" , 0xdddddd);
+//			_fieldW = w;
+//			_fieldH = h;
 			this.addEventListener(Event.ADDED_TO_STAGE, addToStageHandler);
 		}
 		

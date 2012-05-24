@@ -1,4 +1,4 @@
-package
+package editor
 {
 	import editor.constant.CommandDef;
 	import editor.controller.command.StartupCommand;

@@ -4,8 +4,9 @@
 					   xmlns:mx="library://ns.adobe.com/flex/mx"
 					   xmlns:mxml="editor.view.ui.mxml.*"
 					   xmlns:app="editor.*"
-					   width="1000" height="700"
-					   applicationComplete="facade.startup(this)" 
+					   xmlns:window="editor.view.ui.window.*"
+					   width="1300" height="768" backgroundColor="0xcccccc"
+					   applicationComplete="facade.startup(this)"  
 					   >
 	<!--fx:Style> 
 		@namespace s "library://ns.adobe.com/flex/spark"; 

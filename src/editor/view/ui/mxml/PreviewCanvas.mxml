@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:UIComponent xmlns:fx="http://ns.adobe.com/mxml/2009" 
+				xmlns:s="library://ns.adobe.com/flex/spark" 
+				xmlns:mx="library://ns.adobe.com/flex/mx">
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			
+			import editor.utils.swf.CustomEvent;
+			
+			import mx.controls.Alert;
+			private var _display:DisplayObject = null;
+			
+			private var _boundRect:Rectangle = new Rectangle();
+			
+			private var _showLine:Boolean = false;
+			
+			
+			
+			public function show(display:DisplayObject):void {
+				if (_display != null) {
+					this.removeChild(_display);
+					_display = null;
+				}
+				_display = display;
+				this.addChild(_display);
+				
+				_boundRect = _display.getBounds(this);
+			
+				_display.x -= _boundRect.left;
+				_display.y -= _boundRect.top;
+				
+				
+				var event:CustomEvent = new CustomEvent(CustomEvent.EVENT_RECT_CHAGNE, true);
+				event.data.rect = _boundRect;
+				dispatchEvent(event);
+				
+		
+				invalidateSize();
+				invalidateDisplayList();
+				
+				
+				
+				//Alert.show("width=" + this.width + "," + rc.left + "," + rc.right);
+			}
+			
+			public function set showLine(s:Boolean) :void {
+				_showLine = s;
+			}
+			public function get showLine() :Boolean {
+				return _showLine; 
+			}
+			override protected function updateDisplayList(unw:Number, unh:Number) : void {
+				super.updateDisplayList(unw, unh);
+				if (_boundRect != null && _showLine) {
+					graphics.clear();
+					
+					//graphics.lineStyle(1,0xff0000);
+					//graphics.moveTo();
+					//graphics.lineTo();
+					
+					//graphics.moveTo();
+					//graphics.lineTo();
+					
+					//graphics.clear();
+					//graphics.lineStyle(2,0xff0000);
+					//graphics.beginFill(0xff0000);
+					//graphics.drawRect(0, 0 , rc.width, rc.height);
+					//graphics.endFill();
+				}
+				
+			}
+			
+			override protected function measure():void {
+				super.measure();
+				if (_boundRect != null) {
+					measuredWidth = measuredMinWidth = _boundRect.width + 10;
+					measuredHeight = measuredMinHeight = _boundRect.height + 10;
+				}
+				
+			}
+
+		]]>
+	</fx:Script>
+		
+</mx:UIComponent>

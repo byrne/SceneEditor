@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:WindowedApplication xmlns:fx="http://ns.adobe.com/mxml/2009" 
+					   xmlns:s="library://ns.adobe.com/flex/spark" 
+					   xmlns:mx="library://ns.adobe.com/flex/mx"
+					   xmlns:mxml="editor.view.ui.mxml.*" 
+					   creationComplete="init()"
+					   width="600" height="600"
+					   >
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			import editor.utils.swf.CustomEvent;
+			import editor.utils.swf.SWF;
+			import editor.view.ui.mxml.CustomListItemSkin;
+			
+			import mx.collections.ArrayCollection;
+			import mx.controls.Alert;
+			import mx.events.ItemClickEvent;
+			
+			import spark.events.IndexChangeEvent;
+			import spark.events.TextOperationEvent;
+			
+			private var file:FileReference;
+			
+			[Bindable]
+			private var symbolList:ArrayCollection;
+			
+			private var loader:Loader;
+			
+			
+			private function init() :void {
+				symbolList = new ArrayCollection();
+				this.addEventListener(CustomEvent.EVENT_RECT_CHAGNE, handleRectChange);
+				
+			}
+			private function initList() :void {
+				
+				list.dataProvider = symbolList;
+				list.addEventListener(ItemClickEvent.ITEM_CLICK, itemClickHandler);
+				
+			}
+			
+			private function handleRectChange(e:CustomEvent) :void {
+				var rc:Rectangle = e.data.rect;
+				leftTxt.text = rc.left.toFixed(1);
+				topTxt.text = rc.top.toFixed(1);
+				widthTxt.text = rc.width.toFixed(1);
+				heightTxt.text = rc.height.toFixed(1);
+			}
+			private function onClick():void {
+				file = new FileReference();
+				file.addEventListener(Event.SELECT, selectHandler);
+				
+				var allFilter:FileFilter = new FileFilter("swf (*.swf)", "*.swf");
+				
+				file.browse(new Array(allFilter));
+				
+			}
+			private function selectHandler(event:Event):void {
+				file.addEventListener(Event.COMPLETE, onLoadComplete);				
+				file.load(); 
+			}
+			private function onLoadComplete(event:Event):void {			
+				loader = new Loader();
+				var lc : LoaderContext = new LoaderContext();
+				lc.allowCodeImport = true;
+				loader.loadBytes(file.data, lc);
+				var swf:SWF = new SWF(file.data);
+				swf.process();		
+				var symbols:Array = swf.symbolClassNames;
+				symbolList = new ArrayCollection();
+				for each(var symbol:String in symbols) {
+					symbolList.addItem(symbol);
+				}
+				symbolList.source.sort(Array.CASEINSENSITIVE);
+				currentState = "Opened";			
+			}
+			
+			private function getClass(className:String):Class {
+				try {
+					return loader.contentLoaderInfo.applicationDomain.getDefinition(className)  as  Class;
+				} catch (e:Error) {
+					//throw new IllegalOperationError(className + " definition not found in " + swfLib);
+				}
+				return null;
+			}
+			
+			private function _selectItem(name:String):void {
+				
+				var itemClass:Class = getClass(name);
+				if (itemClass == null) {
+					Alert.show("Class not found: "+name);					
+				} else {
+					var item:DisplayObject = new itemClass();
+					canvas.show(item);
+				}
+			}
+			private function itemClickHandler(evt:ItemClickEvent):void {				
+				_selectItem(String(evt.item));
+			}
+			
+			private function lst_changeHandler(evt:IndexChangeEvent):void {
+				//var nIndex:int = evt.newIndex;
+				var selItems:Vector.<Object> = evt.currentTarget.selectedItems;
+				if (selItems.length > 0) {
+					_selectItem(String(selItems[0]));
+				}
+				
+			}
+			
+			private function filterMyArrayCollection(item:Object):Boolean {
+				var searchString:String = searchTxt.text.toLowerCase();
+				var itemName:String = (item as String).toLowerCase();
+				return itemName.indexOf(searchString) > -1;
+			}
+			
+			protected function searchTxt_changeHandler(event:TextOperationEvent):void
+			{
+				symbolList.filterFunction = filterMyArrayCollection;
+				symbolList.refresh();
+			}
+		]]>
+	</fx:Script>
+	
+	<s:states>
+		<s:State name="beforeOpen"/>
+		<s:State name="Opened"/>
+	</s:states>
+	
+	<s:Panel x="0" y="0" width="600" height="600" title="Asset SWF Viewer ">
+		<s:Button click="onClick()"  label="Open a Asset SWF..." includeIn="beforeOpen" height="100" width="200" fontSize="15" horizontalCenter="0" verticalCenter="0"/>
+		<s:Label text="Author: LDX    Email: laomoi@qq.com" right="10" bottom="5" fontSize="10"/>
+		<s:List includeIn="Opened" x="8" y="29" width="154" height="517" id="list"
+				itemRenderer="editor.view.ui.mxml.CustomListItemSkin" creationComplete="initList()" change="lst_changeHandler(event)">
+		</s:List>
+		<s:Scroller  includeIn="Opened" x="170" y="29" percentWidth="100" percentHeight="100"   height="517">
+			<s:Group width="418" height="517">
+				<mxml:PreviewCanvas id="canvas" >
+				</mxml:PreviewCanvas>
+			</s:Group>
+		</s:Scroller>
+		<s:TextInput includeIn="Opened" x="9" y="4" width="152" id="searchTxt" change="searchTxt_changeHandler(event)"/>
+		<s:HGroup x="180" y="9" includeIn="Opened" >
+			<s:Label   text="Left:"/>
+			<s:Label  width="40"  id="leftTxt" text=" "/>
+			<s:Label   text="Top:"/>
+			<s:Label  width="40" id="topTxt" text=" "/>
+			<s:Label   text="Width:"/>
+			<s:Label  width="40"  id="widthTxt" text=" "/>
+			<s:Label   text="Height:" />
+			<s:Label  width="40" id="heightTxt" text=" "/>
+		</s:HGroup>
+	</s:Panel>
+</s:WindowedApplication>

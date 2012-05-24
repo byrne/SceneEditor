@@ -1,10 +1,14 @@
 package editor
 {
+	import editor.view.ui.window.TitleWindowBase;
 	import editor.view.ui.window.MainWindow;
 	
 	import flash.display.NativeMenu;
 	import flash.display.NativeMenuItem;
 	import flash.events.Event;
+	
+	import mx.core.IFlexDisplayObject;
+	import mx.managers.PopUpManager;
 	
 	import spark.components.WindowedApplication;
 	
@@ -15,9 +19,9 @@ package editor
 		private var _mainWindow:MainWindow;
 		
 		private var _menuData:Array = [
-			["File", [["Open", "O", fileOpenHandler],["Save", "S"],[],["Quit", "Q"]]],
-			["View", [["Open", "O"],["Save", "S"],["Quit", "Q"]]],
-			["About", [["Open", "O"],["Save", "S"],["Quit", "Q"]]]
+			["文件", [["新建", "N", fileNewHandler],["打开", "O", fileOpenHandler],["保存", "S", fileSaveHandler],[],["切换工作路径", "P", switchWorkspaceHandler],["退出", "Q", quitHandler]]],
+			["查看", [["Open", "O"],["Save", "S"],["Quit", "Q"]]],
+			["关于", [["Open", "O"],["Save", "S"],["Quit", "Q"]]]
 		];
 		
 		public function SceneEditorApp()
@@ -57,7 +61,24 @@ package editor
 			return menuBar;
 		}
 		
+		private function fileNewHandler(evt:Event):void {
+			var wnd:TitleWindowBase = new TitleWindowBase("Test");
+			wnd.width = 400;
+			wnd.height = 400;
+			popupWindow(wnd);
+		}
 		private function fileOpenHandler(evt:Event):void {
+		}
+		private function fileSaveHandler(evt:Event):void {
+		}
+		private function switchWorkspaceHandler(evt:Event):void {
+		}
+		private function quitHandler(evt:Event):void {
+		}
+		
+		public function popupWindow(wnd:IFlexDisplayObject, modal:Boolean=false):void {
+			PopUpManager.addPopUp(wnd, this, modal);
+			PopUpManager.centerPopUp(wnd);
 		}
 	}
 }
