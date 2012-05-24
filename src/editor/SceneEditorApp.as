@@ -1,7 +1,7 @@
 package editor
 {
+	import editor.view.ui.mxml.MainWindowSkin;
 	import editor.view.ui.window.TitleWindowBase;
-	import editor.view.ui.window.MainWindow;
 	
 	import flash.display.NativeMenu;
 	import flash.display.NativeMenuItem;
@@ -16,7 +16,7 @@ package editor
 	{
 		public var facade:ApplicationFacade = ApplicationFacade.getInstance();
 		
-		private var _mainWindow:MainWindow;
+		private var _mainWindow:MainWindowSkin;
 		
 		private var _menuData:Array = [
 			["文件", [["新建", "N", fileNewHandler],["打开", "O", fileOpenHandler],["保存", "S", fileSaveHandler],[],["切换工作路径", "P", switchWorkspaceHandler],["退出", "Q", quitHandler]]],
@@ -32,8 +32,8 @@ package editor
 		public function initializeViews():void {
 			this.stage.nativeWindow.menu = createMenuBar();
 			
-//			_mainWindow = new MainWindow();
-//			this.addElement(_mainWindow);
+			_mainWindow = new MainWindowSkin();
+			this.addElement(_mainWindow);
 		}
 		
 		private function createMenuBar():NativeMenu {

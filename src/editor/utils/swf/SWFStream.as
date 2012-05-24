@@ -10,10 +10,15 @@ package editor.utils.swf
 		
 		public function SWFStream(data:ByteArray) : void
 		{
-			_data = data;	
+			_data = data;
+			_data.position = 0;
 			_data.endian  = Endian.LITTLE_ENDIAN;
 			_cacheByteUsedBits = 8;
 			_cacheByte = 0;
+		}
+		
+		public function get data():ByteArray {
+			return _data;
 		}
 		
 		public function read_bytes(len:int=0):SWFStream {

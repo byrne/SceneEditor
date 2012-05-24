@@ -1,11 +1,18 @@
 package editor.utils.swf
 {	
+	import editor.utils.DictionaryUtil;
+	
+	import flash.display.Loader;
+	import flash.events.Event;
+	import flash.events.EventDispatcher;
 	import flash.net.FileReference;
+	import flash.system.LoaderContext;
 	import flash.utils.ByteArray;
+	import flash.utils.Dictionary;
 	
 	import mx.utils.ArrayUtil;
 
-	public class SWF
+	public class SWF extends EventDispatcher
 	{
 		private var _stream:SWFStream;
 		
@@ -18,16 +25,40 @@ package editor.utils.swf
 		
 		private var _height:int; 
 		private var _tag_start_pos:int;
-		private var _symbolClassNames:Array = [];
+		private var _symbolClassNames:Dictionary = new Dictionary();
+		
+		private var _loader:Loader;
+		private var _rawData:ByteArray;
 	
 		public function SWF(data:ByteArray) : void
 		{
+			_rawData = new ByteArray();
+			data.readBytes(_rawData);
 			_stream = new SWFStream(data);
-			_init();
+		}
+		
+		// loadSwf() must call before process()
+		private function loadSwf():void {
+			_loader = new Loader();
+			var lc : LoaderContext = new LoaderContext();
+			lc.allowCodeImport = true;
+			_loader.contentLoaderInfo.addEventListener(Event.COMPLETE, loadSwfCompleteHandler);
+			_loader.loadBytes(_rawData, lc);
+		}
+		
+		private function loadSwfCompleteHandler(evt:Event):void {
+			for(var clsName:String in _symbolClassNames) {
+				_symbolClassNames[clsName] = _getSwfClass(clsName);
+			}
+			_rawData = null;
+			_loader.unload();
+			_loader = null;
+			this.dispatchEvent(new Event(Event.COMPLETE));
 		}
 		
 		public function process():void {
-			startReadTags();				
+			readSwfHead();
+			pos = _tag_start_pos;			
 			while(true) {
 				var tag:SWFTag = read_tag() ;
 				if (tag == null) {
@@ -35,16 +66,40 @@ package editor.utils.swf
 				}
 				if (tag is TagSymbolClass) {
 					var symbols:Array =  (tag as TagSymbolClass).symbols;
-					_symbolClassNames = _symbolClassNames.concat(symbols);
+					for each(var clsName:String in symbols) {
+						_symbolClassNames[clsName] = null;
+					}
 				}
 			}
+			_stream = null;
+			loadSwf();
 		}
 		
-		public function get symbolClassNames():Array {
+		private function _getSwfClass(clsName:String):Class {
+			try {
+				return _loader.contentLoaderInfo.applicationDomain.getDefinition(clsName)  as  Class;
+			} catch (e:Error) {
+				trace("class " + clsName + " definition not found");
+//				throw new Error("class " + clsName + " definition not found");
+			}
+			return null;
+		}
+		
+		public function get symbolClassNamesArr():Array {
+			return DictionaryUtil.getKeys(_symbolClassNames);
+		}
+		
+		public function get symbolClassNamesDic():Dictionary {
 			return _symbolClassNames;
 		}
 		
-		private function _init():void {
+		public function getClassByName(clsName:String):Class {
+			var cls:Class = _symbolClassNames[clsName] as Class;
+			return cls;
+		}
+		
+		private function readSwfHead():void {
+			pos = 0;
 			var b1:int = _stream.read_UI8();
 			var b2:int = _stream.read_UI8();
 			var b3:int = _stream.read_UI8();			
@@ -92,11 +147,6 @@ package editor.utils.swf
 			
 			return true;
 		}
-		
-		public function startReadTags():void {
-			_stream.pos = _tag_start_pos;
-		}
-		
 		
 		public function set pos(p:int): void {
 			_stream.pos = p;

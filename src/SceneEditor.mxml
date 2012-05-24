@@ -30,5 +30,5 @@
 //			[Bindable] public var appVisible:Boolean = false;
 		]]>
 	</fx:Script>
-	<mxml:MainWindow id="mainWindow" x="0" y="0" height="100%" width="100%"/>
+	<!--mxml:MainWindow id="mainWindow" x="0" y="0" height="100%" width="100%"/-->
 </app:SceneEditorApp>

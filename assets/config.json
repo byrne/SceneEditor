@@ -1,0 +1,9 @@
+{
+	"base_dir": "C:\\work",
+	"output_file": "C:\\workspace/scene-editor/bin-debug/output.json",
+	"file_list": [
+		"idle.swf",
+		"win.swf",
+		"lose.swf"
+	]
+}

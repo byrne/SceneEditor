@@ -23,7 +23,9 @@
       <airExcludes/>
     </application>
     <application path="SwfReader.mxml">
-      <airExcludes/>
+      <airExcludes>
+        <airExclude path="config.json"/>
+      </airExcludes>
     </application>
   </applications>
   <modules/>

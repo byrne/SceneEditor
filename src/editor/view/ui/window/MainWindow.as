@@ -18,6 +18,9 @@ package editor.view.ui.window
 	
 	public class MainWindow extends Canvas
 	{
+		public var sceneCanvas:MainCanvas;
+		
+		public var tabMenu:TabNavigator;
 		
 		public function MainWindow()
 		{
@@ -27,7 +30,7 @@ package editor.view.ui.window
 		}
 		
 		private function createCompleteHandler(evt:Event):void {
-
+			trace("ccc "+this.sceneCanvas);
 		}
 		
 		protected function addToStageHandler(evt:Event):void {

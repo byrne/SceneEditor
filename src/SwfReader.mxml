@@ -4,6 +4,7 @@
 					   xmlns:mx="library://ns.adobe.com/flex/mx"
 					   xmlns:mxml="editor.view.ui.mxml.*" 
 					   creationComplete="init()"
+					   invoke="app_invokeHandler(event)"
 					   width="600" height="600"
 					   >
 	<fx:Declarations>
@@ -12,6 +13,9 @@
 	
 	<fx:Script>
 		<![CDATA[
+			import editor.utils.FileSerializer;
+			import editor.utils.LogUtil;
+			import editor.utils.StringUtil;
 			import editor.utils.swf.CustomEvent;
 			import editor.utils.swf.SWF;
 			import editor.view.ui.mxml.CustomListItemSkin;
@@ -28,19 +32,59 @@
 			[Bindable]
 			private var symbolList:ArrayCollection;
 			
-			private var loader:Loader;
+			private var swf:SWF;
 			
+			private function app_invokeHandler(evt:InvokeEvent):void {
+				var args:Array = evt.arguments;
+				if(args.length <= 0) {
+					LogUtil.error("usage: SwfReader configFile");
+					return;
+				}
+				var configFileName:String = args[0] as String;
+				var config:Object = FileSerializer.readJsonFile(configFileName);
+				var base_dir:String = config["base_dir"];
+				var output_file:String = config["output_file"];
+				output_file = output_file.replace("{base_dir}", base_dir);
+				var file_list:Array = config["file_list"] as Array;
+				var output:Object = new Object();
+				output["base_dir"] = base_dir;
+				output["symbol_classes"] = new Object();
+				for each(var fileName:String in file_list) {
+//					fileName = fileName.replace("{base_dir}", base_dir);
+					fileName = StringUtil.substitute("{0}/{1}", base_dir, fileName);
+					dumpSwfSymbolClass(fileName, output, output_file);
+				}
+			}
+			
+			private static var remainSwfCnt:int;
+			private function dumpSwfSymbolClass(fileName:String, output:Object, output_file:String):void {
+				remainSwfCnt += 1;
+				var ba:ByteArray = FileSerializer.readBytesFromFile(fileName);
+				var swf:SWF = new SWF(ba);
+				var base_dir:String = output["base_dir"];
+				swf.addEventListener(Event.COMPLETE, function(evt:Event):void {
+					var symbols:Array = swf.symbolClassNamesArr;
+					fileName = fileName.substr(base_dir.length+1);
+					output["symbol_classes"][fileName] = symbols;
+					LogUtil.info("dump swf symbol class {0}, count {1}", fileName, symbols.length);
+					remainSwfCnt -= 1;
+					if(remainSwfCnt <= 0) {
+						FileSerializer.writeJsonFile(output, output_file);
+						LogUtil.info("write to file: {0}", output_file);
+//						exit();
+					}
+				});
+				swf.process();
+			}
 			
 			private function init() :void {
 				symbolList = new ArrayCollection();
 				this.addEventListener(CustomEvent.EVENT_RECT_CHAGNE, handleRectChange);
-				
 			}
+			
 			private function initList() :void {
-				
 				list.dataProvider = symbolList;
 				list.addEventListener(ItemClickEvent.ITEM_CLICK, itemClickHandler);
-				
 			}
 			
 			private function handleRectChange(e:CustomEvent) :void {
@@ -63,33 +107,26 @@
 				file.addEventListener(Event.COMPLETE, onLoadComplete);				
 				file.load(); 
 			}
+			
 			private function onLoadComplete(event:Event):void {			
-				loader = new Loader();
-				var lc : LoaderContext = new LoaderContext();
-				lc.allowCodeImport = true;
-				loader.loadBytes(file.data, lc);
-				var swf:SWF = new SWF(file.data);
-				swf.process();		
-				var symbols:Array = swf.symbolClassNames;
-				symbolList = new ArrayCollection();
-				for each(var symbol:String in symbols) {
-					symbolList.addItem(symbol);
-				}
-				symbolList.source.sort(Array.CASEINSENSITIVE);
-				currentState = "Opened";			
+				swf = new SWF(file.data);
+				swf.addEventListener(Event.COMPLETE, function(evt:Event):void {
+					var symbols:Array = swf.symbolClassNamesArr;
+					symbolList = new ArrayCollection();
+					for each(var symbol:String in symbols) {
+						symbolList.addItem(symbol);
+					}
+					symbolList.source.sort(Array.CASEINSENSITIVE);
+					currentState = "Opened";
+				});
+				swf.process();
 			}
 			
 			private function getClass(className:String):Class {
-				try {
-					return loader.contentLoaderInfo.applicationDomain.getDefinition(className)  as  Class;
-				} catch (e:Error) {
-					//throw new IllegalOperationError(className + " definition not found in " + swfLib);
-				}
-				return null;
+				return swf.getClassByName(className);
 			}
 			
 			private function _selectItem(name:String):void {
-				
 				var itemClass:Class = getClass(name);
 				if (itemClass == null) {
 					Alert.show("Class not found: "+name);					
@@ -103,12 +140,10 @@
 			}
 			
 			private function lst_changeHandler(evt:IndexChangeEvent):void {
-				//var nIndex:int = evt.newIndex;
 				var selItems:Vector.<Object> = evt.currentTarget.selectedItems;
 				if (selItems.length > 0) {
 					_selectItem(String(selItems[0]));
 				}
-				
 			}
 			
 			private function filterMyArrayCollection(item:Object):Boolean {
@@ -132,7 +167,6 @@
 	
 	<s:Panel x="0" y="0" width="600" height="600" title="Asset SWF Viewer ">
 		<s:Button click="onClick()"  label="Open a Asset SWF..." includeIn="beforeOpen" height="100" width="200" fontSize="15" horizontalCenter="0" verticalCenter="0"/>
-		<s:Label text="Author: LDX    Email: laomoi@qq.com" right="10" bottom="5" fontSize="10"/>
 		<s:List includeIn="Opened" x="8" y="29" width="154" height="517" id="list"
 				itemRenderer="editor.view.ui.mxml.CustomListItemSkin" creationComplete="initList()" change="lst_changeHandler(event)">
 		</s:List>
