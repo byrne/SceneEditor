@@ -1,0 +1,23 @@
+<NPC>
+  <string property="resource">../assets/blackdude.swf</string>
+  <Actor property="minion">
+    <string property="name">Chewbacca</string>
+    <string property="resource">../assets/chewie.swf</string>
+    <number property="id">-12.2</number>
+    <boolean property="visible">false</boolean>
+  </Actor>
+  <int property="id">12</int>
+  <string property="tip_msg">Sup dawg?</string>
+  <string property="name">Han Solo</string>
+  <array property="dialog">
+    <string>Yo ain't know me.</string>
+    <string>Check this out.</string>
+    <Actor>
+      <string property="name">Cain</string>
+      <string property="resource">cain.swf</string>
+      <int property="id">92</int>
+      <boolean property="visible">true</boolean>
+    </Actor>
+  </array>
+  <boolean property="visible">true</boolean>
+</NPC>

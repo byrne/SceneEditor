@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<root>
+  <type name="NPC_TYPE" style="basic" >
+  </type>
+  <type name="NPC">
+    <inherit type="Actor"/>
+    <property name="tip_msg" type="string"/>
+    <property name="dialog" type="array"/>
+    <property name="minion" type="Actor" />
+  </type>
+  <type name="Actor">
+    <property name="id" type="int"/>
+    <property name="name" type="string"/>
+    <property name="resource" type="string"/>
+    <property name="visible" type="boolean">
+    </property>
+  </type>
+</root>
