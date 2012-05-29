@@ -44,8 +44,8 @@ package editor
 			this.addElement(_mainWnd);
 			
 			_resLibraryWnd = new ResLibraryWindow(getGlobalConfig(NameDef.CFG_RES_LIBRARY) as String);
-			_resLibraryWnd.width = 600;
-			_resLibraryWnd.height = 400;
+			_resLibraryWnd.width = 800;
+			_resLibraryWnd.height = 600;
 			super.app_creationCompleteHandler(event);
 		}
 		
