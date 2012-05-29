@@ -1,4 +1,4 @@
-package editor.view.ui
+package editor.view
 {
 	import editor.constant.ScreenDef;
 	

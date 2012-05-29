@@ -183,6 +183,23 @@ package editor.utils
 			strOut = strOut.replace(":NaN",":0");
 			return strOut;
 		}
+		
+		public static function objectToDictionary(object:Object):Dictionary {
+			var result:Dictionary = null;
+			if (object != null) {
+				result = new Dictionary();
+				for (var key:String in object) {
+					result[key] = object[key];
+				}
+			}
+			return result;
+		}
+		
+		public static function appendArray(main:Array, appending:Array):void {
+			for each (var e:* in appending) {
+				main.push(e);
+			}
+		}
 
 	}
 }

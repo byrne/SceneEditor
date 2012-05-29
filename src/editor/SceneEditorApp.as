@@ -1,22 +1,29 @@
 package editor
 {
-	import editor.view.ui.mxml.MainWindowSkin;
-	import editor.view.ui.window.TitleWindowBase;
+	import editor.constant.NameDef;
+	import editor.mgr.PopupMgr;
+	import editor.utils.FileSerializer;
+	import editor.view.IPopup;
+	import editor.view.mxml.MainWindowSkin;
+	import editor.view.window.ResLibraryWindow;
+	import editor.view.window.TitleWindowBase;
 	
 	import flash.display.NativeMenu;
 	import flash.display.NativeMenuItem;
 	import flash.events.Event;
 	
 	import mx.core.IFlexDisplayObject;
+	import mx.events.FlexEvent;
 	import mx.managers.PopUpManager;
 	
 	import spark.components.WindowedApplication;
 	
-	public class SceneEditorApp extends WindowedApplication
+	public class SceneEditorApp extends WindowedApplicationBase
 	{
-		public var facade:ApplicationFacade = ApplicationFacade.getInstance();
+		private var _mainWnd:MainWindowSkin;
+		private var _resLibraryWnd:ResLibraryWindow;
 		
-		private var _mainWindow:MainWindowSkin;
+		private var _global_config:Object;
 		
 		private var _menuData:Array = [
 			["文件", [["新建", "N", fileNewHandler],["打开", "O", fileOpenHandler],["保存", "S", fileSaveHandler],[],["切换工作路径", "P", switchWorkspaceHandler],["退出", "Q", quitHandler]]],
@@ -29,11 +36,29 @@ package editor
 			super();
 		}
 		
-		public function initializeViews():void {
+		override protected function app_creationCompleteHandler(event:FlexEvent):void {
+			readGlobalConfig();
 			this.stage.nativeWindow.menu = createMenuBar();
 			
-			_mainWindow = new MainWindowSkin();
-			this.addElement(_mainWindow);
+			_mainWnd = new MainWindowSkin();
+			this.addElement(_mainWnd);
+			
+			_resLibraryWnd = new ResLibraryWindow(getGlobalConfig(NameDef.CFG_RES_LIBRARY) as String);
+			_resLibraryWnd.width = 600;
+			_resLibraryWnd.height = 400;
+			super.app_creationCompleteHandler(event);
+		}
+		
+		public function initializeViews():void {
+			
+		}
+		
+		private function readGlobalConfig():void {
+			_global_config = FileSerializer.readJsonFile("C:\\workspace/scene-editor/bin-debug/editor_config.json");
+		}
+		
+		public function getGlobalConfig(key:String):Object {
+			return _global_config[key];
 		}
 		
 		private function createMenuBar():NativeMenu {
@@ -65,7 +90,7 @@ package editor
 			var wnd:TitleWindowBase = new TitleWindowBase("Test");
 			wnd.width = 400;
 			wnd.height = 400;
-			popupWindow(wnd);
+			PopupMgr.getInstance().popupWindow(wnd);
 		}
 		private function fileOpenHandler(evt:Event):void {
 		}
@@ -76,9 +101,31 @@ package editor
 		private function quitHandler(evt:Event):void {
 		}
 		
-		public function popupWindow(wnd:IFlexDisplayObject, modal:Boolean=false):void {
-			PopUpManager.addPopUp(wnd, this, modal);
-			PopUpManager.centerPopUp(wnd);
+		private var resLibarayContextMenu:Object = {"type":"check", "label":NameDef.WND_RES_LIBRARY+"面板", "toggled":true, "handler":toggleWindowPopup}; 
+		private var appContextMenuData:Array = [
+			resLibarayContextMenu,
+			{"type":"separator"}
+		];
+		
+		override protected function initContextMenuData():void {
+			resLibarayContextMenu["param"] = _resLibraryWnd;
+			contextMenuInfos[this] = {"menuitems":appContextMenuData, "before_handler":appBeforeContextMenuHandler, "onhide":appHideContextMenuHandler};
+		}
+		
+		protected function appBeforeContextMenuHandler(event:* = null):void {
+			resLibarayContextMenu["toggled"] = _resLibraryWnd.isPopup;
+		}
+		
+		protected function appHideContextMenuHandler():void {
+			setFocus();
+		}
+		
+		private function toggleWindowPopup(wnd:IPopup):void {
+			if(wnd.isPopup) {
+				PopupMgr.getInstance().closeWindow(wnd);
+			} else {
+				PopupMgr.getInstance().popupWindow(wnd);
+			}
 		}
 	}
 }

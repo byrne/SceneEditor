@@ -2,11 +2,10 @@
 <app:SceneEditorApp xmlns:fx="http://ns.adobe.com/mxml/2009" 
 					   xmlns:s="library://ns.adobe.com/flex/spark" 
 					   xmlns:mx="library://ns.adobe.com/flex/mx"
-					   xmlns:mxml="editor.view.ui.mxml.*"
+					   xmlns:mxml="editor.view.mxml.*"
 					   xmlns:app="editor.*"
-					   xmlns:window="editor.view.ui.window.*"
+					   xmlns:window="editor.view.window.*"
 					   width="1300" height="768" backgroundColor="0xcccccc"
-					   applicationComplete="facade.startup(this)"  
 					   >
 	<!--fx:Style> 
 		@namespace s "library://ns.adobe.com/flex/spark"; 
@@ -30,5 +29,4 @@
 //			[Bindable] public var appVisible:Boolean = false;
 		]]>
 	</fx:Script>
-	<!--mxml:MainWindow id="mainWindow" x="0" y="0" height="100%" width="100%"/-->
 </app:SceneEditorApp>

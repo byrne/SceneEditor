@@ -2,7 +2,7 @@
 <s:WindowedApplication xmlns:fx="http://ns.adobe.com/mxml/2009" 
 					   xmlns:s="library://ns.adobe.com/flex/spark" 
 					   xmlns:mx="library://ns.adobe.com/flex/mx"
-					   xmlns:mxml="editor.view.ui.mxml.*" 
+					   xmlns:mxml="editor.view.mxml.*" 
 					   creationComplete="init()"
 					   invoke="app_invokeHandler(event)"
 					   width="600" height="600"
@@ -18,7 +18,7 @@
 			import editor.utils.StringUtil;
 			import editor.utils.swf.CustomEvent;
 			import editor.utils.swf.SWF;
-			import editor.view.ui.mxml.CustomListItemSkin;
+			import editor.view.mxml.CustomListItemSkin;
 			
 			import mx.collections.ArrayCollection;
 			import mx.controls.Alert;
@@ -168,7 +168,7 @@
 	<s:Panel x="0" y="0" width="600" height="600" title="Asset SWF Viewer ">
 		<s:Button click="onClick()"  label="Open a Asset SWF..." includeIn="beforeOpen" height="100" width="200" fontSize="15" horizontalCenter="0" verticalCenter="0"/>
 		<s:List includeIn="Opened" x="8" y="29" width="154" height="517" id="list"
-				itemRenderer="editor.view.ui.mxml.CustomListItemSkin" creationComplete="initList()" change="lst_changeHandler(event)">
+				itemRenderer="editor.view.mxml.CustomListItemSkin" creationComplete="initList()" change="lst_changeHandler(event)">
 		</s:List>
 		<s:Scroller  includeIn="Opened" x="170" y="29" percentWidth="100" percentHeight="100"   height="517">
 			<s:Group width="418" height="517">
