@@ -4,6 +4,12 @@
 	"file_list": [
 		"idle.swf",
 		"win.swf",
-		"lose.swf"
+		"lose.swf",
+		"test1/idle.swf",
+		"test1/win.swf",
+		"test2/idle.swf",
+		"test2/win.swf",
+		"test2/test3/win.swf",
+		"test2/test3/lose.swf"
 	]
 }
