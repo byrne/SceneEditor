@@ -6,6 +6,7 @@ package editor.view.window
 	import editor.utils.FileSerializer;
 	import editor.utils.LogUtil;
 	import editor.view.component.PreviewCanvas;
+	import editor.view.component.ResPreviewCanvas;
 	
 	import flash.display.DisplayObject;
 	import flash.display.MovieClip;
@@ -20,7 +21,6 @@ package editor.view.window
 	import mx.core.IVisualElement;
 	import mx.core.UIComponent;
 	import mx.events.ListEvent;
-	import editor.view.component.ResPreviewCanvas;
 
 	public class ResLibraryWindow extends TitleWindowBase
 	{
@@ -100,9 +100,7 @@ package editor.view.window
 			var treeObj:Object = new Object();
 			var key:String;
 			var depthArr:Array;
-			trace(sourceData);
 			for(key in sourceData) {
-				trace("process key: "+key);
 				depthArr =key.split("/");
 				var curDepthObj:Object = treeObj;
 				for(var i:int=0; i<depthArr.length-1; i++) {
@@ -138,7 +136,12 @@ package editor.view.window
 				xml.@["label"] = label!=null ? label : "root";
 				xml.@["leaf"] = false;
 				xml.@["path"] = fullPath ? fullPath : "";
+				var keys:Array = [];
 				for(key in obj) {
+					keys.push(key);
+				}
+				keys.sort();
+				for each(key in keys) {
 					child = obj[key];
 					xml.appendChild(convertObj2XML(child, key, fullPath ? fullPath+"/"+key : key));
 				}
