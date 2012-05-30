@@ -1,10 +1,11 @@
 package editor
 {
 	import editor.constant.NameDef;
+	import editor.constant.ScreenDef;
 	import editor.mgr.PopupMgr;
 	import editor.utils.FileSerializer;
 	import editor.view.IPopup;
-	import editor.view.mxml.MainWindowSkin;
+	import editor.view.window.MainWindow;
 	import editor.view.window.ResLibraryWindow;
 	import editor.view.window.TitleWindowBase;
 	
@@ -20,7 +21,7 @@ package editor
 	
 	public class SceneEditorApp extends WindowedApplicationBase
 	{
-		private var _mainWnd:MainWindowSkin;
+		private var _mainWnd:MainWindow;
 		private var _resLibraryWnd:ResLibraryWindow;
 		
 		private var _global_config:Object;
@@ -40,12 +41,12 @@ package editor
 			readGlobalConfig();
 			this.stage.nativeWindow.menu = createMenuBar();
 			
-			_mainWnd = new MainWindowSkin();
+			_mainWnd = new MainWindow();
 			this.addElement(_mainWnd);
 			
 			_resLibraryWnd = new ResLibraryWindow(getGlobalConfig(NameDef.CFG_RES_LIBRARY) as String);
-			_resLibraryWnd.width = 800;
-			_resLibraryWnd.height = 600;
+			_resLibraryWnd.width = ScreenDef.RESLIBRARY_W;
+			_resLibraryWnd.height = ScreenDef.RESLIBRARY_H;
 			super.app_creationCompleteHandler(event);
 		}
 		

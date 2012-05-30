@@ -1,6 +1,7 @@
 package editor.view.window
 {
 	import editor.constant.NameDef;
+	import editor.constant.ScreenDef;
 	import editor.mgr.ResMgr;
 	import editor.utils.CommonUtil;
 	import editor.utils.FileSerializer;
@@ -55,20 +56,16 @@ package editor.view.window
 			dividedBox.percentHeight = 100;
 			
 			resTree = new Tree();
-			resTree.percentWidth = 20;
+			resTree.percentWidth = ScreenDef.RESLIBRARY_TREE_W_PERCENT;
 			resTree.percentHeight = 100;
 			resTree.dataProvider = resTreeXML;
 			resTree.labelField = "@label";
 			resTree.showRoot = false;
 			resTree.addEventListener(ListEvent.ITEM_CLICK, resTreeClickHandler);
 			dividedBox.addElement(resTree);
-//			tabNavi = new TabNavigator();
-//			tabNavi.percentWidth = 20;
-//			tabNavi.percentHeight = 100;
-//			dividedBox.addElement(tabNavi);
 			
 			previewField = new ResPreviewCanvas();
-			previewField.percentWidth = 80;
+			previewField.percentWidth = 100 - ScreenDef.RESLIBRARY_TREE_W_PERCENT;;
 			previewField.percentHeight = 100;
 			dividedBox.addElement(previewField);
 			

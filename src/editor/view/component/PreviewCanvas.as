@@ -73,16 +73,18 @@ package editor.view.component
 		
 		protected function updateBackground():void {
 			this.graphics.clear();
-			this.graphics.beginFill(0);
 			
 			var offsetX:int = x - xBase;
 			var offsetY:int = y - yBase;
 //			LogUtil.debug("x:{0}, y:{1}, w:{2}, h:{3}, offsetX:{4}, offsetY:{5}", this.x, this.y, this.width, this.height, offsetX, offsetY);
+
 			
+			this.graphics.beginFill(0xdddddd, 1);
+			this.graphics.drawRect(-offsetX, -offsetY, width, height);
 			// draw mask
 			if(maskSprite) {
 				maskSprite.graphics.clear();
-				maskSprite.graphics.beginFill(0xff0000, 0.5);
+				maskSprite.graphics.beginFill(0xff0000);
 				maskSprite.graphics.drawRect(-offsetX, -offsetY, width, height);
 				maskSprite.graphics.endFill();
 			}

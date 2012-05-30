@@ -16,18 +16,8 @@ package editor.view.component
 		
 		public function MainCanvas()
 		{
-			super();
+			super(100, 100);
 			this.gridOn = false;
 		}
-		
-//		protected function addToStageHandler(evt:Event):void {
-//			
-//			graphics.beginFill(0x333333, 0.5);
-//			graphics.drawRect(0, 0, _fieldW, _fieldH);
-//			graphics.endFill();
-//			var label:Label = new Label();
-//			label.text = "ABCDEFG";
-//			this.addChild(label);
-//		}
 	}
 }
