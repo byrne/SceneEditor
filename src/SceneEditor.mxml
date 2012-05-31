@@ -6,6 +6,8 @@
 					   xmlns:app="editor.*"
 					   xmlns:window="editor.view.component.window.*"
 					   width="1300" height="768" backgroundColor="0xcccccc"
+					   showStatusBar="true" statusBarFactory="{new ClassFactory(CustomStatusBar)}"
+					   borderStyle="solid" borderColor="0xff0000"
 					   >
 	<!--fx:Style> 
 		@namespace s "library://ns.adobe.com/flex/spark"; 
@@ -25,6 +27,7 @@
 	
 	<fx:Script>
 		<![CDATA[
+			import editor.view.mxml.CustomStatusBar;
 			
 //			[Bindable] public var appVisible:Boolean = false;
 		]]>
