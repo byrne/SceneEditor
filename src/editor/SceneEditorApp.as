@@ -80,7 +80,7 @@ package editor
 					var data:Object = XMLDataParser.fromXML(XML(edata.target.data), DataFactory.INSTANCE.allTypes);
 					var wind:TitleWindow = new TitleWindow;
 					var ed:ComposedDataEditor = new ComposedDataEditor();
-					ed.buildFromData(data.minion);
+					ed.buildFromData(data);
 					wind.addElement(ed);
 					wind.addEventListener(CloseEvent.CLOSE, function(e:Event):void {
 						wind.parent.removeChild(wind);
