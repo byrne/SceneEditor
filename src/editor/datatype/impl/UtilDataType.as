@@ -1,5 +1,8 @@
 package editor.datatype.impl
 {
+	import mx.collections.ArrayCollection;
+	import mx.collections.ArrayList;
+
 	public class UtilDataType
 	{
 		public function UtilDataType() {
@@ -25,7 +28,7 @@ package editor.datatype.impl
 	
 			switch(typename.toLowerCase()) {
 				case "object":
-					typename = obj.$type ? obj.$type.name : (obj is Array) ? "array" : null;
+					typename = obj.hasOwnProperty("$type") ? obj.$type.name : (obj is Array || obj is ArrayCollection || obj is ArrayList) ? "array" : null;
 					break;
 				case "number":
 					var isInt:Boolean = obj is int;

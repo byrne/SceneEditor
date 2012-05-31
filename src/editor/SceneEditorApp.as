@@ -8,7 +8,7 @@ package editor
 	import editor.mgr.PopupMgr;
 	import editor.utils.FileSerializer;
 	import editor.view.IPopup;
-	import editor.view.mxml.MainWindowSkin;
+	import editor.view.window.MainWindow;
 	import editor.view.window.ResLibraryWindow;
 	import editor.view.window.TitleWindowBase;
 	
@@ -20,17 +20,15 @@ package editor
 	import flash.net.URLRequest;
 	
 	import mx.core.FlexGlobals;
-	import mx.core.IFlexDisplayObject;
 	import mx.events.CloseEvent;
 	import mx.events.FlexEvent;
 	import mx.managers.PopUpManager;
 	
 	import spark.components.TitleWindow;
-	import spark.components.WindowedApplication;
 	
 	public class SceneEditorApp extends WindowedApplicationBase
 	{
-		private var _mainWnd:MainWindowSkin;
+		private var _mainWnd:MainWindow;
 		private var _resLibraryWnd:ResLibraryWindow;
 		
 		private var _global_config:Object;
@@ -52,7 +50,7 @@ package editor
 			readGlobalConfig();
 			this.stage.nativeWindow.menu = createMenuBar();
 			
-			_mainWnd = new MainWindowSkin();
+			_mainWnd = new MainWindow();
 			this.addElement(_mainWnd);
 			
 			_resLibraryWnd = new ResLibraryWindow(getGlobalConfig(NameDef.CFG_RES_LIBRARY) as String);

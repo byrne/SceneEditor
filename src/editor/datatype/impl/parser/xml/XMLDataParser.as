@@ -5,6 +5,8 @@ package editor.datatype.impl.parser.xml
 	import editor.datatype.data.DataType;
 	import editor.datatype.data.IDataType;
 	import editor.datatype.impl.UtilDataType;
+	
+	import mx.collections.ArrayCollection;
 
 	public class XMLDataParser
 	{
@@ -19,7 +21,7 @@ package editor.datatype.impl.parser.xml
 		 * 
 		 */
 		public static function toXML(obj:Object):XML {
-			if((typeof obj) == "object" && !(obj is Array))
+			if((typeof obj) == "object" && obj.hasOwnProperty("$type"))
 				return composedDataToXML(obj);
 			else
 				return basicDataToXML(obj);
@@ -28,7 +30,8 @@ package editor.datatype.impl.parser.xml
 		private static function basicDataToXML(obj:Object):XML {
 			var xml:XML = <value />;
 			xml.setName(UtilDataType.typeOf(obj));
-			
+			if(obj.hasOwnProperty("source"))
+				obj = obj["source"];
 			if(obj is Array) {
 				for(var i:int = 0; i < (obj as Array).length; i++)
 					xml.appendChild(toXML(obj[i]));
