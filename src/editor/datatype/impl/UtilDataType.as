@@ -1,4 +1,4 @@
-package core.impl
+package editor.datatype.impl
 {
 	public class UtilDataType
 	{

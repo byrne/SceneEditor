@@ -1,10 +1,10 @@
-package core.impl.parser.xml
+package editor.datatype.impl.parser.xml
 {
-	import core.data.BasicDataType;
-	import core.data.DataContext;
-	import core.data.DataType;
-	import core.data.IDataType;
-	import core.impl.UtilDataType;
+	import editor.datatype.data.BasicDataType;
+	import editor.datatype.data.DataContext;
+	import editor.datatype.data.DataType;
+	import editor.datatype.data.IDataType;
+	import editor.datatype.impl.UtilDataType;
 
 	public class XMLDataParser
 	{
@@ -69,7 +69,7 @@ package core.impl.parser.xml
 			return data;
 		}
 		
-		private static function basicDataFromXML(xml:XML, ctx:DataContext):Object {
+		public static function basicDataFromXML(xml:XML, ctx:DataContext):Object {
 			var value:Object;
 			
 			switch(xml.localName()) {
@@ -98,23 +98,25 @@ package core.impl.parser.xml
 		
 		private static function arrayFromXML(xml:XML, ctx:DataContext):Object {
 			var array:Array = [];
-			
 			for each(var element:XML in xml.children()) {
 				array.push(fromXML(element, ctx));
 			}
-			
 			return array;
 		}
 		
 		private static function composedDataFromXML(xml:XML, ctx:DataContext):Object {
 			var type:IDataType = ctx.getType(xml.name());
-			var data:Object = { "$type": type };
+			var data:Object = type.construct();
+			for each(var element:XML in xml.children()) {
+				data[element.@property] = fromXML(element, ctx);
+			}
+			/*var data:Object = { "$type": type };
 			data.setPropertyIsEnumerable("$type", false);
 			
 			for each(var element:XML in xml.children()) {
 				data[element.@property] = fromXML(element, ctx);
 			}
-			
+			*/
 			return data;
 		}
 	}

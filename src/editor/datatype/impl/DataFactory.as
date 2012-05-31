@@ -1,8 +1,8 @@
-package core.impl
+package editor.datatype.impl
 {
-	import core.data.BasicDataType;
-	import core.data.DataContext;
-	import core.impl.parser.xml.XMLDataTypeParser;
+	import editor.datatype.data.BasicDataType;
+	import editor.datatype.data.DataContext;
+	import editor.datatype.impl.parser.xml.XMLDataTypeParser;
 
 	public class DataFactory
 	{

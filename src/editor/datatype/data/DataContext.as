@@ -1,6 +1,6 @@
-package core.data
+package editor.datatype.data
 {
-	import core.error.UndefinedDataTypeError;
+	import editor.datatype.error.UndefinedDataTypeError;
 	
 	import flash.utils.Dictionary;
 

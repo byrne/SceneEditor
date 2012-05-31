@@ -1,12 +1,13 @@
-package core.impl
+package editor.datatype.impl.parser.xml
 {
-	import core.data.BasicDataType;
-	import core.data.DataContext;
-	import core.data.DataProperty;
-	import core.data.DataType;
-	import core.data.IDataType;
+	import editor.datatype.data.BasicDataType;
+	import editor.datatype.data.DataContext;
+	import editor.datatype.data.DataProperty;
+	import editor.datatype.data.DataType;
+	import editor.datatype.data.IDataType;
+	import editor.datatype.impl.UtilDataType;
 
-	public class DataXMLParser
+	public class XMLDataTypeParser
 	{
 		public static const QNAME_TYPE:String = "type";
 		public static const QNAME_STYLE:String = "style";
@@ -14,7 +15,7 @@ package core.impl
 		public static const QNAME_INHERIT:String = "inherit";
 		public static const QNAME_PROPERTY:String = "property";
 		
-		public function DataXMLParser() {
+		public function XMLDataTypeParser() {
 		}
 		
 		public static function constructTable(src:XML, ctx:DataContext):void {
@@ -76,23 +77,6 @@ package core.impl
 			for each(var element:XML in src) {
 				dType.properties.push(new DataProperty(element.@name, ctx.getType(element.@type)));
 			}
-		}
-		
-		public static function toXML(obj:Object, ctx:DataContext):XML {
-			if(obj is BasicDataType)
-				return basicDataToXML(obj, ctx);
-			else
-				return composedDataToXML(obj, ctx);
-		}
-		
-		private static function basicDataToXML(obj:Object, ctx:DataContext):XML {
-			var xml:XML;
-			return xml;
-		}
-		
-		private static function composedDataToXML(obj:Object, ctx:DataContext):XML {
-			var xml:XML = <data></data>;
-			return xml;
 		}
 	}
 }
