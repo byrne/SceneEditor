@@ -1,4 +1,4 @@
-package core.error
+package editor.datatype.error
 {
 	public class UndefinedDataTypeError extends Error
 	{

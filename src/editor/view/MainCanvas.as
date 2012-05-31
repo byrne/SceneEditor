@@ -24,10 +24,10 @@ package editor.view
 		}
 		
 		protected function addToStageHandler(evt:Event):void {
-			this.addEventListener(MouseEvent.MOUSE_DOWN, function(evt:Event) {
+			this.addEventListener(MouseEvent.MOUSE_DOWN, function(evt:Event):void {
 				startDrag()}
 			);
-			this.addEventListener(MouseEvent.MOUSE_UP, function(evt:Event) {
+			this.addEventListener(MouseEvent.MOUSE_UP, function(evt:Event):void {
 				stopDrag()}
 			);
 //			graphics.beginFill(0x333333, 0.5);

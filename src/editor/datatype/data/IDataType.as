@@ -1,4 +1,4 @@
-package core.data
+package editor.datatype.data
 {
 	public interface IDataType
 	{

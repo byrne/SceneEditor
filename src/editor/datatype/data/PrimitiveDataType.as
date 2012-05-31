@@ -1,4 +1,4 @@
-package core.data
+package editor.datatype.data
 {
 	public class PrimitiveDataType implements IDataType
 	{

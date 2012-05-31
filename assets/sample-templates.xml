@@ -1,18 +1,33 @@
 <?xml version="1.0"?>
 <root>
-  <type name="NPC_TYPE" style="basic" >
-  </type>
-  <type name="NPC">
-    <inherit type="Actor"/>
-    <property name="tip_msg" type="string"/>
-    <property name="dialog" type="array"/>
-    <property name="minion" type="Actor" />
-  </type>
-  <type name="Actor">
-    <property name="id" type="int"/>
-    <property name="name" type="string"/>
-    <property name="resource" type="string"/>
-    <property name="visible" type="boolean">
-    </property>
-  </type>
+	<editor name="NumberInput" component="spark.components::NumericStepper" >
+		<constraint name="maximum" >
+			<number>4294967296</number>
+		</constraint>
+		<constraint name="minimum" >
+			<number>0</number>
+		</constraint>
+		<constraint name="stepSize" >
+			<number>1</number>
+		</constraint>
+	</editor>
+	<editor name="TextInput" component="spark.components::TextInput" />
+	<editor name="NumberSlider" component="spark.components::HSlider" />
+	<editor name="DialogEditor" component="mx.controls::ComboBox" />
+	<editor name="BooleanEditor" component="spark.components::CheckBox" />
+	
+	<type name="NPC_TYPE" style="basic">
+	</type>
+	<type name="NPC">
+		<inherit type="Actor" />
+		<property name="tip_msg" type="string" label="气泡对话" editor="TextInput" />
+		<property name="dialog" type="array" label="其他对话" editor="DialogEditor" />
+		<property name="minion" type="Actor" />
+	</type>
+	<type name="Actor">
+		<property name="id" type="int" label="ID" editor="NumberInput" />
+		<property name="name" type="string" label="名字" editor="TextInput" />
+		<property name="resource" type="string" label="素材路径" editor="TextInput" />
+		<property name="visible" type="boolean" label="可见" editor="BooleanEditor" />
+	</type>
 </root>

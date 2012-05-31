@@ -1,6 +1,8 @@
-package core.data
+package editor.datatype.data
 {
-	import core.impl.UtilDataType;
+	import editor.datatype.impl.UtilDataType;
+	
+	import mx.binding.utils.BindingUtils;
 	
 	public class DataType extends BasicDataType
 	{
@@ -22,8 +24,29 @@ package core.data
 			// Apply properties
 			for each(var property:DataProperty in properties){
 				dataObj[property.name] = property.value.construct();
+				switch(UtilDataType.typeOf(dataObj[property.name])) {
+					case BasicDataType.TYPE_INT:
+						intGuard(dataObj, property.name);
+						break;
+					case BasicDataType.TYPE_FLOAT:
+						floatGuard(dataObj, property.name);
+						break;
+				}
 			}
 			return dataObj;
+		}
+		
+		private function floatGuard(dataObj:Object, name:String):void
+		{
+			BindingUtils.bindSetter(function(data:*):void {
+				dataObj[name] = parseFloat(data.toString());
+			}, dataObj, name, false, true);
+		}
+		
+		private function intGuard(obj:Object, prop:Object):void {
+			BindingUtils.bindSetter(function(data:*):void {
+				obj[prop] = parseInt(data.toString());
+			}, obj, prop, false, true);
 		}
 	}
 }

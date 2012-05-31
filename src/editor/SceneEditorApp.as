@@ -1,6 +1,10 @@
 package editor
 {
 	import editor.constant.NameDef;
+	import editor.dataeditor.ComposedDataEditor;
+	import editor.dataeditor.DataEditorFactory;
+	import editor.datatype.impl.DataFactory;
+	import editor.datatype.impl.parser.xml.XMLDataParser;
 	import editor.mgr.PopupMgr;
 	import editor.utils.FileSerializer;
 	import editor.view.IPopup;
@@ -8,14 +12,20 @@ package editor
 	import editor.view.window.ResLibraryWindow;
 	import editor.view.window.TitleWindowBase;
 	
+	import flash.display.DisplayObject;
 	import flash.display.NativeMenu;
 	import flash.display.NativeMenuItem;
 	import flash.events.Event;
+	import flash.net.URLLoader;
+	import flash.net.URLRequest;
 	
+	import mx.core.FlexGlobals;
 	import mx.core.IFlexDisplayObject;
+	import mx.events.CloseEvent;
 	import mx.events.FlexEvent;
 	import mx.managers.PopUpManager;
 	
+	import spark.components.TitleWindow;
 	import spark.components.WindowedApplication;
 	
 	public class SceneEditorApp extends WindowedApplicationBase
@@ -24,6 +34,8 @@ package editor
 		private var _resLibraryWnd:ResLibraryWindow;
 		
 		private var _global_config:Object;
+		
+		public static function get BIN_PATH():String { return "D:\\saybot/git/scene-editor/bin-debug/";}
 		
 		private var _menuData:Array = [
 			["文件", [["新建", "N", fileNewHandler],["打开", "O", fileOpenHandler],["保存", "S", fileSaveHandler],[],["切换工作路径", "P", switchWorkspaceHandler],["退出", "Q", quitHandler]]],
@@ -47,6 +59,38 @@ package editor
 			_resLibraryWnd.width = 800;
 			_resLibraryWnd.height = 600;
 			super.app_creationCompleteHandler(event);
+			dataTypeTest();
+		}
+		
+		/**
+		 * 演示方法，随便删 
+		 * 
+		 */
+		public function dataTypeTest():void {
+			var loader:URLLoader = new URLLoader;
+			loader.addEventListener(Event.COMPLETE, function(e:Event):void {
+				e.target.removeEventListener(e.type, arguments.callee);
+				var src:XML = XML(loader.data);
+				DataFactory.INSTANCE.initTable(src);
+				DataEditorFactory.INSTANCE.initTable(src);
+				
+				var dataLoader:URLLoader = new URLLoader;
+				dataLoader.addEventListener(Event.COMPLETE, function(edata:Event):void {
+					edata.target.removeEventListener(edata.type, arguments.callee);
+					var data:Object = XMLDataParser.fromXML(XML(edata.target.data), DataFactory.INSTANCE.allTypes);
+					var wind:TitleWindow = new TitleWindow;
+					var ed:ComposedDataEditor = new ComposedDataEditor();
+					ed.buildFromData(data.minion);
+					wind.addElement(ed);
+					wind.addEventListener(CloseEvent.CLOSE, function(e:Event):void {
+						wind.parent.removeChild(wind);
+						trace(XMLDataParser.toXML(data));
+					});
+					PopUpManager.addPopUp(wind, FlexGlobals.topLevelApplication as DisplayObject);
+				});
+				dataLoader.load(new URLRequest(BIN_PATH+"sample-data.xml"));
+			});
+			loader.load(new URLRequest(BIN_PATH + "sample-templates.xml"));
 		}
 		
 		public function initializeViews():void {
@@ -54,7 +98,7 @@ package editor
 		}
 		
 		private function readGlobalConfig():void {
-			_global_config = FileSerializer.readJsonFile("C:\\workspace/scene-editor/bin-debug/editor_config.json");
+			_global_config = FileSerializer.readJsonFile(BIN_PATH + "editor_config.json");
 		}
 		
 		public function getGlobalConfig(key:String):Object {
