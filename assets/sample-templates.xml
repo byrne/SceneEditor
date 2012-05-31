@@ -2,7 +2,7 @@
 <root>
 	<editor name="NumberInput" component="spark.components::NumericStepper" >
 		<constraint name="maximum" >
-			<number>4294967296</number>
+			<number>100</number>
 		</constraint>
 		<constraint name="minimum" >
 			<number>0</number>

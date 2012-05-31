@@ -15,7 +15,6 @@ package editor
 	import editor.view.component.window.MainWindow;
 	import editor.view.component.window.ResLibraryWindow;
 	import editor.view.component.window.TitleWindowBase;
-	
 	import flash.display.DisplayObject;
 	import flash.display.NativeMenu;
 	import flash.display.NativeMenuItem;
