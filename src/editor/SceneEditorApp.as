@@ -67,10 +67,10 @@ package editor
 				switchWorkspace(GlobalStorage.getInstance().working_dir);
 			}
 			
-			var statusBar:Label = new Label();
-			this.statusBar = statusBar;
-			//			this.statusText = statusBar;
-			statusBar.text = "ABCDEFG";
+//			var statusBar:Label = new Label();
+//			this.statusBar = statusBar;
+//			this.statusText = statusBar;
+//			statusBar.text = "ABCDEFG";
 			
 //			dataTypeTest();
 			super.app_creationCompleteHandler(event);
