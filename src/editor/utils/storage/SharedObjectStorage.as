@@ -6,25 +6,13 @@ package editor.utils.storage
 
 		protected var so:SharedObject;
 		protected var default_data:Object;
-		protected var signature:String;
 		protected var version:Number;
 		
-		public function SharedObjectStorage(name:String, signature:String, version:Number) {
+		public function SharedObjectStorage(name:String, version:Number) {
 			so = SharedObject.getLocal(name);
-			this.signature = signature;
 			this.version = version;
 		}
 
-		private function _save():void {
-			so.data.signature = signature;
-			so.data.version = version;
-			doSave(so.data);
-		}
-		
-		protected function doSave(data:Object):void {
-			
-		}
-		
 		public function read():Boolean {
 			if (!default_data) {
 				default_data = new Object();
@@ -43,18 +31,27 @@ package editor.utils.storage
 			
 		}
 		
-		public function save():void {
-			so.clear();
-			_save();
-			so.flush();
-		}
-		
 		public function readDefault():void {
 			if (default_data) {
 				doRead(default_data);
 			}
 		}
 		
+		public function save():void {
+			so.clear();
+			so.data.version = version;
+			doSave(so.data);
+			so.flush();
+		}
+		
+		protected function doSave(data:Object):void {
+			
+		}
+		
+		protected function checkBeforeSerialization(data:Object):Boolean {
+			return data.version==version;
+		}
+
 //		public function serializeFromFile(fname:String):void {
 //			if (fname.substr(fname.length - ".xml".length).toLowerCase() == ".xml") {
 //				serializeFromXMLFile(fname);
@@ -107,8 +104,5 @@ package editor.utils.storage
 //			XMLSerializer.writeObjectToXMLFile(so.data, fname);
 //		}
 		
-		protected function checkBeforeSerialization(data:Object):Boolean {
-			return data.signature==signature && data.version==version;
-		}
 	}
 }

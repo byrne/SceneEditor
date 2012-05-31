@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 >
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			import editor.constant.EventDef;
+			import editor.event.DataEvent;
+			[Bindable] public var directory:String = "";
+			
+			private function brosweDirectory(evt:MouseEvent):void {
+				var file = new File();
+				file.addEventListener(Event.SELECT, function(evt:Event):void {
+					directory = file.nativePath;
+					dispatchEvent(new editor.event.DataEvent(EventDef.DIRECTORY_SELECT, directory));
+				});
+				file.browseForDirectory("Select a directory"); 
+			}
+			
+			private function textInputHandler(evt:Event):void {
+				directory = input.text;
+				dispatchEvent(new editor.event.DataEvent(EventDef.DIRECTORY_SELECT, directory));
+			}
+		]]>
+	</fx:Script>
+	
+	<s:Label id="title" text="选择目录" x="0" y="6" width="50"/>
+	<s:TextInput id="input" text="{directory}" x="51" width="200" height="25" change="textInputHandler(event)"/>
+	<s:Button id="clickBtn" label=".." x="254" width="28" height="25" click="brosweDirectory(event)"/>
+</s:Group>

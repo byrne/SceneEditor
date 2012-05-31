@@ -4,7 +4,7 @@
 					   xmlns:mx="library://ns.adobe.com/flex/mx"
 					   xmlns:mxml="editor.view.mxml.*"
 					   xmlns:app="editor.*"
-					   xmlns:window="editor.view.window.*"
+					   xmlns:window="editor.view.component.window.*"
 					   width="1300" height="768" backgroundColor="0xcccccc"
 					   >
 	<!--fx:Style> 

@@ -1,4 +1,4 @@
-package editor.view.component
+package editor.view.component.canvas
 {
 	import editor.constant.ScreenDef;
 	

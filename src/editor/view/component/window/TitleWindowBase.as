@@ -1,4 +1,4 @@
-package editor.view.window
+package editor.view.component.window
 {
 	import editor.SceneEditorApp;
 	import editor.mgr.PopupMgr;

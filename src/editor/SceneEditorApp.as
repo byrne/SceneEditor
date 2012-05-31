@@ -3,11 +3,14 @@ package editor
 	import editor.constant.NameDef;
 	import editor.constant.ScreenDef;
 	import editor.mgr.PopupMgr;
+	import editor.storage.GlobalStorage;
 	import editor.utils.FileSerializer;
+	import editor.utils.StringUtil;
 	import editor.view.IPopup;
-	import editor.view.window.MainWindow;
-	import editor.view.window.ResLibraryWindow;
-	import editor.view.window.TitleWindowBase;
+	import editor.view.component.dialog.SetWoringDirDlg;
+	import editor.view.component.window.MainWindow;
+	import editor.view.component.window.ResLibraryWindow;
+	import editor.view.component.window.TitleWindowBase;
 	
 	import flash.display.NativeMenu;
 	import flash.display.NativeMenuItem;
@@ -17,6 +20,7 @@ package editor
 	import mx.events.FlexEvent;
 	import mx.managers.PopUpManager;
 	
+	import spark.components.Label;
 	import spark.components.WindowedApplication;
 	
 	public class SceneEditorApp extends WindowedApplicationBase
@@ -27,7 +31,7 @@ package editor
 		private var _global_config:Object;
 		
 		private var _menuData:Array = [
-			["文件", [["新建", "N", fileNewHandler],["打开", "O", fileOpenHandler],["保存", "S", fileSaveHandler],[],["切换工作路径", "P", switchWorkspaceHandler],["退出", "Q", quitHandler]]],
+			["文件", [["新建", "N", fileNewHandler],["打开", "O", fileOpenHandler],["保存", "S", fileSaveHandler],[],["切换工作路径", "P", menuTriggerSwitchWorkspace],["退出", "Q", quitHandler]]],
 			["查看", [["Open", "O"],["Save", "S"],["Quit", "Q"]]],
 			["关于", [["Open", "O"],["Save", "S"],["Quit", "Q"]]]
 		];
@@ -38,24 +42,35 @@ package editor
 		}
 		
 		override protected function app_creationCompleteHandler(event:FlexEvent):void {
-			readGlobalConfig();
 			this.stage.nativeWindow.menu = createMenuBar();
-			
 			_mainWnd = new MainWindow();
 			this.addElement(_mainWnd);
 			
-			_resLibraryWnd = new ResLibraryWindow(getGlobalConfig(NameDef.CFG_RES_LIBRARY) as String);
+			_resLibraryWnd = new ResLibraryWindow();
 			_resLibraryWnd.width = ScreenDef.RESLIBRARY_W;
 			_resLibraryWnd.height = ScreenDef.RESLIBRARY_H;
+			
+			var hasStorage:Boolean = GlobalStorage.getInstance().read();
+			if(!hasStorage) {
+				menuTriggerSwitchWorkspace();
+			} else {
+				switchWorkspace(GlobalStorage.getInstance().working_dir);
+			}
+			
+			var statusBar:Label = new Label();
+			this.statusBar = statusBar;
+//			this.statusText = statusBar;
+			statusBar.text = "ABCDEFG";
 			super.app_creationCompleteHandler(event);
 		}
 		
-		public function initializeViews():void {
-			
-		}
-		
-		private function readGlobalConfig():void {
-			_global_config = FileSerializer.readJsonFile("C:\\workspace/scene-editor/bin-debug/editor_config.json");
+		public function switchWorkspace(dir:String):void {
+			_global_config = FileSerializer.readJsonFile(StringUtil.substitute("{0}/editor_config.json", dir));
+			if(_global_config == null) {
+				
+				return;	
+			}
+			_resLibraryWnd.configFile = getGlobalConfig(NameDef.CFG_RES_LIBRARY) as String;
 		}
 		
 		public function getGlobalConfig(key:String):Object {
@@ -97,12 +112,14 @@ package editor
 		}
 		private function fileSaveHandler(evt:Event):void {
 		}
-		private function switchWorkspaceHandler(evt:Event):void {
+		private function menuTriggerSwitchWorkspace(evt:Event=null):void {
+			var dlg:SetWoringDirDlg = new SetWoringDirDlg();
+			PopupMgr.getInstance().popupWindow(dlg);
 		}
 		private function quitHandler(evt:Event):void {
 		}
 		
-		private var resLibarayContextMenu:Object = {"type":"check", "label":NameDef.WND_RES_LIBRARY+"面板", "toggled":true, "handler":toggleWindowPopup}; 
+		private var resLibarayContextMenu:Object = {"type":"check", "label":NameDef.WND_RES_LIBRARY, "toggled":true, "handler":toggleWindowPopup}; 
 		private var appContextMenuData:Array = [
 			resLibarayContextMenu,
 			{"type":"separator"}

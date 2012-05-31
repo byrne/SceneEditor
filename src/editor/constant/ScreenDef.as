@@ -15,5 +15,12 @@ package editor.constant
 		public static const RESLIBRARY_AXIS_X_BASE:int = 400;
 		public static const RESLIBRARY_AXIS_Y_BASE:int = 350;
 		public static const RESLIBRARY_TREE_W_PERCENT:int = 20;
+		
+		//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		// dialog
+		
+		// set working dir
+		public static const DLG_SET_WORKING_DIR_W:int = 400;
+		public static const DLG_SET_WORKING_DIR_H:int = 200;
 	}
 }

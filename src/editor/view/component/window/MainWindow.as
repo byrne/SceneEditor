@@ -1,6 +1,6 @@
-package editor.view.window
+package editor.view.component.window
 {
-	import editor.view.component.MainCanvas;
+	import editor.view.component.canvas.MainCanvas;
 	
 	import flash.display.NativeMenu;
 	import flash.display.NativeMenuItem;

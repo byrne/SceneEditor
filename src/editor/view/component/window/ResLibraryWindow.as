@@ -1,4 +1,4 @@
-package editor.view.window
+package editor.view.component.window
 {
 	import editor.constant.NameDef;
 	import editor.constant.ScreenDef;
@@ -6,8 +6,8 @@ package editor.view.window
 	import editor.utils.CommonUtil;
 	import editor.utils.FileSerializer;
 	import editor.utils.LogUtil;
-	import editor.view.component.PreviewCanvas;
-	import editor.view.component.ResPreviewCanvas;
+	import editor.view.component.canvas.PreviewCanvas;
+	import editor.view.component.canvas.ResPreviewCanvas;
 	
 	import flash.display.DisplayObject;
 	import flash.display.MovieClip;
@@ -21,13 +21,14 @@ package editor.view.window
 	import mx.controls.Tree;
 	import mx.core.IVisualElement;
 	import mx.core.UIComponent;
+	import mx.events.CloseEvent;
 	import mx.events.ListEvent;
 
 	public class ResLibraryWindow extends TitleWindowBase
 	{
-		private var baseDir:String;
+		private var _configFile:String;
 		
-		private var symbolClasses:Dictionary;
+		private var baseDir:String;
 		
 		private var tabNavi:TabNavigator;
 		
@@ -38,18 +39,9 @@ package editor.view.window
 		
 		private var curPreviewItem:DisplayObject;
 		
-		public function ResLibraryWindow(configFile:String)
+		public function ResLibraryWindow()
 		{
 			super(NameDef.WND_RES_LIBRARY);
-			var allRes:Object = FileSerializer.readJsonFile(configFile);
-			baseDir = allRes["base_dir"];
-			symbolClasses = CommonUtil.objectToDictionary(allRes["symbol_classes"]);
-			resTreeXML = buildResTreeXML(allRes["symbol_classes"]);
-		}
-		
-		override protected function createCompleteHandler(evt:Event):void {
-			super.createCompleteHandler(evt);
-			
 			var dividedBox:DividedBox = new DividedBox();
 			dividedBox.direction = "horizontal";
 			dividedBox.percentWidth = 100;
@@ -58,7 +50,7 @@ package editor.view.window
 			resTree = new Tree();
 			resTree.percentWidth = ScreenDef.RESLIBRARY_TREE_W_PERCENT;
 			resTree.percentHeight = 100;
-			resTree.dataProvider = resTreeXML;
+//			resTree.dataProvider = resTreeXML;
 			resTree.labelField = "@label";
 			resTree.showRoot = false;
 			resTree.addEventListener(ListEvent.ITEM_CLICK, resTreeClickHandler);
@@ -70,6 +62,22 @@ package editor.view.window
 			dividedBox.addElement(previewField);
 			
 			this.addElement(dividedBox);
+		}
+		
+		public function set configFile(fn:String):void {
+			if(_configFile != fn) {
+				_configFile = fn;
+				var allRes:Object = FileSerializer.readJsonFile(_configFile);
+				baseDir = allRes["base_dir"];
+				resTreeXML = buildResTreeXML(allRes["symbol_classes"]);
+				
+				clearPreview();
+				resTree.dataProvider = resTreeXML;
+			}
+		}
+		
+		override protected function createCompleteHandler(evt:Event):void {
+			super.createCompleteHandler(evt);
 		}
 		
 		private function resTreeClickHandler(evt:ListEvent):void {
@@ -87,8 +95,18 @@ package editor.view.window
 			}
 		}
 		
-		private function refreshPreview(item:DisplayObject):void {
+		override public function onClose(evt:CloseEvent=null):void {
+			clearPreview();
+			super.onClose(evt);
+		}
+		
+		public function clearPreview():void {
 			previewField.removeAllItems();
+			curPreviewItem = null;
+		}
+		
+		private function refreshPreview(item:DisplayObject):void {
+			clearPreview();
 			previewField.addItem(item);
 			curPreviewItem = item;
 		}
