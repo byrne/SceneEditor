@@ -10,12 +10,11 @@ package editor
 	import mx.controls.Menu;
 	import mx.core.FlexGlobals;
 	import mx.core.IFlexDisplayObject;
-	import mx.core.WindowedApplication;
 	import mx.events.FlexEvent;
 	import mx.events.MenuEvent;
 	import mx.managers.PopUpManager;
 	
-//	import spark.components.WindowedApplication;
+	import spark.components.WindowedApplication;
 	
 	public class WindowedApplicationBase extends WindowedApplication
 	{

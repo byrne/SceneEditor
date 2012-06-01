@@ -6,8 +6,8 @@
 					   xmlns:app="editor.*"
 					   xmlns:window="editor.view.component.window.*"
 					   width="1300" height="768" backgroundColor="0xcccccc"
-					   showStatusBar="true" statusBarFactory="{new ClassFactory(CustomStatusBar)}"
-					   borderStyle="solid" borderColor="0xff0000"
+					   skinClass="editor.view.mxml.skin.CustomAppSkin"
+					   showStatusBar="true"
 					   >
 	<!--fx:Style> 
 		@namespace s "library://ns.adobe.com/flex/spark"; 
@@ -28,6 +28,8 @@
 	<fx:Script>
 		<![CDATA[
 			import editor.view.mxml.CustomStatusBar;
+			
+			import spark.skins.spark.SparkChromeWindowedApplicationSkin;
 			
 //			[Bindable] public var appVisible:Boolean = false;
 		]]>

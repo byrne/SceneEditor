@@ -1,28 +1,34 @@
 package editor
 {
+	import editor.constant.EventDef;
 	import editor.constant.NameDef;
 	import editor.constant.ScreenDef;
 	import editor.dataeditor.ComposedDataEditor;
 	import editor.dataeditor.DataEditorFactory;
 	import editor.datatype.impl.DataFactory;
 	import editor.datatype.impl.parser.xml.XMLDataParser;
+	import editor.event.DataEvent;
 	import editor.mgr.PopupMgr;
 	import editor.storage.GlobalStorage;
 	import editor.utils.FileSerializer;
 	import editor.utils.StringUtil;
 	import editor.view.IPopup;
+	import editor.view.component.CustomMenuBar;
 	import editor.view.component.dialog.SetWoringDirDlg;
 	import editor.view.component.window.MainWindow;
 	import editor.view.component.window.ResLibraryWindow;
 	import editor.view.component.window.TitleWindowBase;
+	import editor.view.mxml.skin.CustomAppSkin;
 	
 	import flash.display.DisplayObject;
 	import flash.display.NativeMenu;
 	import flash.display.NativeMenuItem;
 	import flash.events.Event;
+	import flash.events.MouseEvent;
 	import flash.net.URLLoader;
 	import flash.net.URLRequest;
 	
+	import mx.controls.menuClasses.MenuBarItem;
 	import mx.core.FlexGlobals;
 	import mx.events.CloseEvent;
 	import mx.events.FlexEvent;
@@ -41,11 +47,28 @@ package editor
 		
 		public static function get BIN_PATH():String { return "D:\\saybot/git/scene-editor/bin-debug/";}
 		
-		private var _menuData:Array = [
-			["文件", [["新建", "N", fileNewHandler],["打开", "O", fileOpenHandler],["保存", "S", fileSaveHandler],[],["切换工作路径", "P", menuTriggerSwitchWorkspace],["退出", "Q", quitHandler]]],
-			["查看", [["Open", "O"],["Save", "S"],["Quit", "Q"]]],
-			["关于", [["Open", "O"],["Save", "S"],["Quit", "Q"]]]
-		];
+		[Embed("icon.PNG")]
+		private const ButtonIcon:Class;
+		private var menuBarXml:XMLList = 
+			<>
+				<menu label="文件" event="mce_file">
+					<item label="新建" event="mce_file_new"/>
+					<item label="打开" event="mce_file_open"/>
+					<item label="切换工作路径" event="mce_switch_workspcae"/>
+					<item type="separator"/>
+					<item label="退出" event="mce_quit"/>
+				</menu>	
+				<menu label="查看" event="mce_view">
+					<item label="menu1" event="aa" type="check"/>
+					<item type="separator"/>
+					<item label="menu2" event="aa"/>
+				</menu>	
+				<menu label="关于" event="mce_about">
+					<item label="menu1" event="aa" type="check"/>
+					<item type="separator"/>
+					<item label="menu2" event="aa"/>
+				</menu>
+			</>
 		
 		public function SceneEditorApp()
 		{
@@ -53,7 +76,8 @@ package editor
 		}
 		
 		override protected function app_creationCompleteHandler(event:FlexEvent):void {
-			this.stage.nativeWindow.menu = createMenuBar();
+//			this.stage.nativeWindow.menu = createMenuBar();
+			createMenuBar(menuBarXml);
 			_mainWnd = new MainWindow();
 			this.addElement(_mainWnd);
 			
@@ -68,15 +92,8 @@ package editor
 				switchWorkspace(GlobalStorage.getInstance().working_dir);
 			}
 			
-			var label:Label = new Label();
-			label.percentWidth = 100;
-			label.height = 30;
-			label.text = "ABCDEFG";
-			
-//			var statusBar:Label = new Label();
-//			this.statusBar = statusBar;
-//			this.statusText = statusBar;
-//			statusBar.text = "ABCDEFG";
+			statusMessage.text = "ABCDEFG";
+			cursorMessage.text = "120,338";
 			
 //			dataTypeTest();
 			super.app_creationCompleteHandler(event);
@@ -128,29 +145,55 @@ package editor
 			return _global_config[key];
 		}
 		
-		private function createMenuBar():NativeMenu {
-			var menuBar:NativeMenu = new NativeMenu();
-			for each(var subMenu:Array in _menuData) {
-				var subMenuName:String = subMenu[0] as String;
-				var subMenuItems:Array = subMenu[1] as Array;
-				if(subMenuItems.length > 0) {
-					var menu:NativeMenu = new NativeMenu();
-					for each(var d:Array in subMenuItems) {
-						if(d.length > 0) {
-							var item:NativeMenuItem = new NativeMenuItem(d[0] as String);
-							var handler:Function = d.length > 2 ? d[2] as Function : null;
-							item.keyEquivalent = d[1] as String;
-							menu.addItem(item);
-							if(handler != null)
-								item.addEventListener(Event.SELECT, handler);
-						} else {
-							menu.addItem(new NativeMenuItem("", true)); //separator
-						}
-					}
-					menuBar.addSubmenu(menu, subMenuName);
+//		private function createMenuBar():NativeMenu {
+//			var menuBar:NativeMenu = new NativeMenu();
+//			for each(var subMenu:Array in _menuData) {
+//				var subMenuName:String = subMenu[0] as String;
+//				var subMenuItems:Array = subMenu[1] as Array;
+//				if(subMenuItems.length > 0) {
+//					var menu:NativeMenu = new NativeMenu();
+//					for each(var d:Array in subMenuItems) {
+//						if(d.length > 0) {
+//							var item:NativeMenuItem = new NativeMenuItem(d[0] as String);
+//							var handler:Function = d.length > 2 ? d[2] as Function : null;
+//							item.keyEquivalent = d[1] as String;
+//							menu.addItem(item);
+//							if(handler != null)
+//								item.addEventListener(Event.SELECT, handler);
+//						} else {
+//							menu.addItem(new NativeMenuItem("", true)); //separator
+//						}
+//					}
+//					menuBar.addSubmenu(menu, subMenuName);
+//				}
+//			}
+//			return menuBar;
+//		}
+		
+		private function createMenuBar(xmlData:XMLList):void {
+			var menuClickHandler:Function = function(evt:DataEvent):void {
+				var key:String = evt.data as String;
+				switch(key) {
+					case "mce_switch_workspcae":
+						break;
 				}
+			};
+			
+			var menuItemClickHandler:Function = function(evt:DataEvent):void {
+				var key:String = evt.data.@["event"];
+				switch(key) {
+					case "mce_switch_workspcae":
+						menuTriggerSwitchWorkspace();
+						break;
+				}
+			};
+			if(menuBar) {
+				menuBar.dataProvider = xmlData;
+				menuBar.labelField = "@label";
+				menuBar.iconField = "@icon";
+				menuBar.addEventListener(EventDef.MENU_CLICK, menuClickHandler);
+				menuBar.addEventListener(EventDef.MENU_ITEM_CLICK, menuItemClickHandler);
 			}
-			return menuBar;
 		}
 		
 		private function fileNewHandler(evt:Event):void {
@@ -163,7 +206,7 @@ package editor
 		}
 		private function fileSaveHandler(evt:Event):void {
 		}
-		private function menuTriggerSwitchWorkspace(evt:Event=null):void {
+		private function menuTriggerSwitchWorkspace():void {
 			var dlg:SetWoringDirDlg = new SetWoringDirDlg();
 			PopupMgr.getInstance().popupWindow(dlg);
 		}
@@ -195,6 +238,18 @@ package editor
 			} else {
 				PopupMgr.getInstance().popupWindow(wnd);
 			}
+		}
+		
+		public function get menuBar():CustomMenuBar {
+			return (this.skin as CustomAppSkin).menuBar;
+		}
+		
+		public function get statusMessage():Label {
+			return (this.skin as CustomAppSkin).information;
+		}
+		
+		public function get cursorMessage():Label {
+			return (this.skin as CustomAppSkin).cursor;
 		}
 	}
 }
