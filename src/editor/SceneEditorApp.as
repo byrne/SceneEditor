@@ -28,10 +28,12 @@ package editor
 	import flash.net.URLLoader;
 	import flash.net.URLRequest;
 	
+	import mx.collections.XMLListCollection;
 	import mx.controls.menuClasses.MenuBarItem;
 	import mx.core.FlexGlobals;
 	import mx.events.CloseEvent;
 	import mx.events.FlexEvent;
+	import mx.events.MenuEvent;
 	import mx.managers.PopUpManager;
 	
 	import spark.components.Label;
@@ -47,25 +49,25 @@ package editor
 		
 		public static function get BIN_PATH():String { return "D:\\saybot/git/scene-editor/bin-debug/";}
 		
-		[Embed("icon.PNG")]
-		private const ButtonIcon:Class;
+		[Bindable]
 		private var menuBarXml:XMLList = 
 			<>
 				<menu label="文件" event="mce_file">
 					<item label="新建" event="mce_file_new"/>
 					<item label="打开" event="mce_file_open"/>
 					<item label="切换工作路径" event="mce_switch_workspcae"/>
-					<item type="separator"/>
+					<item type="separator" event=""/>
 					<item label="退出" event="mce_quit"/>
 				</menu>	
 				<menu label="查看" event="mce_view">
-					<item label="menu1" event="aa" type="check"/>
-					<item type="separator"/>
+					<item label="素材库面板" event="mce_view_res_wnd" type="check" toggled="false"/>
+					<item label="属性面板" event="mce_view_property_wnd" type="check" toggled="false"/>
+					<item type="separator" event=""/>
 					<item label="menu2" event="aa"/>
 				</menu>	
 				<menu label="关于" event="mce_about">
 					<item label="menu1" event="aa" type="check"/>
-					<item type="separator"/>
+					<item type="separator" event=""/>
 					<item label="menu2" event="aa"/>
 				</menu>
 			</>
@@ -145,36 +147,16 @@ package editor
 			return _global_config[key];
 		}
 		
-//		private function createMenuBar():NativeMenu {
-//			var menuBar:NativeMenu = new NativeMenu();
-//			for each(var subMenu:Array in _menuData) {
-//				var subMenuName:String = subMenu[0] as String;
-//				var subMenuItems:Array = subMenu[1] as Array;
-//				if(subMenuItems.length > 0) {
-//					var menu:NativeMenu = new NativeMenu();
-//					for each(var d:Array in subMenuItems) {
-//						if(d.length > 0) {
-//							var item:NativeMenuItem = new NativeMenuItem(d[0] as String);
-//							var handler:Function = d.length > 2 ? d[2] as Function : null;
-//							item.keyEquivalent = d[1] as String;
-//							menu.addItem(item);
-//							if(handler != null)
-//								item.addEventListener(Event.SELECT, handler);
-//						} else {
-//							menu.addItem(new NativeMenuItem("", true)); //separator
-//						}
-//					}
-//					menuBar.addSubmenu(menu, subMenuName);
-//				}
-//			}
-//			return menuBar;
-//		}
-		
 		private function createMenuBar(xmlData:XMLList):void {
+			// this function will be called before menubar shown
+			var menuShowHandler:Function = function(evt:MenuEvent):void {
+				menuBarXml.item.(@event=="mce_view_res_wnd").@toggled = _resLibraryWnd.isPopup;
+			};
+			
 			var menuClickHandler:Function = function(evt:DataEvent):void {
-				var key:String = evt.data as String;
+				var key:String = evt.data.@["event"];
 				switch(key) {
-					case "mce_switch_workspcae":
+					case "mce_view":
 						break;
 				}
 			};
@@ -185,14 +167,23 @@ package editor
 					case "mce_switch_workspcae":
 						menuTriggerSwitchWorkspace();
 						break;
+					
+					case "mce_view_res_wnd":
+						toggleWindowPopup(_resLibraryWnd);
+						break;
+					
+					case "mce_view_property_wnd":
+						break;
 				}
 			};
+			
 			if(menuBar) {
 				menuBar.dataProvider = xmlData;
 				menuBar.labelField = "@label";
 				menuBar.iconField = "@icon";
 				menuBar.addEventListener(EventDef.MENU_CLICK, menuClickHandler);
 				menuBar.addEventListener(EventDef.MENU_ITEM_CLICK, menuItemClickHandler);
+				menuBar.addEventListener(MenuEvent.MENU_SHOW, menuShowHandler);
 			}
 		}
 		
@@ -213,19 +204,19 @@ package editor
 		private function quitHandler(evt:Event):void {
 		}
 		
-		private var resLibarayContextMenu:Object = {"type":"check", "label":NameDef.WND_RES_LIBRARY, "toggled":true, "handler":toggleWindowPopup}; 
+		private var mainWndContextMenu:Object = {"type":"check", "label":NameDef.WND_RES_LIBRARY, "toggled":true, "handler":toggleWindowPopup}; 
 		private var appContextMenuData:Array = [
-			resLibarayContextMenu,
+			mainWndContextMenu,
 			{"type":"separator"}
 		];
 		
 		override protected function initContextMenuData():void {
-			resLibarayContextMenu["param"] = _resLibraryWnd;
+			mainWndContextMenu["param"] = _resLibraryWnd;
 			contextMenuInfos[this] = {"menuitems":appContextMenuData, "before_handler":appBeforeContextMenuHandler, "onhide":appHideContextMenuHandler};
 		}
 		
 		protected function appBeforeContextMenuHandler(event:* = null):void {
-			resLibarayContextMenu["toggled"] = _resLibraryWnd.isPopup;
+			mainWndContextMenu["toggled"] = _resLibraryWnd.isPopup;
 		}
 		
 		protected function appHideContextMenuHandler():void {
