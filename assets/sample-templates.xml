@@ -19,7 +19,7 @@
 	<type name="NPC_TYPE" style="basic">
 	</type>
 	<type name="NPC">
-		<inherit type="Actor" />
+		<inherit type="Actor"/>
 		<property name="tip_msg" type="string" label="气泡对话" editor="TextInput" />
 		<property name="dialog" type="array" label="其他对话" editor="DialogEditor" />
 		<property name="minion" type="Actor" />

@@ -1,3 +1,5 @@
 {
-	"res_library_config": "{working_dir}/res.json"
+	"res_library_config": "{working_dir}/res.json",
+	"sample_data": "{working_dir}/sample-data.xml",
+	"sample_templates": "{working_dir}/sample-templates.xml"
 }

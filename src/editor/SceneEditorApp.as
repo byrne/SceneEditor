@@ -40,12 +40,13 @@ package editor
 	
 	public class SceneEditorApp extends WindowedApplicationBase
 	{
+		public var working_dir:String;
 		private var _mainWnd:MainWindow;
 		private var _resLibraryWnd:ResLibraryWindow;
 		
 		private var _global_config:Object;
 		
-		public static function get BIN_PATH():String { return "D:\\saybot/git/scene-editor/bin-debug/";}
+		public static function get BIN_PATH():String { return "c:\\workspace/scene-editor/bin-debug/";}
 		
 		[Embed("icon.PNG")]
 		private const ButtonIcon:Class;
@@ -95,7 +96,7 @@ package editor
 			statusMessage.text = "ABCDEFG";
 			cursorMessage.text = "120,338";
 			
-//			dataTypeTest();
+			dataTypeTest();
 			super.app_creationCompleteHandler(event);
 		}
 		
@@ -125,24 +126,26 @@ package editor
 					});
 					PopUpManager.addPopUp(wind, FlexGlobals.topLevelApplication as DisplayObject);
 				});
-				dataLoader.load(new URLRequest(BIN_PATH+"sample-data.xml"));
+				dataLoader.load(new URLRequest(getGlobalConfig(NameDef.CFG_SAMPLE_DATA) as String));
 			});
-			loader.load(new URLRequest(BIN_PATH + "sample-templates.xml"));
+			loader.load(new URLRequest(getGlobalConfig(NameDef.CFG_SAMPLE_TEMPLATE) as String));
 		}
 		
 		public function switchWorkspace(dir:String):void {
 			_global_config = FileSerializer.readJsonFile(StringUtil.substitute("{0}/editor_config.json", dir));
 			if(_global_config == null) {
-				
 				return;	
 			}
-			var str:String = getGlobalConfig(NameDef.CFG_RES_LIBRARY) as String;
-			str = str.replace("{working_dir}", dir);
-			_resLibraryWnd.configFile = str;
+			working_dir = dir;
+			_resLibraryWnd.configFile = getGlobalConfig(NameDef.CFG_RES_LIBRARY) as String;
 		}
 		
 		public function getGlobalConfig(key:String):Object {
-			return _global_config[key];
+			var ret:* = _global_config[key];
+			if(ret is String && working_dir != null) {
+				ret = (ret as String).replace("{working_dir}", working_dir);
+			}
+			return ret;
 		}
 		
 //		private function createMenuBar():NativeMenu {
