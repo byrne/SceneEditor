@@ -26,6 +26,7 @@ package editor.view.component
 			var mbi:MenuBarItem = evt.target as MenuBarItem;
 			if(mbi) {
 				var itemData:XML = mbi.data as XML;
+//				itemData.item.(@event="mce_view_res_wnd").@toggle = true;
 				this.dispatchEvent(new DataEvent(EventDef.MENU_CLICK, itemData));
 				LogUtil.debug("menu click: "+itemData.@["label"] +", "+itemData.@["event"]);
 			}
