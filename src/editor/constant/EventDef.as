@@ -11,5 +11,7 @@ package editor.constant
 		public static const MENU_CLICK:String = "evt_menu_click";
 		
 		public static const MENU_ITEM_CLICK:String = "evt_menu_item_click";
+		
+		public static const TOOLBAR_BUTTON_CLICK:String = "evt_toolbar_button_click";
 	}
 }
