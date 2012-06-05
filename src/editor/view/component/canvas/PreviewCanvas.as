@@ -134,6 +134,12 @@ package editor.view.component.canvas
 				this.addChild(obj);
 				items.push(obj);
 			}
+			setItemPos(obj, x, y);
+		}
+		
+		public function setItemPos(obj:DisplayObject, x:int, y:int):void {
+			if(!hasItem(obj))
+				return;
 			obj.x = axisXbase + x;
 			obj.y = axisYbase + y;
 		}

@@ -19,6 +19,10 @@ package editor.view.component
 		private var _isMouseOver:Boolean = false;
 		
 		public var iconSource:String;
+		
+		// there is at most one button pressed which has the same group name 
+		public var group:String;
+		
 		public function ToolbarButton()
 		{
 			super();
@@ -58,8 +62,7 @@ package editor.view.component
 		
 		private function mouseClickHandler(evt:MouseEvent):void {
 			if(enabled) {
-				_isMouseDown = !_isMouseDown;
-				invalidateSkinState();
+				pressed = !_isMouseDown;
 			}
 		}
 		
@@ -68,6 +71,17 @@ package editor.view.component
 			if(!enabled)
 				return "disabled";
 			return (_isMouseDown ? "down" : "up") + (_isMouseOver ? "_over" : "");
+		}
+		
+		public function set pressed(val:Boolean):void {
+			if(_isMouseDown != val) {
+				_isMouseDown = val;
+				invalidateSkinState();
+			}
+		}
+		
+		public function get pressed():Boolean {
+			return _isMouseDown;
 		}
 	}
 }

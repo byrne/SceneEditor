@@ -25,20 +25,34 @@ package editor.view.component
 		}
 		
 		protected function createCompleteHandler(evt:FlexEvent):void {
+			iconsDo(function(btn:ToolbarButton):void {
+				btn.addEventListener(MouseEvent.CLICK, btnClickHandler);
+			});
+//			var btn:ToolbarButton;
+//			var childNum:int = iconsDisplay.numChildren;
+//			for(var i:int=0; i<childNum; i++) {
+//				btn = iconsDisplay.getChildAt(i) as ToolbarButton;
+//				if(btn) {
+//					btn.addEventListener(MouseEvent.CLICK, btnClickHandler);
+//				}
+//			}
+		}
+		
+		private function btnClickHandler(evt:MouseEvent):void {
+			var btn:ToolbarButton = evt.currentTarget as ToolbarButton;
+			if(btn && btn.enabled) {
+				this.dispatchEvent(new DataEvent(EventDef.TOOLBAR_BUTTON_CLICK, btn));
+			}
+		}
+		
+		public function iconsDo(func:Function):void {
 			var btn:ToolbarButton;
 			var childNum:int = iconsDisplay.numChildren;
 			for(var i:int=0; i<childNum; i++) {
 				btn = iconsDisplay.getChildAt(i) as ToolbarButton;
 				if(btn) {
-					btn.addEventListener(MouseEvent.CLICK, btnClickHandler);
+					func.call(null, btn);
 				}
-			}
-		}
-		
-		private function btnClickHandler(evt:MouseEvent):void {
-			var btn:ToolbarButton = evt.target as ToolbarButton;
-			if(btn && btn.enabled) {
-				this.dispatchEvent(new DataEvent(EventDef.TOOLBAR_BUTTON_CLICK, btn));
 			}
 		}
 		

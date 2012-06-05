@@ -11,6 +11,7 @@ package editor
 	import editor.mgr.PopupMgr;
 	import editor.storage.GlobalStorage;
 	import editor.utils.FileSerializer;
+	import editor.utils.LogUtil;
 	import editor.utils.StringUtil;
 	import editor.view.IPopup;
 	import editor.view.component.CustomMenuBar;
@@ -43,8 +44,10 @@ package editor
 	public class SceneEditorApp extends WindowedApplicationBase
 	{
 		public var working_dir:String;
-		private var _mainWnd:MainWindow;
-		private var _resLibraryWnd:ResLibraryWindow;
+		public var proj_dir:String;
+		
+		public var mainWnd:MainWindow;
+		public var resLibraryWnd:ResLibraryWindow;
 		
 		private var _global_config:Object;
 		
@@ -81,12 +84,12 @@ package editor
 		override protected function app_creationCompleteHandler(event:FlexEvent):void {
 //			this.stage.nativeWindow.menu = createMenuBar();
 			createMenuBar(menuBarXml);
-			_mainWnd = new MainWindow();
-			this.addElement(_mainWnd);
+			mainWnd = new MainWindow();
+			this.addElement(mainWnd);
 			
-			_resLibraryWnd = new ResLibraryWindow();
-			_resLibraryWnd.width = ScreenDef.RESLIBRARY_W;
-			_resLibraryWnd.height = ScreenDef.RESLIBRARY_H;
+			resLibraryWnd = new ResLibraryWindow();
+			resLibraryWnd.width = ScreenDef.RESLIBRARY_W;
+			resLibraryWnd.height = ScreenDef.RESLIBRARY_H;
 			
 			var hasStorage:Boolean = GlobalStorage.getInstance().read();
 			if(!hasStorage) {
@@ -139,13 +142,14 @@ package editor
 				return;	
 			}
 			working_dir = dir;
-			_resLibraryWnd.configFile = getGlobalConfig(NameDef.CFG_RES_LIBRARY) as String;
+			proj_dir = replaceWorkingDir(getGlobalConfig(NameDef.CFG_PROJ_DIR) as String);
+			resLibraryWnd.configFile = getGlobalConfig(NameDef.CFG_RES_LIBRARY) as String;
 		}
 		
 		public function getGlobalConfig(key:String):Object {
 			var ret:* = _global_config[key];
 			if(ret is String && working_dir != null) {
-				ret = (ret as String).replace("{working_dir}", working_dir);
+				ret = replaceWorkingDir(ret);
 			}
 			return ret;
 		}
@@ -153,7 +157,7 @@ package editor
 		private function createMenuBar(xmlData:XMLList):void {
 			// this function will be called before menubar shown
 			var menuShowHandler:Function = function(evt:MenuEvent):void {
-				menuBarXml.item.(@event=="mce_view_res_wnd").@toggled = _resLibraryWnd.isPopup;
+				menuBarXml.item.(@event=="mce_view_res_wnd").@toggled = resLibraryWnd.isPopup;
 			};
 			
 			var menuClickHandler:Function = function(evt:DataEvent):void {
@@ -172,7 +176,7 @@ package editor
 						break;
 					
 					case "mce_view_res_wnd":
-						toggleWindowPopup(_resLibraryWnd);
+						toggleWindowPopup(resLibraryWnd);
 						break;
 					
 					case "mce_view_property_wnd":
@@ -214,12 +218,12 @@ package editor
 		];
 		
 		override protected function initContextMenuData():void {
-			mainWndContextMenu["param"] = _resLibraryWnd;
+			mainWndContextMenu["param"] = resLibraryWnd;
 			contextMenuInfos[this] = {"menuitems":appContextMenuData, "before_handler":appBeforeContextMenuHandler, "onhide":appHideContextMenuHandler};
 		}
 		
 		protected function appBeforeContextMenuHandler(event:* = null):void {
-			mainWndContextMenu["toggled"] = _resLibraryWnd.isPopup;
+			mainWndContextMenu["toggled"] = resLibraryWnd.isPopup;
 		}
 		
 		protected function appHideContextMenuHandler():void {
@@ -245,5 +249,24 @@ package editor
 		public function get cursorMessage():Label {
 			return (this.skin as CustomAppSkin).cursor;
 		}
+		
+		public function replaceWorkingDir(strin:String):String {
+			if(working_dir)
+				return strin.replace("{working_dir}", working_dir);
+			else {
+				LogUtil.error("working dir not initialized!");
+				return strin;
+			}
+		}
+		
+		public function replaceProjDir(strin:String):String {
+			if(proj_dir)
+				return strin.replace("{proj_dir}", proj_dir);
+			else {
+				LogUtil.error("project dir not initialized!");
+				return strin;
+			}
+		}
+
 	}
 }

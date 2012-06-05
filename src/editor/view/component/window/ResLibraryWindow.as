@@ -1,5 +1,7 @@
 package editor.view.component.window
 {
+	import editor.EditorGlobal;
+	import editor.SceneEditorApp;
 	import editor.constant.NameDef;
 	import editor.constant.ScreenDef;
 	import editor.mgr.ResMgr;
@@ -19,6 +21,7 @@ package editor.view.component.window
 	import mx.containers.DividedBox;
 	import mx.containers.TabNavigator;
 	import mx.controls.Tree;
+	import mx.core.FlexGlobals;
 	import mx.core.IVisualElement;
 	import mx.core.UIComponent;
 	import mx.events.CloseEvent;
@@ -28,7 +31,7 @@ package editor.view.component.window
 	{
 		private var _configFile:String;
 		
-		private var baseDir:String;
+		public var baseDir:String;
 		
 		private var tabNavi:TabNavigator;
 		
@@ -68,7 +71,7 @@ package editor.view.component.window
 			if(_configFile != fn) {
 				_configFile = fn;
 				var allRes:Object = FileSerializer.readJsonFile(_configFile);
-				baseDir = allRes["base_dir"];
+				baseDir = EditorGlobal.APP.replaceProjDir(allRes["base_dir"] as String);
 				resTreeXML = buildResTreeXML(allRes["symbol_classes"]);
 				
 				clearPreview();

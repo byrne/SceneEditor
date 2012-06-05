@@ -1,11 +1,14 @@
 package editor.view.component.window
 {
+	import editor.EditorGlobal;
 	import editor.constant.EventDef;
 	import editor.event.DataEvent;
+	import editor.utils.LogUtil;
 	import editor.view.component.Toolbar;
 	import editor.view.component.ToolbarButton;
 	import editor.view.component.canvas.MainCanvas;
 	import editor.view.mxml.skin.ToolbarSkin;
+	import editor.view.scene.EntityBaseView;
 	
 	import flash.display.NativeMenu;
 	import flash.display.NativeMenuItem;
@@ -33,6 +36,8 @@ package editor.view.component.window
 		private var tabSceneList:NavigatorContent;
 		private var tabSceneEntities:NavigatorContent;
 		
+		private var toolbar:Toolbar;
+		
 		public function MainWindow()
 		{
 			super();
@@ -47,17 +52,10 @@ package editor.view.component.window
 			hbox.percentWidth = 100;
 			hbox.percentHeight = 100;
 			
-			var toolbar:Toolbar = new Toolbar();
+			toolbar = new Toolbar();
 			toolbar.width = 36;
 			toolbar.percentHeight = 100;
 			toolbar.addEventListener(EventDef.TOOLBAR_BUTTON_CLICK, toolbarBtnClickHandler);
-//			var btn:ToolbarButton;
-//			var iconResNames:Array = ["vect.png", "move.png", "text.png", "scale.png", "icon.PNG"];
-//			for each(var iconRes:String in iconResNames) {
-//				btn = new ToolbarButton();
-//				btn.iconSource = iconRes;
-//				toolbar.addIcon(btn);
-//			}
 			hbox.addElement(toolbar);
 			
 			var dividedBox:DividedBox = new DividedBox();
@@ -86,8 +84,26 @@ package editor.view.component.window
 		}
 		
 		private function toolbarBtnClickHandler(evt:DataEvent):void {
-			var btn:ToolbarButton = evt.data as ToolbarButton;
-			trace("cc: "+btn.id);
+			var clickBtn:ToolbarButton = evt.data as ToolbarButton;
+			LogUtil.debug("click button: {0}, pressed: {1}", clickBtn.id, clickBtn.pressed);
+			if(clickBtn.pressed && clickBtn.group) {
+				toolbar.iconsDo(function(btn:ToolbarButton):void {
+					if(btn != clickBtn && btn.group == clickBtn.group)
+						btn.pressed = false;
+				});
+			}
+			var testEntities:Array = ["win.swf", "idle.swf", "lose.swf", "dodge.swf", "attack_prepare.swf", "hurt.swf"]
+			if(clickBtn.pressed) {
+				var randIndex:int = Math.random()*testEntities.length;
+				if(clickBtn.id == "text_2") {
+					var vo:Object = new Object();
+					vo["res"] = EditorGlobal.APP.resLibraryWnd.baseDir + "/" + testEntities[randIndex]
+					var enti:EntityBaseView = new EntityBaseView(vo);
+					sceneCanvas.addItem(enti);
+					sceneCanvas.setItemPos(enti, Math.random()* 800, Math.random()* 600);
+				}
+			}
+			
 		}
 		
 		protected function addToStageHandler(evt:Event):void {

@@ -1,6 +1,6 @@
 {
-	"base_dir": "C:\\work",
-	"output_file": "C:\\workspace/scene-editor/assets/res.json",
+	"base_dir": "{proj_dir}/assets/swf",
+	"output_file": "{proj_dir}/assets/res.json",
 	"file_list": [
 		"idle.swf",
 		"win.swf",

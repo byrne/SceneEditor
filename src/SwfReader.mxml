@@ -36,32 +36,34 @@
 			
 			private function app_invokeHandler(evt:InvokeEvent):void {
 				var args:Array = evt.arguments;
-				if(args.length <= 0) {
-					LogUtil.error("usage: SwfReader configFile");
+				if(args.length <= 1) {
+					LogUtil.error("usage: SwfReader configFile projDir");
 					return;
 				}
+				var output:Object = new Object();
 				var configFileName:String = args[0] as String;
+				var proj_dir:String = args[1] as String;
 				var config:Object = FileSerializer.readJsonFile(configFileName);
 				var base_dir:String = config["base_dir"];
-				var output_file:String = config["output_file"];
-				output_file = output_file.replace("{base_dir}", base_dir);
-				var file_list:Array = config["file_list"] as Array;
-				var output:Object = new Object();
 				output["base_dir"] = base_dir;
+				base_dir = base_dir.replace("{proj_dir}", proj_dir);
+				var output_file:String = config["output_file"];
+				output_file = output_file.replace("{proj_dir}", proj_dir);
+				var file_list:Array = config["file_list"] as Array;
 				output["symbol_classes"] = new Object();
 				for each(var fileName:String in file_list) {
 //					fileName = fileName.replace("{base_dir}", base_dir);
 					fileName = StringUtil.substitute("{0}/{1}", base_dir, fileName);
-					dumpSwfSymbolClass(fileName, output, output_file);
+					dumpSwfSymbolClass(fileName, output, output_file, base_dir);
 				}
 			}
 			
 			private static var remainSwfCnt:int;
-			private function dumpSwfSymbolClass(fileName:String, output:Object, output_file:String):void {
+			private function dumpSwfSymbolClass(fileName:String, output:Object, output_file:String, base_dir:String):void {
 				remainSwfCnt += 1;
 				var ba:ByteArray = FileSerializer.readBytesFromFile(fileName);
 				var swf:SWF = new SWF(ba);
-				var base_dir:String = output["base_dir"];
+//				var base_dir:String = output["base_dir"];
 				swf.addEventListener(Event.COMPLETE, function(evt:Event):void {
 					var symbols:Array = swf.symbolClassNamesArr;
 					fileName = fileName.substr(base_dir.length+1);

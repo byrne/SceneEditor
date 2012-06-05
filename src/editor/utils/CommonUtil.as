@@ -200,6 +200,5 @@ package editor.utils
 				main.push(e);
 			}
 		}
-
 	}
 }
