@@ -1,6 +1,6 @@
 package editor.dataeditor
 {
-	import editor.datatype.impl.DataFactory;
+	import editor.datatype.data.DataContext;
 	import editor.datatype.impl.parser.xml.XMLDataParser;
 	
 	import flash.utils.Dictionary;
@@ -10,7 +10,6 @@ package editor.dataeditor
 	import spark.components.CheckBox;
 	import spark.components.HSlider;
 	import spark.components.NumericStepper;
-	import spark.components.Spinner;
 	import spark.components.TextInput;
 
 	public class DataEditorFactory
@@ -49,18 +48,18 @@ package editor.dataeditor
 			return _editors[typename];
 		}
 		
-		public function initTable(src:XML):void {
+		public function initTable(src:XML, ctx:DataContext):void {
 			for each(var ed:XML in src..editor) {
 				var edType:EditorType =  new EditorType(ed.@name, ed.@component);
-				edType.constraint = buildConstraint(ed);
+				edType.constraint = buildConstraint(ed, ctx);
 				_editors[ed.@name.toString()] = edType;
 			}
 		}
 		
-		public function buildConstraint(src:XML):Array {
+		public function buildConstraint(src:XML, ctx:DataContext):Array {
 			var result:Array = [];
 			for each(var cons:XML in src..constraint) {
-				result.push(new EditorConstraint(cons.@name, XMLDataParser.basicDataFromXML(cons.children()[0], DataFactory.INSTANCE.allTypes)));
+				result.push(new EditorConstraint(cons.@name, XMLDataParser.basicDataFromXML(cons.children()[0], ctx)));
 			}
 			return result;
 		}

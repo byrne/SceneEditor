@@ -12,12 +12,6 @@
   <array property="dialog">
     <string>Yo ain't know me.</string>
     <string>Check this out.</string>
-    <Actor>
-      <string property="name">Cain</string>
-      <string property="resource">cain.swf</string>
-      <int property="id">92</int>
-      <boolean property="visible">true</boolean>
-    </Actor>
   </array>
   <boolean property="visible">true</boolean>
 </NPC>

@@ -101,7 +101,7 @@ package editor
 			statusMessage.text = "ABCDEFG";
 			cursorMessage.text = "120,338";
 			
-//			dataTypeTest();
+			dataTypeTest();
 			super.app_creationCompleteHandler(event);
 		}
 		
@@ -114,13 +114,13 @@ package editor
 			loader.addEventListener(Event.COMPLETE, function(e:Event):void {
 				e.target.removeEventListener(e.type, arguments.callee);
 				var src:XML = XML(loader.data);
-				DataFactory.INSTANCE.initTable(src);
-				DataEditorFactory.INSTANCE.initTable(src);
+				DataFactory.INSTANCE.initDB(src);
+				DataEditorFactory.INSTANCE.initTable(src, DataFactory.INSTANCE.dataContext);
 				
 				var dataLoader:URLLoader = new URLLoader;
 				dataLoader.addEventListener(Event.COMPLETE, function(edata:Event):void {
 					edata.target.removeEventListener(edata.type, arguments.callee);
-					var data:Object = XMLDataParser.fromXML(XML(edata.target.data), DataFactory.INSTANCE.allTypes);
+					var data:Object = XMLDataParser.fromXML(XML(edata.target.data), DataFactory.INSTANCE.dataContext);
 					var wind:TitleWindow = new TitleWindow;
 					var ed:ComposedDataEditor = new ComposedDataEditor();
 					ed.buildFromData(data);

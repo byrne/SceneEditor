@@ -18,13 +18,19 @@ package editor.datatype.impl.parser.xml
 		public function XMLDataTypeParser() {
 		}
 		
-		public static function constructTable(src:XML, ctx:DataContext):void {
+		/**
+		 * Import DataType's from an XML into a DataContext object. 
+		 *
+		 * @param src DataType definition in XML
+		 * @param ctx dataContext to which the created DataType objects will be stored
+		 * 
+		 */
+		public static function importToContext(src:XML, ctx:DataContext):void {
 			var type_element:XML;
 			
 			for each(type_element in src.children()) {
 				buildPlaceHolder(type_element, ctx);
 			}
-			
 			bindAttributes(ctx);
 		}
 		
@@ -37,6 +43,12 @@ package editor.datatype.impl.parser.xml
 			});
 		}
 		
+		/**
+		 * @private 
+		 * A DataType may reference other DataType defined after its very own definition in the XML,
+		 * therefore, we have to make sure every DataType object exists before we actually link 
+		 * those reference.
+		 */
 		private static function buildPlaceHolder(src:XML, ctx:DataContext):void {
 			if(src.localName() != QNAME_TYPE)
 				return;
@@ -52,7 +64,9 @@ package editor.datatype.impl.parser.xml
 		}
 		
 		/**
-		 * Link hierarchies of a DataType object with corresponding DataType's from a given DataContext.
+		 * @private
+		 * Link hierarchies of a DataType object with corresponding DataType's from a given 
+		 * DataContext. Still need the xml document though.
 		 * 
 		 * @param src hierarchy xml documents
 		 * @param dType the DataType object to be modified
@@ -66,7 +80,9 @@ package editor.datatype.impl.parser.xml
 		}
 		
 		/**
-		 * Link properties of a DataType object with corresponding DataType's from a given DataContext.
+		 * @private
+		 * Link properties of a DataType object with corresponding DataType's from a given 
+		 * DataContext. Still need the xml document also.
 		 * 
 		 * @param src property xml documents
 		 * @param dType the DataType object to be modified

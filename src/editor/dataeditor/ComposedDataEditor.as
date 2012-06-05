@@ -3,9 +3,6 @@ package editor.dataeditor
 	import avmplus.getQualifiedClassName;
 	
 	import editor.datatype.data.DataType;
-	import editor.datatype.impl.DataFactory;
-	
-	import flash.utils.getDefinitionByName;
 	
 	import mx.binding.utils.BindingUtils;
 	import mx.core.UIComponent;
@@ -28,8 +25,10 @@ package editor.dataeditor
 			while(rows.length > 0) {
 				row = rows.shift();
 				var target_property:String = DataEditorFactory.BINDING_PEOPERTIES[getQualifiedClassName(row[2])];
-				row[2][target_property] = dataObject[row[0]];
-				BindingUtils.bindProperty(dataObject, row[0], row[2], target_property);
+				if(target_property) {
+					row[2][target_property] = dataObject[row[0]];
+					BindingUtils.bindProperty(dataObject, row[0], row[2], target_property);
+				}
 				addElement(row[1]);
 			}
 		}
