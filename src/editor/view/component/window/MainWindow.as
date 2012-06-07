@@ -2,6 +2,7 @@ package editor.view.component.window
 {
 	import editor.EditorGlobal;
 	import editor.constant.EventDef;
+	import editor.constant.NameDef;
 	import editor.event.DataEvent;
 	import editor.utils.LogUtil;
 	import editor.view.component.Toolbar;
@@ -37,6 +38,8 @@ package editor.view.component.window
 		private var tabSceneEntities:NavigatorContent;
 		
 		private var toolbar:Toolbar;
+		
+		private var operateMode:String;
 		
 		public function MainWindow()
 		{
@@ -91,19 +94,29 @@ package editor.view.component.window
 					if(btn != clickBtn && btn.group == clickBtn.group)
 						btn.pressed = false;
 				});
+				switchOperateMode(clickBtn.id);
 			}
-			var testEntities:Array = ["win.swf", "idle.swf", "lose.swf", "dodge.swf", "attack_prepare.swf", "hurt.swf"]
-			if(clickBtn.pressed) {
-				var randIndex:int = Math.random()*testEntities.length;
-				if(clickBtn.id == "text_2") {
+		}
+		
+		private function switchOperateMode(mode:String):void {
+			var oldOperateMode:String = operateMode;
+			operateMode = mode;
+			sceneCanvas.entitiesDo(function(enti:EntityBaseView):void {
+				enti.canSelect = operateMode == NameDef.TBTN_SELECT;
+			});
+			sceneCanvas.draggable = operateMode == NameDef.TBTN_MOVE;
+			switch(operateMode) {
+				case NameDef.TBTN_TEST:
+					var testEntities:Array = ["win.swf", "idle.swf", "lose.swf", "dodge.swf", "attack_prepare.swf", "hurt.swf"];
+					var randIndex:int = Math.random()*testEntities.length;
 					var vo:Object = new Object();
-					vo["res"] = EditorGlobal.APP.resLibraryWnd.baseDir + "/" + testEntities[randIndex]
+					vo["res"] = EditorGlobal.APP.resLibraryWnd.baseDir + "/" + testEntities[randIndex];
 					var enti:EntityBaseView = new EntityBaseView(vo);
+					enti.canSelect = operateMode == NameDef.TBTN_SELECT;
 					sceneCanvas.addItem(enti);
 					sceneCanvas.setItemPos(enti, Math.random()* 800, Math.random()* 600);
-				}
+					break;
 			}
-			
 		}
 		
 		protected function addToStageHandler(evt:Event):void {

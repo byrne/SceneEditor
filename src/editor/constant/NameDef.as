@@ -19,6 +19,13 @@ package editor.constant
 		// dialog
 		public static const DLG_SET_WORKING_DIR_TITLE:String = "设定工作路径";
 		
+		
+		//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		// toolbar button
+		public static const TBTN_SELECT:String = "tbtn_select";
+		public static const TBTN_MOVE:String = "tbtn_move";
+		public static const TBTN_TEST:String = "tbtn_test";
+		
 		public function NameDef()
 		{
 		}

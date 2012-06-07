@@ -1,6 +1,8 @@
 package editor.view.component.canvas
 {
+	import editor.constant.NameDef;
 	import editor.utils.LogUtil;
+	import editor.view.scene.EntityBaseView;
 	
 	import flash.display.DisplayObject;
 	import flash.display.Shape;
@@ -25,6 +27,8 @@ package editor.view.component.canvas
 		
 		private var maskSprite:Sprite;
 		
+		public var draggable:Boolean;
+		
 		public function PreviewCanvas(axisXBase:int = 0, axisYBase:int = 0)
 		{
 			super();
@@ -44,11 +48,14 @@ package editor.view.component.canvas
 		
 		protected function addToStageHandler(evt:Event):void {
 			this.addEventListener(MouseEvent.MOUSE_DOWN, function(evt:Event) {
-				startDrag();
+				if(draggable)
+					startDrag();
 			});
 			this.addEventListener(MouseEvent.MOUSE_UP, function(evt:Event) {
-				stopDrag();
-				updateBackground();
+				if(draggable) {
+					stopDrag();
+					updateBackground();
+				}
 			});
 			this.addEventListener(MouseEvent.MOUSE_MOVE, function(evt:Event) {
 				updateBackground();
@@ -127,6 +134,21 @@ package editor.view.component.canvas
 			}
 			
 			this.graphics.endFill();
+		}
+		
+		public function itemsDo(func:Function):void {
+			var obj:DisplayObject;
+			for each(obj in items) {
+				func.call(null, obj);
+			}
+		}
+		
+		public function entitiesDo(func:Function):void {
+			var obj:DisplayObject;
+			for each(obj in items) {
+				if(obj is EntityBaseView)
+					func.call(null, obj as EntityBaseView);
+			}
 		}
 		
 		public function addItem(obj:DisplayObject, x:int=0, y:int=0):void {
