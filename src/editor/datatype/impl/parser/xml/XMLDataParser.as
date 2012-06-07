@@ -1,12 +1,11 @@
 package editor.datatype.impl.parser.xml
 {
-	import editor.datatype.data.BasicDataType;
-	import editor.datatype.data.DataContext;
-	import editor.datatype.data.DataType;
-	import editor.datatype.data.IDataType;
+	import editor.datatype.data.ComposedData;
+	import editor.datatype.impl.DataFactory;
 	import editor.datatype.impl.UtilDataType;
-	
-	import mx.collections.ArrayCollection;
+	import editor.datatype.type.ComposedType;
+	import editor.datatype.type.DataContext;
+	import editor.datatype.type.IDataType;
 
 	public class XMLDataParser
 	{
@@ -64,8 +63,8 @@ package editor.datatype.impl.parser.xml
 		 */
 		public static function fromXML(xml:XML, ctx:DataContext):Object {
 			var data:Object;
-			var type:IDataType = ctx.getType(xml.localName());
-			if(type is DataType)
+			var type:IDataType = ctx[xml.localName()];
+			if(type is ComposedType)
 				data = composedDataFromXML(xml, ctx);
 			else
 				data = basicDataFromXML(xml, ctx);
@@ -76,22 +75,22 @@ package editor.datatype.impl.parser.xml
 			var value:Object;
 			
 			switch(xml.localName()) {
-				case BasicDataType.TYPE_UNDEFINED:
+				case DataFactory.TYPE_UNDEFINED:
 					value = null;
 					break;
-				case BasicDataType.TYPE_BOOLEAN:
+				case DataFactory.TYPE_BOOLEAN:
 					value = xml.text().toLowerCase() == "false" ? false : true;
 					break;
-				case BasicDataType.TYPE_FLOAT:
+				case DataFactory.TYPE_FLOAT:
 					value = parseFloat(xml.text());
 					break;
-				case BasicDataType.TYPE_INT:
+				case DataFactory.TYPE_INT:
 					value = parseInt(xml.text());
 					break;
-				case BasicDataType.TYPE_STRING:
+				case DataFactory.TYPE_STRING:
 					value = xml.text().toString();
 					break;
-				case BasicDataType.TYPE_ARRAY:
+				case DataFactory.TYPE_ARRAY:
 					value = arrayFromXML(xml, ctx);
 					break;
 			}
@@ -107,19 +106,12 @@ package editor.datatype.impl.parser.xml
 			return array;
 		}
 		
-		private static function composedDataFromXML(xml:XML, ctx:DataContext):Object {
-			var type:IDataType = ctx.getType(xml.name());
-			var data:Object = type.construct();
+		private static function composedDataFromXML(xml:XML, ctx:DataContext):ComposedData {
+			var type:IDataType = ctx[xml.name()];
+			var data:ComposedData = type.construct();
 			for each(var element:XML in xml.children()) {
 				data[element.@property] = fromXML(element, ctx);
 			}
-			/*var data:Object = { "$type": type };
-			data.setPropertyIsEnumerable("$type", false);
-			
-			for each(var element:XML in xml.children()) {
-				data[element.@property] = fromXML(element, ctx);
-			}
-			*/
 			return data;
 		}
 	}

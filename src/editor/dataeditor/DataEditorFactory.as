@@ -1,6 +1,6 @@
 package editor.dataeditor
 {
-	import editor.datatype.data.DataContext;
+	import editor.datatype.type.DataContext;
 	import editor.datatype.impl.parser.xml.XMLDataParser;
 	
 	import flash.utils.Dictionary;

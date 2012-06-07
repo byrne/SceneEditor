@@ -1,4 +1,4 @@
-package editor.datatype.data
+package editor.datatype.type
 {
 	public class DataProperty
 	{

@@ -1,13 +1,12 @@
 package editor.datatype.impl.parser.xml
 {
-	import editor.datatype.data.BasicDataType;
-	import editor.datatype.data.DataContext;
-	import editor.datatype.data.DataProperty;
-	import editor.datatype.data.DataType;
-	import editor.datatype.data.IDataType;
-	import editor.datatype.impl.UtilDataType;
+	import editor.datatype.type.ComposedType;
+	import editor.datatype.type.DataContext;
+	import editor.datatype.type.DataProperty;
+	import editor.datatype.type.IDataType;
+	import editor.datatype.type.NativeType;
 
-	public class XMLDataTypeParser
+	public class XMLTypeParser
 	{
 		public static const QNAME_TYPE:String = "type";
 		public static const QNAME_STYLE:String = "style";
@@ -15,7 +14,7 @@ package editor.datatype.impl.parser.xml
 		public static const QNAME_INHERIT:String = "inherit";
 		public static const QNAME_PROPERTY:String = "property";
 		
-		public function XMLDataTypeParser() {
+		public function XMLTypeParser() {
 		}
 		
 		/**
@@ -35,12 +34,12 @@ package editor.datatype.impl.parser.xml
 		}
 		
 		public static function bindAttributes(ctx:DataContext):void {
-			ctx.iterate(function(element:IDataType):void {
-				if(!(element is DataType))
-					return;
-				bindHierarchy(element.definition.elements(QNAME_INHERIT), element as DataType, ctx);
-				bindProperty(element.definition.elements(QNAME_PROPERTY), element as DataType, ctx);
-			});
+			for each(var e:IDataType in ctx) {
+				if(!(e is ComposedType))
+					continue;
+				bindHierarchy(e.definition.elements(QNAME_INHERIT), e as ComposedType, ctx);
+				bindProperty(e.definition.elements(QNAME_PROPERTY), e as ComposedType, ctx);
+			}
 		}
 		
 		/**
@@ -56,11 +55,11 @@ package editor.datatype.impl.parser.xml
 			var type:IDataType;
 			
 			if(src.@style == QNAME_BASIC)
-				type = new BasicDataType(src.@name);
+				type = new NativeType(src.@name);
 			else
-				type = new DataType(src.@name);
+				type = new ComposedType(src.@name);
 			type.definition = src;
-			ctx.setType(type.name, type);
+			ctx[type.name] = type;
 		}
 		
 		/**
@@ -73,9 +72,9 @@ package editor.datatype.impl.parser.xml
 		 * @param ctx the DataContext object given
 		 * 
 		 */
-		private static function bindHierarchy(src:XMLList, dType:DataType, ctx:DataContext):void {
+		private static function bindHierarchy(src:XMLList, dType:ComposedType, ctx:DataContext):void {
 			for each(var element:XML in src) {
-				dType.hierarchies.push(ctx.getType(element.@type));
+				dType.hierarchies.push(ctx[element.@type]);
 			}
 		}
 		
@@ -89,9 +88,9 @@ package editor.datatype.impl.parser.xml
 		 * @param ctx the DataContext object given
 		 * 
 		 */
-		private static function bindProperty(src:XMLList, dType:DataType, ctx:DataContext):void {
+		private static function bindProperty(src:XMLList, dType:ComposedType, ctx:DataContext):void {
 			for each(var element:XML in src) {
-				dType.properties.push(new DataProperty(element.@name, ctx.getType(element.@type)));
+				dType.nativeProperties.push(new DataProperty(element.@name, ctx[element.@type]));
 			}
 		}
 	}
