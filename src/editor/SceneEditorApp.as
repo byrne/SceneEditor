@@ -22,15 +22,10 @@ package editor
 	import editor.view.mxml.skin.CustomAppSkin;
 	
 	import flash.display.DisplayObject;
-	import flash.display.NativeMenu;
-	import flash.display.NativeMenuItem;
 	import flash.events.Event;
-	import flash.events.MouseEvent;
 	import flash.net.URLLoader;
 	import flash.net.URLRequest;
 	
-	import mx.collections.XMLListCollection;
-	import mx.controls.menuClasses.MenuBarItem;
 	import mx.core.FlexGlobals;
 	import mx.events.CloseEvent;
 	import mx.events.FlexEvent;

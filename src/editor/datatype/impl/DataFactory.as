@@ -1,12 +1,22 @@
 package editor.datatype.impl
 {
-	import editor.datatype.data.BasicDataType;
-	import editor.datatype.data.DataContext;
-	import editor.datatype.data.IDataType;
-	import editor.datatype.impl.parser.xml.XMLDataTypeParser;
+	import editor.datatype.impl.parser.xml.XMLTypeParser;
+	import editor.datatype.type.ArrayType;
+	import editor.datatype.type.BooleanType;
+	import editor.datatype.type.DataContext;
+	import editor.datatype.type.IntType;
+	import editor.datatype.type.NumberType;
+	import editor.datatype.type.StringType;
 
 	public class DataFactory
 	{
+		public static const TYPE_INT:String = 'int';
+		public static const TYPE_FLOAT:String = 'number';
+		public static const TYPE_ARRAY:String = 'array';
+		public static const TYPE_STRING:String = 'string';
+		public static const TYPE_BOOLEAN:String = 'boolean';
+		public static const TYPE_UNDEFINED:String = 'undefined';
+		
 		private static var _instance:DataFactory;
 		public static function get INSTANCE():DataFactory {
 			if(_instance == null)
@@ -24,13 +34,15 @@ package editor.datatype.impl
 		}
 		
 		private function setPrimitives():void {
-			for each(var type:String in BasicDataType.PRIMITIVES) {
-				_dataContext.setType(type, new BasicDataType(type));
-			}
+			dataContext[TYPE_INT] = new IntType(TYPE_INT);
+			dataContext[TYPE_FLOAT] = new NumberType(TYPE_FLOAT);
+			dataContext[TYPE_BOOLEAN] = new BooleanType(TYPE_BOOLEAN);
+			dataContext[TYPE_STRING] = new StringType(TYPE_STRING);
+			dataContext[TYPE_ARRAY] = new ArrayType(TYPE_ARRAY);
 		}
 		
 		public function initDB(typeDef:XML):void {
-			XMLDataTypeParser.importToContext(typeDef, _dataContext);
+			XMLTypeParser.importToContext(typeDef, _dataContext);
 		}
 	}
 }

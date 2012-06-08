@@ -2,7 +2,7 @@ package editor.dataeditor
 {
 	import avmplus.getQualifiedClassName;
 	
-	import editor.datatype.data.DataType;
+	import editor.datatype.type.ComposedType;
 	
 	import mx.binding.utils.BindingUtils;
 	import mx.core.UIComponent;
@@ -33,10 +33,10 @@ package editor.dataeditor
 			}
 		}
 		
-		private function getComponents(type:DataType):Array {
+		private function getComponents(type:ComposedType):Array {
 			var result:Array = [];
 			
-			for each(var hierarchy:DataType in type.hierarchies) {
+			for each(var hierarchy:ComposedType in type.hierarchies) {
 				result = result.concat(getComponents(hierarchy));
 			}
 			
