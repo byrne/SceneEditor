@@ -3,10 +3,12 @@ package editor.view.component.canvas
 	import editor.constant.EventDef;
 	import editor.constant.ScreenDef;
 	import editor.event.DataEvent;
+	import editor.utils.LogUtil;
 	import editor.view.scene.EntityBaseView;
 	
 	import flash.events.Event;
 	import flash.events.MouseEvent;
+	import flash.geom.Point;
 	
 	import mx.containers.Canvas;
 	import mx.managers.DragManager;
@@ -43,8 +45,17 @@ package editor.view.component.canvas
 			}
 		}
 		
-		public function startEntitiesDrag():void {
-			trace("startEntitiesDrag "+_selectedEntities.length);
+		private var _dragTarget:EntityBaseView;
+		private var _dragStartPos:Point;
+		
+		public function startEntitiesDrag(mouseTarget:EntityBaseView):void {
+			if(_dragTarget != null) {
+				LogUtil.warn("MainCanvas already has drag target, this operation will cancel");
+				return;
+			}
+			_dragTarget = mouseTarget;
+//			_dragStartPos = 
+			LogUtil.debug("startEntitiesDrag, mouseTarget: {0}, current selected item count {1}", _dragTarget, _selectedEntities.length);
 			for each(var enti:EntityBaseView in _selectedEntities) {
 				enti.startDrag();
 			}

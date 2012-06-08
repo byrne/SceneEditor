@@ -30,7 +30,7 @@ package editor.view.scene
 			ResMgr.getSwfSymbolByName(vo["res"], "saybotmc", getResHandler);
 			this.addEventListener(MouseEvent.CLICK, clickHandler);
 			this.addEventListener(MouseEvent.MOUSE_DOWN, function(evt:MouseEvent):void {
-				(parent as MainCanvas).startEntitiesDrag();
+//				(parent as MainCanvas).startEntitiesDrag();
 				evt.stopPropagation();
 			});
 			this.addEventListener(MouseEvent.MOUSE_UP, function(evt:MouseEvent):void {
