@@ -54,17 +54,35 @@ package editor.view.component.canvas
 				return;
 			}
 			_dragTarget = mouseTarget;
-//			_dragStartPos = 
-			LogUtil.debug("startEntitiesDrag, mouseTarget: {0}, current selected item count {1}", _dragTarget, _selectedEntities.length);
+			_dragStartPos = _dragTarget.getScenePos();
+			_dragTarget.addEventListener(MouseEvent.MOUSE_MOVE, dragAndMoveHandler);
 			for each(var enti:EntityBaseView in _selectedEntities) {
-				enti.startDrag();
+				if(enti != _dragTarget)
+					enti.beginDrag();
+			}
+			_dragTarget.startDrag();
+			LogUtil.debug("startEntitiesDrag, mouseTarget: {0}, current selected item count {1}", _dragTarget, _selectedEntities.length);
+		}
+		
+		private function dragAndMoveHandler(evt:MouseEvent):void {
+			if(_dragTarget && _dragStartPos) {
+				var crtPos:Point = _dragTarget.getScenePos(); 
+				var ox:Number = crtPos.x - _dragStartPos.x;
+				var oy:Number = crtPos.y - _dragStartPos.y;
+				var pos:Point;
+				for each(var enti:EntityBaseView in _selectedEntities) {
+					if(enti != _dragTarget) {
+						pos = enti.getScenePos();
+						this.setItemPos(enti, enti.dragStartPos.x+ox, enti.dragStartPos.y+oy);
+					}
+				}
 			}
 		}
 		
 		public function stopEntitiesDrag():void {
-			trace("stopEntitiesDrag "+_selectedEntities.length);
+			LogUtil.debug("stopEntitiesDrag "+_selectedEntities.length);
 			for each(var enti:EntityBaseView in _selectedEntities) {
-				enti.stopDrag();
+				enti.endDrag();
 			}
 		}
 	}

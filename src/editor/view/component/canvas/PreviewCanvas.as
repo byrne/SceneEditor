@@ -9,6 +9,7 @@ package editor.view.component.canvas
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
+	import flash.geom.Point;
 	
 	import mx.core.UIComponent;
 	import mx.events.FlexEvent;
@@ -164,6 +165,12 @@ package editor.view.component.canvas
 				return;
 			obj.x = axisXbase + x;
 			obj.y = axisYbase + y;
+		}
+		
+		public function getItemPos(obj:DisplayObject):Point {
+			if(!hasItem(obj))
+				return null;
+			return new Point(obj.x - axisXbase, obj.y - axisYbase);
 		}
 		
 		public function hasItem(obj:DisplayObject):Boolean {
