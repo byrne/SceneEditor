@@ -3,10 +3,12 @@ package editor
 	import editor.constant.EventDef;
 	import editor.constant.NameDef;
 	import editor.constant.ScreenDef;
-	import editor.dataeditor.ComposedDataEditor;
 	import editor.dataeditor.DataEditorFactory;
-	import editor.datatype.impl.DataFactory;
+	import editor.dataeditor.IElement;
+	import editor.dataeditor.impl.EditorBase;
+	import editor.datatype.impl.DataTypeFactory;
 	import editor.datatype.impl.parser.xml.XMLDataParser;
+	import editor.datatype.type.IDataType;
 	import editor.event.DataEvent;
 	import editor.mgr.PopupMgr;
 	import editor.storage.GlobalStorage;
@@ -23,10 +25,10 @@ package editor
 	
 	import flash.display.DisplayObject;
 	import flash.events.Event;
-	import flash.net.URLLoader;
-	import flash.net.URLRequest;
 	
 	import mx.core.FlexGlobals;
+	import mx.core.IFlexDisplayObject;
+	import mx.core.IVisualElement;
 	import mx.events.CloseEvent;
 	import mx.events.FlexEvent;
 	import mx.events.MenuEvent;
@@ -45,8 +47,6 @@ package editor
 		public var resLibraryWnd:ResLibraryWindow;
 		
 		private var _global_config:Object;
-		
-		public static function get BIN_PATH():String { return "c:\\workspace/scene-editor/bin-debug/";}
 		
 		[Bindable]
 		private var menuBarXml:XMLList = 
@@ -102,33 +102,26 @@ package editor
 		
 		/**
 		 * 演示方法，随便删 
-		 * 
 		 */
 		public function dataTypeTest():void {
-			var loader:URLLoader = new URLLoader;
-			loader.addEventListener(Event.COMPLETE, function(e:Event):void {
-				e.target.removeEventListener(e.type, arguments.callee);
-				var src:XML = XML(loader.data);
-				DataFactory.INSTANCE.initDB(src);
-				DataEditorFactory.INSTANCE.initTable(src, DataFactory.INSTANCE.dataContext);
-				
-				var dataLoader:URLLoader = new URLLoader;
-				dataLoader.addEventListener(Event.COMPLETE, function(edata:Event):void {
-					edata.target.removeEventListener(edata.type, arguments.callee);
-					var data:Object = XMLDataParser.fromXML(XML(edata.target.data), DataFactory.INSTANCE.dataContext);
-					var wind:TitleWindow = new TitleWindow;
-					var ed:ComposedDataEditor = new ComposedDataEditor();
-					ed.buildFromData(data);
-					wind.addElement(ed);
-					wind.addEventListener(CloseEvent.CLOSE, function(e:Event):void {
-						wind.parent.removeChild(wind);
-						trace(XMLDataParser.toXML(data));
-					});
-					PopUpManager.addPopUp(wind, FlexGlobals.topLevelApplication as DisplayObject);
-				});
-				dataLoader.load(new URLRequest(getGlobalConfig(NameDef.CFG_SAMPLE_DATA) as String));
+			var typeXML:XML = XML(FileSerializer.readFromFile(working_dir+"/sample-templates.xml"));
+			var editorXML:XML = XML(FileSerializer.readFromFile(working_dir+"/sample-editor.xml"));
+			DataTypeFactory.INSTANCE.initDB(typeXML);
+			DataEditorFactory.INSTANCE.initTable(editorXML, DataTypeFactory.INSTANCE.dataContext);
+			var a:IDataType = DataTypeFactory.INSTANCE.dataContext['NPC'];
+			var carl:Object = a.construct();
+			var ed:EditorBase = DataEditorFactory.INSTANCE.getEditor('SimpleNPCEditor');
+			var view:IElement = ed.buildView(carl);
+			var window:TitleWindow = new TitleWindow(); 
+			var dataXML:XML;
+			window.addElement(view as IVisualElement);
+			window.addEventListener(CloseEvent.CLOSE, function(e:Event):void {
+				dataXML = XMLDataParser.toXML(carl);
+				PopUpManager.removePopUp(e.target as IFlexDisplayObject);
+				var clone:* = XMLDataParser.fromXML(dataXML, DataTypeFactory.INSTANCE.dataContext);
 			});
-			loader.load(new URLRequest(getGlobalConfig(NameDef.CFG_SAMPLE_TEMPLATE) as String));
+			PopUpManager.addPopUp(window as IFlexDisplayObject, FlexGlobals.topLevelApplication as DisplayObject, true);
+			PopUpManager.centerPopUp(window as IFlexDisplayObject);
 		}
 		
 		public function switchWorkspace(dir:String):void {

@@ -8,7 +8,7 @@ package editor.datatype.impl
 	import editor.datatype.type.NumberType;
 	import editor.datatype.type.StringType;
 
-	public class DataFactory
+	public class DataTypeFactory
 	{
 		public static const TYPE_INT:String = 'int';
 		public static const TYPE_FLOAT:String = 'number';
@@ -17,17 +17,17 @@ package editor.datatype.impl
 		public static const TYPE_BOOLEAN:String = 'boolean';
 		public static const TYPE_UNDEFINED:String = 'undefined';
 		
-		private static var _instance:DataFactory;
-		public static function get INSTANCE():DataFactory {
+		private static var _instance:DataTypeFactory;
+		public static function get INSTANCE():DataTypeFactory {
 			if(_instance == null)
-				_instance = new DataFactory;
+				_instance = new DataTypeFactory;
 			return _instance;
 		}
 		
 		private var _dataContext:DataContext = new DataContext;
 		public function get dataContext():DataContext { return _dataContext; }
 		
-		public function DataFactory() {
+		public function DataTypeFactory() {
 			if(_instance)
 				throw new Error("Singleton Error");
 			setPrimitives();
