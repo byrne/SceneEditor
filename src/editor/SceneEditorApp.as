@@ -145,6 +145,7 @@ package editor
 			return ret;
 		}
 		
+		
 		private function createMenuBar(xmlData:XMLList):void {
 			// this function will be called before menubar shown
 			var menuShowHandler:Function = function(evt:MenuEvent):void {
