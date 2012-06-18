@@ -1,7 +1,7 @@
 package editor.datatype.impl.parser.xml
 {
 	import editor.datatype.data.ComposedData;
-	import editor.datatype.impl.DataFactory;
+	import editor.datatype.impl.DataTypeFactory;
 	import editor.datatype.impl.UtilDataType;
 	import editor.datatype.type.ComposedType;
 	import editor.datatype.type.DataContext;
@@ -20,7 +20,7 @@ package editor.datatype.impl.parser.xml
 		 * 
 		 */
 		public static function toXML(obj:Object):XML {
-			if((typeof obj) == "object" && obj.hasOwnProperty("$type"))
+			if(obj && (typeof obj) == "object" && obj.hasOwnProperty("$type"))
 				return composedDataToXML(obj);
 			else
 				return basicDataToXML(obj);
@@ -45,6 +45,8 @@ package editor.datatype.impl.parser.xml
 			xml.setName(UtilDataType.typeOf(obj));
 			
 			for(var key:String in obj) {
+				if(obj[key] == null)
+					continue;
 				var childXML:XML = toXML(obj[key]);
 				childXML.@property = key;
 				xml.appendChild(childXML);
@@ -75,22 +77,22 @@ package editor.datatype.impl.parser.xml
 			var value:Object;
 			
 			switch(xml.localName()) {
-				case DataFactory.TYPE_UNDEFINED:
+				case DataTypeFactory.TYPE_UNDEFINED:
 					value = null;
 					break;
-				case DataFactory.TYPE_BOOLEAN:
+				case DataTypeFactory.TYPE_BOOLEAN:
 					value = xml.text().toLowerCase() == "false" ? false : true;
 					break;
-				case DataFactory.TYPE_FLOAT:
+				case DataTypeFactory.TYPE_FLOAT:
 					value = parseFloat(xml.text());
 					break;
-				case DataFactory.TYPE_INT:
+				case DataTypeFactory.TYPE_INT:
 					value = parseInt(xml.text());
 					break;
-				case DataFactory.TYPE_STRING:
+				case DataTypeFactory.TYPE_STRING:
 					value = xml.text().toString();
 					break;
-				case DataFactory.TYPE_ARRAY:
+				case DataTypeFactory.TYPE_ARRAY:
 					value = arrayFromXML(xml, ctx);
 					break;
 			}

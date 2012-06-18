@@ -89,17 +89,5 @@ package editor.datatype.type
 				return false;
 			}
 		}
-		
-		/**
-		 * Iterate throught all DataType objects.
-		 *  
-		 * @param func function to call on each DataType
-		 * 
-		 */
-		public function iterate(func:Function):void {
-			for each(var item:Object in _cache) {
-				func.apply(null, [item]);
-			}
-		}
 	}
 }

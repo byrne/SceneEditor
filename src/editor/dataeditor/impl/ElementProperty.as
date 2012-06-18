@@ -1,11 +1,11 @@
-package editor.dataeditor
+package editor.dataeditor.impl
 {
-	public class EditorConstraint
+	public class ElementProperty
 	{
 		private var _property:String;
 		private var _value:Object;
 		
-		public function EditorConstraint(prop:String, val:Object) {
+		public function ElementProperty(prop:String, val:Object) {
 			_property = prop;
 			_value = val;
 		}
