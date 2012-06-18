@@ -13,6 +13,7 @@ package editor
 	import editor.utils.FileSerializer;
 	import editor.utils.LogUtil;
 	import editor.utils.StringUtil;
+	import editor.utils.keyboard.KeyBoardMgr;
 	import editor.view.IPopup;
 	import editor.view.component.CustomMenuBar;
 	import editor.view.component.dialog.SetWoringDirDlg;
@@ -77,6 +78,7 @@ package editor
 		}
 		
 		override protected function app_creationCompleteHandler(event:FlexEvent):void {
+			KeyBoardMgr.initialize(this);
 //			this.stage.nativeWindow.menu = createMenuBar();
 			createMenuBar(menuBarXml);
 			mainWnd = new MainWindow();
@@ -139,6 +141,7 @@ package editor
 			working_dir = dir;
 			proj_dir = replaceWorkingDir(getGlobalConfig(NameDef.CFG_PROJ_DIR) as String);
 			resLibraryWnd.configFile = getGlobalConfig(NameDef.CFG_RES_LIBRARY) as String;
+			KeyBoardMgr.focusTarget = mainWnd;
 		}
 		
 		public function getGlobalConfig(key:String):Object {

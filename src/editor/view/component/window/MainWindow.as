@@ -5,6 +5,8 @@ package editor.view.component.window
 	import editor.constant.NameDef;
 	import editor.event.DataEvent;
 	import editor.utils.LogUtil;
+	import editor.utils.keyboard.KeyBoardMgr;
+	import editor.utils.keyboard.KeyShortcut;
 	import editor.view.component.Toolbar;
 	import editor.view.component.ToolbarButton;
 	import editor.view.component.canvas.MainCanvas;
@@ -16,6 +18,7 @@ package editor.view.component.window
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
+	import flash.ui.Keyboard;
 	
 	import mx.containers.Canvas;
 	import mx.containers.DividedBox;
@@ -84,6 +87,17 @@ package editor.view.component.window
 			hbox.addElement(dividedBox);
 			
 			this.addElement(hbox);
+			
+			var keyShortcuts:Array = [];
+			keyShortcuts.push(new KeyShortcut({"keyCode":Keyboard.S, "handler":mockToolbarbtnClick, "params":NameDef.TBTN_SELECT}));
+			keyShortcuts.push(new KeyShortcut({"keyCode":Keyboard.M, "handler":mockToolbarbtnClick, "params":NameDef.TBTN_MOVE}));
+			keyShortcuts.push(new KeyShortcut({"keyCode":Keyboard.T, "handler":mockToolbarbtnClick, "params":NameDef.TBTN_TEST}));
+			KeyBoardMgr.registerKeyShortcuts(keyShortcuts, this);
+		}
+		
+		private function mockToolbarbtnClick(btnName:String):void {
+			var btn:ToolbarButton = this.toolbar.getBtnByName(btnName);
+			btn.dispatchEvent(new MouseEvent(MouseEvent.CLICK));
 		}
 		
 		private function toolbarBtnClickHandler(evt:DataEvent):void {

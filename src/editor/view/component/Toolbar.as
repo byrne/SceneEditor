@@ -56,6 +56,18 @@ package editor.view.component
 			}
 		}
 		
+		public function getBtnByName(btnName:String):ToolbarButton {
+			var btn:ToolbarButton;
+			var childNum:int = iconsDisplay.numChildren;
+			for(var i:int=0; i<childNum; i++) {
+				btn = iconsDisplay.getChildAt(i) as ToolbarButton;
+				if(btn && btn.id == btnName) {
+					return btn;
+				}
+			}
+			return null;
+		}
+		
 //		public function addIcon(icon:ToolbarButton):void {
 //			iconsDisplay.addElement(icon);
 //		}

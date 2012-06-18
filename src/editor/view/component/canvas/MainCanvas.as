@@ -4,11 +4,13 @@ package editor.view.component.canvas
 	import editor.constant.ScreenDef;
 	import editor.event.DataEvent;
 	import editor.utils.LogUtil;
+	import editor.utils.keyboard.KeyBoardMgr;
 	import editor.view.scene.EntityBaseView;
 	
 	import flash.events.Event;
 	import flash.events.MouseEvent;
 	import flash.geom.Point;
+	import flash.ui.Keyboard;
 	
 	import mx.containers.Canvas;
 	import mx.managers.DragManager;
@@ -31,8 +33,18 @@ package editor.view.component.canvas
 				entitySelectedStatusChange(evt.data as EntityBaseView, true);				
 			});
 			this.addEventListener(EventDef.ENTITY_SELECT_OFF, function(evt:DataEvent):void {
-				entitySelectedStatusChange(evt.data as EntityBaseView, true);				
+				entitySelectedStatusChange(evt.data as EntityBaseView, false);				
 			});
+			this.addEventListener(MouseEvent.MOUSE_DOWN, mouseDownHandler);
+		}
+		
+		protected function mouseDownHandler(evt:MouseEvent):void {
+			var enti:EntityBaseView;
+			while(_selectedEntities.length > 0) {
+				enti = _selectedEntities[0] as EntityBaseView;
+				enti.selected = false;
+			}
+			_selectedEntities = [];
 		}
 		
 		protected function entitySelectedStatusChange(enti:EntityBaseView, val):void {
@@ -49,6 +61,14 @@ package editor.view.component.canvas
 		private var _dragStartPos:Point;
 		
 		public function startEntitiesDrag(mouseTarget:EntityBaseView):void {
+			var enti:EntityBaseView;
+			if(!KeyBoardMgr.isKeyDown(Keyboard.CONTROL) && !mouseTarget.selected) {
+				for(var i:int=_selectedEntities.length-1; i>=0; i--) {
+					enti = _selectedEntities[i] as EntityBaseView;
+					if(enti != mouseTarget)
+						enti.selected = false;
+				}
+			}
 			if(_dragTarget != null) {
 				LogUtil.warn("MainCanvas already has drag target, this operation will cancel");
 				return;
@@ -56,7 +76,7 @@ package editor.view.component.canvas
 			_dragTarget = mouseTarget;
 			_dragStartPos = _dragTarget.getScenePos();
 			_dragTarget.addEventListener(MouseEvent.MOUSE_MOVE, dragAndMoveHandler);
-			for each(var enti:EntityBaseView in _selectedEntities) {
+			for each(enti in _selectedEntities) {
 				if(enti != _dragTarget)
 					enti.beginDrag();
 			}
@@ -83,7 +103,11 @@ package editor.view.component.canvas
 			LogUtil.debug("stopEntitiesDrag "+_selectedEntities.length);
 			for each(var enti:EntityBaseView in _selectedEntities) {
 				enti.endDrag();
+				if(enti == _dragTarget)
+					enti.stopDrag();
 			}
+			_dragStartPos = null;
+			_dragTarget = null;
 		}
 	}
 }
