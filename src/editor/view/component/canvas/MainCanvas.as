@@ -1,9 +1,11 @@
 package editor.view.component.canvas
 {
+	import editor.EditorGlobal;
 	import editor.constant.EventDef;
 	import editor.constant.ScreenDef;
 	import editor.event.DataEvent;
 	import editor.utils.LogUtil;
+	import editor.utils.StringUtil;
 	import editor.utils.keyboard.KeyBoardMgr;
 	import editor.view.scene.EntityBaseView;
 	
@@ -36,6 +38,7 @@ package editor.view.component.canvas
 				entitySelectedStatusChange(evt.data as EntityBaseView, false);				
 			});
 			this.addEventListener(MouseEvent.MOUSE_DOWN, mouseDownHandler);
+			this.addEventListener(MouseEvent.MOUSE_MOVE, mouseMoveHandler);
 		}
 		
 		protected function mouseDownHandler(evt:MouseEvent):void {
@@ -45,6 +48,11 @@ package editor.view.component.canvas
 				enti.selected = false;
 			}
 			_selectedEntities = [];
+		}
+		
+		protected function mouseMoveHandler(evt:MouseEvent):void {
+			var p:Point = this.globalToLocal(new Point(evt.stageX, evt.stageY));
+			EditorGlobal.APP.cursorMessage.text = StringUtil.substitute("{0}:{1}", int(p.x - axisXbase), int(p.y - axisYbase));
 		}
 		
 		protected function entitySelectedStatusChange(enti:EntityBaseView, val):void {

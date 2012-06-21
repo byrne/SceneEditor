@@ -7,6 +7,7 @@ package editor.view.component.window
 	import editor.utils.LogUtil;
 	import editor.utils.keyboard.KeyBoardMgr;
 	import editor.utils.keyboard.KeyShortcut;
+	import editor.view.component.widget.WgtPanel;
 	import editor.view.component.Toolbar;
 	import editor.view.component.ToolbarButton;
 	import editor.view.component.canvas.MainCanvas;
@@ -19,6 +20,9 @@ package editor.view.component.window
 	import flash.events.Event;
 	import flash.events.MouseEvent;
 	import flash.ui.Keyboard;
+	
+	import flexlib.containers.SuperTabNavigator;
+	import flexlib.controls.SuperTabBar;
 	
 	import mx.containers.Canvas;
 	import mx.containers.DividedBox;
@@ -69,10 +73,20 @@ package editor.view.component.window
 			dividedBox.percentWidth = 100;
 			dividedBox.percentHeight = 100;
 			
+			var vbox:DividedBox = new DividedBox();
+			vbox.direction = "vertical";
+			vbox.percentWidth = 85;
+			vbox.percentHeight = 100;
+			
 			sceneCanvas = new MainCanvas();
-			sceneCanvas.percentWidth = 85;
-			sceneCanvas.percentHeight = 100;
-			dividedBox.addElement(sceneCanvas);
+			sceneCanvas.percentWidth = 100;
+			sceneCanvas.percentHeight = 80;
+			vbox.addElement(sceneCanvas);
+			var parameterPanel:WgtPanel = new WgtPanel();
+			parameterPanel.percentWidth = 100;
+			parameterPanel.percentHeight = 20;
+			vbox.addElement(parameterPanel);
+			dividedBox.addElement(vbox);
 			
 			tabMenu = new TabNavigator();
 			tabMenu.percentWidth = 15;

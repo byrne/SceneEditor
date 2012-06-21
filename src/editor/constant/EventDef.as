@@ -15,7 +15,11 @@ package editor.constant
 		public static const TOOLBAR_BUTTON_CLICK:String = "evt_toolbar_button_click";
 		
 		public static const ENTITY_SELECT_ON:String = "evt_entity_select_on";
-		
 		public static const ENTITY_SELECT_OFF:String = "evt_entity_select_off";
+		
+		public static const LAYER_ITEM_SELECT_ON:String = "evt_layer_item_select_on";
+		public static const LAYER_ITEM_DELETE:String = "evt_layer_item_delete";
+		public static const LAYER_ITEM_INVISIBLE_CLICK:String = "evt_layer_item_invisible_click";
+		public static const LAYER_ITEM_LOCK_CLICK:String = "evt_layer_item_lock_click";
 	}
 }

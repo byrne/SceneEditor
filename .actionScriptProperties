@@ -13,6 +13,7 @@
       <libraryPathEntry kind="1" linkType="1" path="libs"/>
     </libraryPath>
     <sourceAttachmentPath>
+      <sourceAttachmentPathEntry kind="3" linkType="1" path="C:/workspace/scene-editor/libs/flexlib.swc" sourcepath="libsrc/flexlib/src" useDefaultLinkType="false"/>
       <sourceAttachmentPathEntry kind="3" linkType="1" path="C:/workspace/scene-editor/libs/PureMVC_AS3_2_0_4.swc" sourcepath="C:/Tool/PureMVC_AS3_2_0_4/src" useDefaultLinkType="false"/>
       <sourceAttachmentPathEntry kind="3" linkType="1" path="C:/workspace/scene-editor/libs/Utility_AS3_MultiCore_AIR_DesktopCitizen_1_3.swc" sourcepath="C:/Tool/DesktopCitizen_1_3/src-multicore" useDefaultLinkType="false"/>
       <sourceAttachmentPathEntry kind="3" linkType="1" path="C:/workspace/scene-editor/libs/Utility_AS3_MultiCore_AIR_XMLDatabase_1_2.swc" sourcepath="C:/Tool/XMLDatabase_1_2/src-multicore" useDefaultLinkType="false"/>

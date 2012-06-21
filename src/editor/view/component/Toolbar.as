@@ -28,14 +28,6 @@ package editor.view.component
 			iconsDo(function(btn:ToolbarButton):void {
 				btn.addEventListener(MouseEvent.CLICK, btnClickHandler);
 			});
-//			var btn:ToolbarButton;
-//			var childNum:int = iconsDisplay.numChildren;
-//			for(var i:int=0; i<childNum; i++) {
-//				btn = iconsDisplay.getChildAt(i) as ToolbarButton;
-//				if(btn) {
-//					btn.addEventListener(MouseEvent.CLICK, btnClickHandler);
-//				}
-//			}
 		}
 		
 		private function btnClickHandler(evt:MouseEvent):void {
@@ -67,10 +59,5 @@ package editor.view.component
 			}
 			return null;
 		}
-		
-//		public function addIcon(icon:ToolbarButton):void {
-//			iconsDisplay.addElement(icon);
-//		}
-		
 	}
 }

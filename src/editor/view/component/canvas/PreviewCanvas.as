@@ -17,8 +17,8 @@ package editor.view.component.canvas
 	
 	public class PreviewCanvas extends UIComponent
 	{
-		private var axisXbase:int;
-		private var axisYbase:int;
+		protected var axisXbase:int;
+		protected var axisYbase:int;
 		private var xBase:int;
 		private var yBase:int;
 		

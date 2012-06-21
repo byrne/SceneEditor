@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:SparkSkin xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		xmlns:mx="library://ns.adobe.com/flex/mx">
+	<!-- host component -->
+	<fx:Metadata>
+		[HostComponent("editor.view.component.LayerItem")]
+	</fx:Metadata>
+	
+	<!-- states -->
+	<s:states>
+		<s:State name="normal" />
+		<s:State name="invisible" />
+		<s:State name="lock" />
+		<s:State name="selected" />
+		<s:State name="invisible_lock" />
+		<s:State name="invisible_selected" />
+		<s:State name="lock_selected" />
+		<s:State name="invisible_lock_selected" />
+	</s:states>
+	
+	<s:Rect id="background" width="100%" height="100%">
+		<s:fill>
+			<s:SolidColor color="0xffffff" 
+						  color.invisible_lock_selected="0x4facd7"
+						  color.selected="0x4facd7"
+						  color.invisible_selected="0x4facd7"
+						  color.lock_selected="0x4facd7"
+			/>
+		</s:fill>
+	</s:Rect>
+	
+	<s:TextInput id="layerNameLabel" width="200" height="24" editable="false" borderVisible="false"/>
+	
+	<s:Image id="btnSelected" source="@Embed('pen.png')" x="200" y="4" visible="false"
+			 visible.selected="true"
+			 visible.invisible_selected="true"/>
+	<s:Image id="btnSelectedLocked" source="@Embed('pen_disable.png')" x="200" y="4" visible="false"
+			 visible.lock_selected="true"
+			 visible.invisible_lock_selected="true"/>
+	
+	<s:Image id="btnInvisible" source="@Embed('cross.png')" x="300" y="4" visible="false" 
+			 visible.invisible="true" 
+			 visible.invisible_lock="true" 
+			 visible.invisible_lock_selected="true" 
+			 visible.invisible_selected="true"/>
+	<s:Image id="btnInvisibleSelect" source="@Embed('dot_white.png')" x="300" y="4" visible="false" visible.selected="true" visible.lock_selected="true"/>
+	<s:Image id="btnInvisibleUnselect" source="@Embed('dot_black.png')" x="300" y="4" visible="false" visible.normal="true" visible.lock="true"/>
+	
+	<s:Image id="btnLock" source="@Embed('lock.png')" x="400" y="4" visible="false"
+			 visible.lock="true"
+			 visible.invisible_lock_selected="true"
+			 visible.invisible_lock="true"
+			 visible.lock_selected="true"/>
+	<s:Image id="btnLockSelect" source="@Embed('dot_white.png')" x="400" y="4" visible="false" visible.selected="true" visible.invisible_selected="true"/>
+	<s:Image id="btnLockUnselect" source="@Embed('dot_black.png')" x="400" y="4" visible="false" visible.normal="true" visible.invisible="true"/>
+	
+	<s:Image id="btnDelete" source="@Embed('delete.png')" right="20" y="4"/>
+	<s:Rect id="endline" width="100%" height="1" y="23">
+		<s:fill>
+			<s:SolidColor color="0x888888"/>
+		</s:fill>
+	</s:Rect>
+</s:SparkSkin>

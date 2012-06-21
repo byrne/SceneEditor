@@ -96,7 +96,6 @@ package editor
 			}
 			
 			statusMessage.text = "ABCDEFG";
-			cursorMessage.text = "120,338";
 			
 //			dataTypeTest();
 			super.app_creationCompleteHandler(event);
