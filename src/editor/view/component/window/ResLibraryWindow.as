@@ -8,6 +8,7 @@ package editor.view.component.window
 	import editor.utils.CommonUtil;
 	import editor.utils.FileSerializer;
 	import editor.utils.LogUtil;
+	import editor.utils.swf.SWF;
 	import editor.view.component.canvas.PreviewCanvas;
 	import editor.view.component.canvas.ResPreviewCanvas;
 	
@@ -92,7 +93,7 @@ package editor.view.component.window
 				var symbol:String = selectXML.@["label"];
 				LogUtil.debug("select {0} {1}", swfFile, symbol);
 				ResMgr.getSwfSymbolByName(swfFile, symbol, function(cls:Class):void {
-					var previewItem:DisplayObject = new cls as DisplayObject;
+					var previewItem:DisplayObject = SWF.buildSymbolInstance(cls);
 					refreshPreview(previewItem);
 				});
 			}

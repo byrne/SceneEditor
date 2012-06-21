@@ -1,7 +1,11 @@
 package editor.utils.swf
 {	
 	import editor.utils.DictionaryUtil;
+	import editor.utils.LogUtil;
 	
+	import flash.display.Bitmap;
+	import flash.display.BitmapData;
+	import flash.display.DisplayObject;
 	import flash.display.Loader;
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
@@ -95,7 +99,22 @@ package editor.utils.swf
 		
 		public function getClassByName(clsName:String):Class {
 			var cls:Class = _symbolClassNames[clsName] as Class;
+			if(cls == null) {
+				LogUtil.warn("Class not found symbol class: "+clsName);
+			}
 			return cls;
+		}
+		
+		public static function buildSymbolInstance(itemClass:Class):DisplayObject {
+			var item:DisplayObject;
+			try {
+				item = new itemClass();
+			} catch(e:Error) {
+				var bmd:BitmapData = new itemClass(2048, 2048);
+				item = new Bitmap();
+				(item as Bitmap).bitmapData = bmd;
+			}
+			return item;
 		}
 		
 		private function readSwfHead():void {

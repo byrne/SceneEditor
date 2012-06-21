@@ -21,8 +21,10 @@ package editor.mgr
 		
 		public static function getSwfSymbolByName(swfFile:String, symbol:String, successHandler:Function, errorHandler:Function=null) {
 			var ret:* = fetchFromCache(swfFile, symbol);
-			if(ret != null)
+			if(ret != null) {
 				successHandler.call(null, ret as Class);
+				return;
+			}
 			loadSWFFile(swfFile, function():void {
 				ret = fetchFromCache(swfFile, symbol);
 				successHandler.call(null, ret as Class);
@@ -31,8 +33,10 @@ package editor.mgr
 		
 		public static function getSwfSymbols(swfFile:String, successHandler:Function, errorHandler:Function=null) {
 			var ret:* = fetchFromCache(swfFile);
-			if(ret != null)
+			if(ret != null) {
 				successHandler.call(null, ret as Array);
+				return;
+			}
 			loadSWFFile(swfFile, function():void {
 				ret = fetchFromCache(swfFile);
 				successHandler.call(null, ret as Array);

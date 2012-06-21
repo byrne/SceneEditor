@@ -35,6 +35,7 @@
 			private var swf:SWF;
 			
 			private function app_invokeHandler(evt:InvokeEvent):void {
+//				return;
 				var args:Array = evt.arguments;
 				if(args.length <= 1) {
 					LogUtil.error("usage: SwfReader configFile projDir");
@@ -129,13 +130,9 @@
 			}
 			
 			private function _selectItem(name:String):void {
-				var itemClass:Class = getClass(name);
-				if (itemClass == null) {
-					Alert.show("Class not found: "+name);					
-				} else {
-					var item:DisplayObject = new itemClass();
-					canvas.show(item);
-				}
+				var itemClass:Class = swf.getClassByName(name);
+				var item:DisplayObject = SWF.buildSymbolInstance(itemClass);
+				canvas.show(item);
 			}
 			private function itemClickHandler(evt:ItemClickEvent):void {				
 				_selectItem(String(evt.item));

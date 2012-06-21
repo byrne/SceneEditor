@@ -33,10 +33,10 @@
 	<s:TextInput id="layerNameLabel" width="200" height="24" editable="false" borderVisible="false"/>
 	
 	<s:Image id="btnSelected" source="@Embed('pen.png')" x="200" y="4" visible="false"
-			 visible.selected="true"
-			 visible.invisible_selected="true"/>
+			 visible.selected="true"/>
 	<s:Image id="btnSelectedLocked" source="@Embed('pen_disable.png')" x="200" y="4" visible="false"
 			 visible.lock_selected="true"
+			 visible.invisible_selected="true"
 			 visible.invisible_lock_selected="true"/>
 	
 	<s:Image id="btnInvisible" source="@Embed('cross.png')" x="300" y="4" visible="false" 
