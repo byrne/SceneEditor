@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<root>
+	<editor name="NPCTypeSelector" component="ItemSelector">
+		<property name="dataProvider">
+			<array>
+				<string>路人</string>
+				<string>守卫</string>
+				<string>向导</string>
+			</array>
+		</property>
+	</editor>
+	<editor name="SimpleNPCEditor" component="Panel">
+		<property name="title">
+			<string>NPC编辑器</string>
+		</property>
+		<child component="TabNavigator">
+			<child component="AccordionContent">
+				<property name="label">
+					<string>这些是什么</string>
+				</property>
+				<property name="percentageWidth">
+					<number>100</number>
+				</property>
+				<property name="percentageHeight">
+					<number>100</number>
+				</property>
+				<child component="Form">
+					<child component="SingleLineText" label="名字" property="name" />
+					<child component="SingleLineText" label="素材文件" property="resource" />
+					<child component="NumericStepper" label="ID" property="id" />
+					<child component="NPCTypeSelector" label="类型" property="type" />
+				</child>
+			</child>
+			<child component="AccordionContent">
+				<property name="percentageWidth">
+					<number>100</number>
+				</property>
+				<property name="label">
+					<string>可选项</string>
+				</property>
+				<child component="VLayout">
+					<child component="CheckBox" label="可见" property="visible" />
+					<child component="SingleLineText" label="默认语言" property="tip_msg" />
+					<child component="SingleLineText" label="对话内容" property="dialog" />
+				</child>
+			</child>
+		</child>
+	</editor>
+</root>

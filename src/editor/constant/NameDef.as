@@ -2,6 +2,9 @@ package editor.constant
 {
 	public class NameDef
 	{
+		// file suffix
+		public static const FILE_SUFFIX:String = ".sdata";
+		
 		// panels
 		public static const WND_RES_LIBRARY:String = "素材库";
 		
@@ -9,6 +12,9 @@ package editor.constant
 		public static const CFG_VERSION:String = "version";
 		public static const CFG_PROJ_DIR:String = "proj_dir";
 		public static const CFG_RES_LIBRARY:String = "res_library_config";
+		public static const CFG_PROJ_VIEW_STRUCTURE:String = "proj_view_structure";
+		public static const CFG_PROJ_TEMPLATES:String = "proj_templates";
+		public static const CFG_PROJ_EDITORS:String = "proj_editors";
 		public static const CFG_SAMPLE_DATA:String = "sample_data";
 		public static const CFG_SAMPLE_TEMPLATE:String = "sample_templates";
 		

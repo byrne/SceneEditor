@@ -15,6 +15,7 @@ package editor
 	import editor.utils.FileSerializer;
 	import editor.utils.LogUtil;
 	import editor.utils.StringUtil;
+	import editor.utils.XMLSerializer;
 	import editor.utils.keyboard.KeyBoardMgr;
 	import editor.view.IPopup;
 	import editor.view.component.CustomMenuBar;
@@ -95,7 +96,7 @@ package editor
 				switchWorkspace(GlobalStorage.getInstance().working_dir);
 			}
 			
-			statusMessage.text = "ABCDEFG";
+			statusMessage.text = "";
 			
 //			dataTypeTest();
 			super.app_creationCompleteHandler(event);
@@ -130,10 +131,21 @@ package editor
 			if(_global_config == null) {
 				return;	
 			}
-			working_dir = dir;
-			proj_dir = replaceWorkingDir(getGlobalConfig(NameDef.CFG_PROJ_DIR) as String);
-			resLibraryWnd.configFile = getGlobalConfig(NameDef.CFG_RES_LIBRARY) as String;
-			KeyBoardMgr.focusTarget = mainWnd;
+			if(working_dir != dir) {
+				// first close and destroy current workspace
+				resLibraryWnd.onClose();
+				mainWnd.onClose();
+				
+				// rebuild view
+				working_dir = dir;
+				proj_dir = replaceWorkingDir(getGlobalConfig(NameDef.CFG_PROJ_DIR) as String);
+				resLibraryWnd.configFile = getGlobalConfig(NameDef.CFG_RES_LIBRARY) as String;
+				
+//				var viewStruct:XML = XML(FileSerializer.readFromFile(getGlobalConfig(NameDef.CFG_PROJ_VIEW_STRUCTURE) as String));
+				var viewStruct:Object = XMLSerializer.readObjectFromXMLFile(getGlobalConfig(NameDef.CFG_PROJ_VIEW_STRUCTURE) as String);
+				mainWnd.buildSceneList(viewStruct);
+				KeyBoardMgr.focusTarget = mainWnd;
+			}
 		}
 		
 		public function getGlobalConfig(key:String):Object {
@@ -210,7 +222,7 @@ package editor
 		
 		override protected function initContextMenuData():void {
 			mainWndContextMenu["param"] = resLibraryWnd;
-			contextMenuInfos[this] = {"menuitems":appContextMenuData, "before_handler":appBeforeContextMenuHandler, "onhide":appHideContextMenuHandler};
+			contextMenuInfos[mainWnd] = {"menuitems":appContextMenuData, "before_handler":appBeforeContextMenuHandler, "onhide":appHideContextMenuHandler};
 		}
 		
 		protected function appBeforeContextMenuHandler(event:* = null):void {

@@ -27,6 +27,7 @@ package editor
 		
 		protected function app_creationCompleteHandler(event:FlexEvent):void {
 			initContextMenuFeature();
+//			addEventListener(MouseEvent.CONTEXT_MENU, contextMenuHandler);
 		}
 		
 		protected function app_closeHandler(event:Event):void {

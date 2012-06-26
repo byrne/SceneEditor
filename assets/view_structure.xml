@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<xml_root>
+	<baseDir value="./scene"/>
+	<sceneType name="Street" width="960" height="560">
+		<layer name="bg" type="normal"/>
+		<layer name="physics" type="physics"/>
+	</sceneType>
+	<sceneType name="Page" width="960" height="560">
+		<layer name="bg" type="normal"/>
+	</sceneType>
+</xml_root>

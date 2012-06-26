@@ -162,7 +162,7 @@
 					<s:SolidColor color="0xaaaaaa" alpha="0.5"/>
 				</s:fill>
 			</s:Rect>
-			<s:Label id="cursor" top="2" bottom="2" right="70" verticalAlign="middle" fontSize="12" color="0x585858" maxDisplayedLines="1" />
+			<s:Label id="cursor" top="2" bottom="2" right="65" verticalAlign="middle" fontSize="12" color="0x585858" maxDisplayedLines="1" />
             <!--s:Button label="Click" width="60" height="24" right="100" top="2"/-->
         </s:Group> 
 

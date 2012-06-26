@@ -2,5 +2,8 @@
 	"proj_dir": "{working_dir}/..",
 	"res_library_config": "{working_dir}/res.json",
 	"sample_data": "{working_dir}/sample-data.xml",
-	"sample_templates": "{working_dir}/sample-templates.xml"
+	"sample_templates": "{working_dir}/sample-templates.xml",
+	"proj_view_structure": "{working_dir}/view_structure.xml",
+	"proj_templates": "{working_dir}/templates.xml",
+	"proj_editors": "{working_dir}/editors.xml"
 }

@@ -3,14 +3,17 @@ package editor.view.component.window
 	import editor.EditorGlobal;
 	import editor.constant.EventDef;
 	import editor.constant.NameDef;
+	import editor.datatype.type.DataProperty;
 	import editor.event.DataEvent;
 	import editor.utils.LogUtil;
+	import editor.utils.StringUtil;
 	import editor.utils.keyboard.KeyBoardMgr;
 	import editor.utils.keyboard.KeyShortcut;
-	import editor.view.component.widget.WgtPanel;
+	import editor.view.component.SceneListTree;
 	import editor.view.component.Toolbar;
 	import editor.view.component.ToolbarButton;
 	import editor.view.component.canvas.MainCanvas;
+	import editor.view.component.widget.WgtPanel;
 	import editor.view.mxml.skin.ToolbarSkin;
 	import editor.view.scene.EntityBaseView;
 	
@@ -19,19 +22,23 @@ package editor.view.component.window
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
+	import flash.filesystem.File;
 	import flash.ui.Keyboard;
 	
 	import flexlib.containers.SuperTabNavigator;
 	import flexlib.controls.SuperTabBar;
 	
+	import mx.collections.ArrayCollection;
 	import mx.containers.Canvas;
 	import mx.containers.DividedBox;
 	import mx.containers.HBox;
 	import mx.containers.TabNavigator;
 	import mx.containers.VBox;
 	import mx.controls.MenuBar;
+	import mx.controls.Tree;
 	import mx.events.DragEvent;
 	import mx.events.FlexEvent;
+	import mx.utils.ObjectProxy;
 	
 	import spark.components.NavigatorContent;
 	
@@ -42,6 +49,7 @@ package editor.view.component.window
 		private var tabMenu:TabNavigator;
 		
 		private var tabSceneList:NavigatorContent;
+		private var sceneListTree:SceneListTree;
 		private var tabSceneEntities:NavigatorContent;
 		
 		private var toolbar:Toolbar;
@@ -51,13 +59,11 @@ package editor.view.component.window
 		public function MainWindow()
 		{
 			super();
-			this.addEventListener(FlexEvent.CREATION_COMPLETE, createCompleteHandler);
+//			this.addEventListener(FlexEvent.CREATION_COMPLETE, createCompleteHandler);
 			this.addEventListener(Event.ADDED_TO_STAGE, addToStageHandler);
 			this.percentWidth = 100;
 			this.percentHeight = 100;
-		}
-		
-		private function createCompleteHandler(evt:Event):void {
+			
 			var hbox:HBox = new HBox();
 			hbox.percentWidth = 100;
 			hbox.percentHeight = 100;
@@ -94,6 +100,9 @@ package editor.view.component.window
 			dividedBox.addElement(tabMenu);
 			tabSceneList = new NavigatorContent();
 			tabSceneList.label = "场景列表";
+			sceneListTree = new SceneListTree();
+			tabSceneList.addElement(sceneListTree);
+			
 			tabMenu.addItem(tabSceneList);
 			tabSceneEntities = new NavigatorContent();
 			tabSceneEntities.label = "场景物件";
@@ -149,6 +158,14 @@ package editor.view.component.window
 		
 		protected function addToStageHandler(evt:Event):void {
 
+		}
+		
+		public function onClose():void {
+			sceneListTree.clearView();
+		}
+		
+		public function buildSceneList(data:Object):void {
+			sceneListTree.buildView(data);
 		}
 	}
 }

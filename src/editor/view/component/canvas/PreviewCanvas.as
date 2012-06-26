@@ -73,7 +73,6 @@ package editor.view.component.canvas
 //		}
 		
 		override protected function updateDisplayList(unscaledWidth:Number, unscaledHeight:Number):void {
-			LogUtil.debug("updateDisplayList");
 			xBase = x;
 			yBase = y;
 			this.updateBackground();
