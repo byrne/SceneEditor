@@ -24,6 +24,7 @@ package editor
 	import editor.view.component.window.ResLibraryWindow;
 	import editor.view.component.window.TitleWindowBase;
 	import editor.view.mxml.skin.CustomAppSkin;
+	import editor.vo.ContextMenuData;
 	
 	import flash.display.DisplayObject;
 	import flash.events.Event;
@@ -97,8 +98,9 @@ package editor
 			}
 			
 			statusMessage.text = "";
+			prepareContextMenu();
 			
-//			dataTypeTest();
+			dataTypeTest();
 			super.app_creationCompleteHandler(event);
 		}
 		
@@ -214,19 +216,21 @@ package editor
 		private function quitHandler(evt:Event):void {
 		}
 		
-		private var mainWndContextMenu:Object = {"type":"check", "label":NameDef.WND_RES_LIBRARY, "toggled":true, "handler":toggleWindowPopup}; 
-		private var appContextMenuData:Array = [
-			mainWndContextMenu,
-			{"type":"separator"}
+		private var resLibraryMenuItem:Object = {"type":"check", "label":NameDef.WND_RES_LIBRARY, "toggled":true, "handler":toggleWindowPopup}; 
+		private function prepareContextMenu():void {
+			resLibraryMenuItem["param"] = [resLibraryWnd];
+			var menuData:ContextMenuData = new ContextMenuData();
+			menuData.menuItems = mainWndMenuData;
+			menuData.beforeHandler = appBeforeContextMenuHandler;
+			menuData.hideHandler = appHideContextMenuHandler;
+			this.registerContextMenu(mainWnd, menuData);
+		}
+		private var mainWndMenuData:Array = [
+			resLibraryMenuItem
 		];
 		
-		override protected function initContextMenuData():void {
-			mainWndContextMenu["param"] = resLibraryWnd;
-			contextMenuInfos[mainWnd] = {"menuitems":appContextMenuData, "before_handler":appBeforeContextMenuHandler, "onhide":appHideContextMenuHandler};
-		}
-		
 		protected function appBeforeContextMenuHandler(event:* = null):void {
-			mainWndContextMenu["toggled"] = resLibraryWnd.isPopup;
+			resLibraryMenuItem["toggled"] = resLibraryWnd.isPopup;
 		}
 		
 		protected function appHideContextMenuHandler():void {

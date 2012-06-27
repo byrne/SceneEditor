@@ -22,6 +22,6 @@ package editor.constant
 		public static const LAYER_ITEM_INVISIBLE_CLICK:String = "evt_layer_item_invisible_click";
 		public static const LAYER_ITEM_LOCK_CLICK:String = "evt_layer_item_lock_click";
 		
-		public static const TREE_ITEM_DOUBLE_CLICK:String = "evt_tree_item_double_click";
+//		public static const TREE_ITEM_DOUBLE_CLICK:String = "evt_tree_item_double_click";
 	}
 }

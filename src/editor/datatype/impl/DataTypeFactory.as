@@ -24,7 +24,7 @@ package editor.datatype.impl
 			return _instance;
 		}
 		
-		private var _dataContext:DataContext;
+		private var _dataContext:DataContext = new DataContext();
 		public function get dataContext():DataContext { return _dataContext; }
 		
 		public function DataTypeFactory() {
@@ -42,7 +42,6 @@ package editor.datatype.impl
 		}
 		
 		public function initDB(typeDef:XML):void {
-			_dataContext = new DataContext();
 			XMLTypeParser.importToContext(typeDef, _dataContext);
 		}
 	}

@@ -6,6 +6,7 @@ package editor.view.component
 	import editor.event.DataEvent;
 	import editor.utils.LogUtil;
 	import editor.utils.StringUtil;
+	import editor.vo.ContextMenuData;
 	
 	import flash.filesystem.File;
 	
@@ -22,6 +23,7 @@ package editor.view.component
 		public function SceneListTree()
 		{
 			super();
+			this.contextMenuEnabled = true;
 		}
 		
 		override public function clearView():void {
@@ -45,7 +47,7 @@ package editor.view.component
 			this.dataProvider = dataProvider;
 		}
 		
-		override protected function itemDoubleClickHandler(evt:DataEvent):void {
+		override protected function itemDoubleClickHandler(evt:ListEvent):void {
 			var selectItem:XML = this.selectedItem as XML;
 			if(selectItem.@leaf == true) {
 				var fileName:String = StringUtil.substitute("{0}/{1}/{2}/{3}{4}", EditorGlobal.APP.working_dir
@@ -75,6 +77,24 @@ package editor.view.component
 				xml.@sceneType = parentXML.@label;
 				parentXML.appendChild(xml);
 			}
+		}
+		
+		override public function get contextMenuItems():Array {
+			var ret:Array = [];
+			var selectItem:XML = this.selectedItem as XML;
+			if(selectItem) {
+				if(selectItem.@leaf == true) {
+					ret = ret.concat([{"label":"克隆实例", "enabled":true, "handler":ctmNewInstance}
+								,{"label":"删除实例", "enabled":true, "handler":ctmNewInstance}]);
+				} else {
+					ret = ret.concat([{"label":"新建实例", "enabled":true, "handler":ctmNewInstance}]);
+				}
+			}
+			return ret;
+		}
+		
+		private function ctmNewInstance():void {
+			
 		}
 	}
 }

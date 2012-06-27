@@ -1,6 +1,7 @@
 package editor.view.scene
 {
 	import editor.constant.EventDef;
+	import editor.datatype.data.ComposedData;
 	import editor.event.DataEvent;
 	import editor.mgr.ResMgr;
 	import editor.view.component.canvas.MainCanvas;

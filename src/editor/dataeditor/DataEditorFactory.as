@@ -16,7 +16,7 @@ package editor.dataeditor
 			return _instance;
 		}
 		
-		private var _editors:Dictionary;
+		private var _editors:Dictionary = new Dictionary();
 		
 		public function DataEditorFactory() {
 			if(_instance)
@@ -31,7 +31,6 @@ package editor.dataeditor
 		}
 		
 		public function initTable(src:Object, ctx:DataContext):void {
-			_editors = new Dictionary();
 			XMLEditorParser.importFromXML(src as XML, ctx, _editors);
 		}
 		
