@@ -4,6 +4,8 @@ package editor.view.component.widget
 	import editor.event.DataEvent;
 	import editor.view.component.LayerItem;
 	import editor.view.mxml.skin.WgtLayersSkin;
+	import editor.vo.Scene;
+	import editor.vo.SceneLayer;
 	
 	import flash.events.MouseEvent;
 	
@@ -41,6 +43,8 @@ package editor.view.component.widget
 		private var _makeAllLayersInvisible:Boolean = true;
 		private var _makeAllLayersLock:Boolean = true;
 		
+		private var _targetScene:Scene;
+		
 		public function WgtLayers()
 		{
 			super();
@@ -52,6 +56,21 @@ package editor.view.component.widget
 			this.addEventListener(EventDef.LAYER_ITEM_LOCK_CLICK, function(evt:DataEvent):void {
 				_makeAllLayersLock = true;
 			});
+		}
+		
+		public function clearView():void {
+			_targetScene = null;
+			while(_layers.length > 0)
+				deleteLayer(_layers[0] as LayerItem);
+		}
+		
+		public function initLayers(scene:Scene):void {
+			if(_targetScene)
+				clearView();
+			_targetScene = scene;
+			for each(var sceneLayer:SceneLayer in scene.layers) {
+				addLayer(sceneLayer.name);
+			}
 		}
 		
 		protected function createCompleteHandler(evt:FlexEvent):void {

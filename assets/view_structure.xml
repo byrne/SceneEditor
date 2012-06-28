@@ -1,11 +1,10 @@
 <?xml version="1.0"?>
 <xml_root>
-	<baseDir value="./scene"/>
-	<sceneType name="Street" width="960" height="560">
-		<layer name="bg" type="normal"/>
-		<layer name="physics" type="physics"/>
-	</sceneType>
-	<sceneType name="Page" width="960" height="560">
-		<layer name="bg" type="normal"/>
-	</sceneType>
+	<sceneTemplate name="Street" class="SceneTemplate" width="960" height="560" entities="NPC,Actor">
+		<layers name="bg" class="SceneLayer"  type="normal"/>
+		<layers name="physics" class="SceneLayer" type="physics"/>
+	</sceneTemplate>
+	<sceneTemplate name="Page" class="SceneTemplate" width="960" height="560" entities="NPC">
+		<layers name="bg" class="SceneLayer" type="normal"/>
+	</sceneTemplate>
 </xml_root>

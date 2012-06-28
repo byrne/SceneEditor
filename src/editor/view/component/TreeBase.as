@@ -70,7 +70,7 @@ package editor.view.component
 			this.dataProvider = null;
 		}
 		
-		public function buildView(data:Object):void {
+		public function refreshView(data:Object=null):void {
 		}
 		
 		protected function itemClickHandler(evt:ListEvent):void {

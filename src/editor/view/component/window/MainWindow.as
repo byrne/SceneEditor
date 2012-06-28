@@ -7,8 +7,10 @@ package editor.view.component.window
 	import editor.event.DataEvent;
 	import editor.utils.LogUtil;
 	import editor.utils.StringUtil;
+	import editor.utils.XMLSerializer;
 	import editor.utils.keyboard.KeyBoardMgr;
 	import editor.utils.keyboard.KeyShortcut;
+	import editor.view.component.SceneEntitiesTree;
 	import editor.view.component.SceneListTree;
 	import editor.view.component.Toolbar;
 	import editor.view.component.ToolbarButton;
@@ -16,6 +18,8 @@ package editor.view.component.window
 	import editor.view.component.widget.WgtPanel;
 	import editor.view.mxml.skin.ToolbarSkin;
 	import editor.view.scene.EntityBaseView;
+	import editor.vo.Scene;
+	import editor.vo.SceneTemplate;
 	
 	import flash.display.NativeMenu;
 	import flash.display.NativeMenuItem;
@@ -47,14 +51,18 @@ package editor.view.component.window
 		private var sceneCanvas:MainCanvas;
 		
 		private var tabMenu:TabNavigator;
+		private var parameterPanel:WgtPanel;
 		
 		private var tabSceneList:NavigatorContent;
 		private var sceneListTree:SceneListTree;
 		private var tabSceneEntities:NavigatorContent;
+		private var sceneEntitiesTree:SceneEntitiesTree;
 		
 		private var toolbar:Toolbar;
 		
 		private var operateMode:String;
+		
+		public var curScene:Scene;
 		
 		public function MainWindow()
 		{
@@ -88,7 +96,7 @@ package editor.view.component.window
 			sceneCanvas.percentWidth = 100;
 			sceneCanvas.percentHeight = 80;
 			vbox.addElement(sceneCanvas);
-			var parameterPanel:WgtPanel = new WgtPanel();
+			parameterPanel = new WgtPanel();
 			parameterPanel.percentWidth = 100;
 			parameterPanel.percentHeight = 20;
 			vbox.addElement(parameterPanel);
@@ -106,6 +114,8 @@ package editor.view.component.window
 			tabMenu.addItem(tabSceneList);
 			tabSceneEntities = new NavigatorContent();
 			tabSceneEntities.label = "场景物件";
+			sceneEntitiesTree = new SceneEntitiesTree();
+			tabSceneEntities.addElement(sceneEntitiesTree);
 			tabMenu.addItem(tabSceneEntities);
 			hbox.addElement(dividedBox);
 			
@@ -162,10 +172,25 @@ package editor.view.component.window
 		
 		public function onClose():void {
 			sceneListTree.clearView();
+			sceneEntitiesTree.clearView();
+			if(parameterPanel.wgtLayers)
+				parameterPanel.wgtLayers.clearView();
 		}
 		
-		public function buildSceneList(data:Object):void {
-			sceneListTree.buildView(data);
+		public function buildTabNavigateView():void {
+			sceneListTree.refreshView();
+		}
+		
+		public function openScene(st:SceneTemplate, fName:String):void {
+			var sceneData:Object = XMLSerializer.readObjectFromXMLFile(fName, "scene");
+			curScene = new Scene(sceneData);
+			parameterPanel.wgtLayers.initLayers(curScene);
+			sceneEntitiesTree.refreshView();
+			tabNavigateTo(1);
+		}
+		
+		public function tabNavigateTo(index:int):void {
+			tabMenu.selectedIndex = index;
 		}
 	}
 }

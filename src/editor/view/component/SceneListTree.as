@@ -4,11 +4,14 @@ package editor.view.component
 	import editor.constant.EventDef;
 	import editor.constant.NameDef;
 	import editor.event.DataEvent;
+	import editor.mgr.SceneDataMemory;
 	import editor.utils.LogUtil;
 	import editor.utils.StringUtil;
 	import editor.vo.ContextMenuData;
+	import editor.vo.SceneTemplate;
 	
 	import flash.filesystem.File;
+	import flash.utils.Dictionary;
 	
 	import mx.collections.ArrayCollection;
 	import mx.controls.Tree;
@@ -17,7 +20,6 @@ package editor.view.component
 	
 	public class SceneListTree extends TreeBase
 	{
-		private var sceneTypesArr:ArrayCollection;
 		private var filesBaseDir:String;
 		
 		public function SceneListTree()
@@ -26,20 +28,15 @@ package editor.view.component
 			this.contextMenuEnabled = true;
 		}
 		
-		override public function clearView():void {
-			sceneTypesArr = null;
-			super.clearView();
-		}
-		
-		override public function buildView(data:Object):void {
-			sceneTypesArr = data["sceneType"] as ArrayCollection;
-			filesBaseDir = data["baseDir"].value as String;
+		override public function refreshView(data:Object=null):void {
+			clearView();
+			var sceneTemplates:Dictionary = EditorGlobal.DATA_MEMORY.sceneTemplates;
+			filesBaseDir = EditorGlobal.APP.getGlobalConfig(NameDef.CFG_SCENE_FILES_DIR) as String;
 			var dataProvider:XML = <node/>;
-			for each(var d:ObjectProxy in sceneTypesArr) {
+			for each(var st:SceneTemplate in sceneTemplates) {
 				var xml:XML = <node/>;
-				var sceneType:String = d.name;
-				var dir:String = StringUtil.substitute("{0}/{1}/{2}", EditorGlobal.APP.working_dir, filesBaseDir, sceneType);
-				xml.@label = sceneType;
+				var dir:String = StringUtil.substitute("{0}/{1}", filesBaseDir, st.name);
+				xml.@label = st.name;
 				xml.@leaf = false;
 				dataProvider.appendChild(xml);
 				fetachDirectoyFiles(dir, xml);
@@ -50,13 +47,14 @@ package editor.view.component
 		override protected function itemDoubleClickHandler(evt:ListEvent):void {
 			var selectItem:XML = this.selectedItem as XML;
 			if(selectItem.@leaf == true) {
-				var fileName:String = StringUtil.substitute("{0}/{1}/{2}/{3}{4}", EditorGlobal.APP.working_dir
+				var fileName:String = StringUtil.substitute("{0}/{1}/{2}{3}"
 					, filesBaseDir
 					, selectItem.@sceneType
 					, selectItem.@label
 					, NameDef.FILE_SUFFIX);
 				LogUtil.info("open scene {0}", fileName);
 				EditorGlobal.APP.statusMessage.text = fileName;
+				EditorGlobal.MAIN_WND.openScene(EditorGlobal.DATA_MEMORY.getSceneTeamplate(selectItem.@sceneType), fileName);
 			}
 		}
 		

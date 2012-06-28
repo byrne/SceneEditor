@@ -11,5 +11,9 @@ package editor.view.component.widget
 			super();
 			this.setStyle("skinClass", WgtPanelSkin);
 		}
+		
+		public function get wgtLayers():WgtLayers {
+			return this.skin ? this.skin["wgtLayers"] as WgtLayers : null;
+		}
 	}
 }

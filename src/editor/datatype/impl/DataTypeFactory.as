@@ -24,13 +24,12 @@ package editor.datatype.impl
 			return _instance;
 		}
 		
-		private var _dataContext:DataContext = new DataContext();
+		private var _dataContext:DataContext;
 		public function get dataContext():DataContext { return _dataContext; }
 		
 		public function DataTypeFactory() {
 			if(_instance)
 				throw new Error("Singleton Error");
-			setPrimitives();
 		}
 		
 		private function setPrimitives():void {
@@ -42,6 +41,8 @@ package editor.datatype.impl
 		}
 		
 		public function initDB(typeDef:XML):void {
+			_dataContext = new DataContext();
+			setPrimitives();
 			XMLTypeParser.importToContext(typeDef, _dataContext);
 		}
 	}

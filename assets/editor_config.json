@@ -5,5 +5,6 @@
 	"sample_templates": "{working_dir}/sample-templates.xml",
 	"proj_view_structure": "{working_dir}/view_structure.xml",
 	"proj_templates": "{working_dir}/templates.xml",
-	"proj_editors": "{working_dir}/editors.xml"
+	"proj_editors": "{working_dir}/editors.xml",
+	"scene_files_dir": "{working_dir}/scene"
 }

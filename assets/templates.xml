@@ -2,7 +2,7 @@
 <root>
 	<type name="NPC_TYPE" style="basic">
 	</type>
-	<type name="NPC">
+	<type name="NPC" editor="">
 		<inherit type="Actor"/>
 		<property name="type" type="string" />
 		<property name="tip_msg" type="string" />

@@ -11,7 +11,9 @@ package editor
 	import editor.datatype.type.IDataType;
 	import editor.event.DataEvent;
 	import editor.mgr.PopupMgr;
+	import editor.mgr.SceneDataMemory;
 	import editor.storage.GlobalStorage;
+	import editor.utils.CommonUtil;
 	import editor.utils.FileSerializer;
 	import editor.utils.LogUtil;
 	import editor.utils.StringUtil;
@@ -28,6 +30,7 @@ package editor
 	
 	import flash.display.DisplayObject;
 	import flash.events.Event;
+	import flash.utils.Dictionary;
 	
 	import mx.core.FlexGlobals;
 	import mx.core.IFlexDisplayObject;
@@ -43,6 +46,8 @@ package editor
 	
 	public class SceneEditorApp extends WindowedApplicationBase
 	{
+		public var dataMemory:SceneDataMemory;
+		
 		public var working_dir:String;
 		public var proj_dir:String;
 		
@@ -80,6 +85,7 @@ package editor
 		}
 		
 		override protected function app_creationCompleteHandler(event:FlexEvent):void {
+			dataMemory = new SceneDataMemory();
 			KeyBoardMgr.initialize(this);
 //			this.stage.nativeWindow.menu = createMenuBar();
 			createMenuBar(menuBarXml);
@@ -100,7 +106,7 @@ package editor
 			statusMessage.text = "";
 			prepareContextMenu();
 			
-			dataTypeTest();
+//			dataTypeTest();
 			super.app_creationCompleteHandler(event);
 		}
 		
@@ -108,10 +114,10 @@ package editor
 		 * 演示方法，随便删 
 		 */
 		public function dataTypeTest():void {
-			var typeXML:XML = XML(FileSerializer.readFromFile(working_dir+"/sample-templates.xml"));
-			var editorXML:XML = XML(FileSerializer.readFromFile(working_dir+"/sample-editor.xml"));
-			DataTypeFactory.INSTANCE.initDB(typeXML);
-			DataEditorFactory.INSTANCE.initTable(editorXML, DataTypeFactory.INSTANCE.dataContext);
+//			var typeXML:XML = XML(FileSerializer.readFromFile(working_dir+"/sample-templates.xml"));
+//			var editorXML:XML = XML(FileSerializer.readFromFile(working_dir+"/sample-editor.xml"));
+//			DataTypeFactory.INSTANCE.initDB(typeXML);
+//			DataEditorFactory.INSTANCE.initTable(editorXML, DataTypeFactory.INSTANCE.dataContext);
 			var a:IDataType = DataTypeFactory.INSTANCE.dataContext['NPC'];
 			var carl:Object = a.construct();
 			var ed:EditorBase = DataEditorFactory.INSTANCE.getEditor('SimpleNPCEditor');
@@ -133,19 +139,27 @@ package editor
 			if(_global_config == null) {
 				return;	
 			}
+			
 			if(working_dir != dir) {
 				// first close and destroy current workspace
 				resLibraryWnd.onClose();
 				mainWnd.onClose();
 				
-				// rebuild view
+				// directory initialize
 				working_dir = dir;
 				proj_dir = replaceWorkingDir(getGlobalConfig(NameDef.CFG_PROJ_DIR) as String);
-				resLibraryWnd.configFile = getGlobalConfig(NameDef.CFG_RES_LIBRARY) as String;
 				
-//				var viewStruct:XML = XML(FileSerializer.readFromFile(getGlobalConfig(NameDef.CFG_PROJ_VIEW_STRUCTURE) as String));
+				// read templates and editors config
+				var templatesXML:XML = XML(FileSerializer.readFromFile(getGlobalConfig(NameDef.CFG_PROJ_TEMPLATES) as String));
+				var editorsXML:XML = XML(FileSerializer.readFromFile(getGlobalConfig(NameDef.CFG_PROJ_EDITORS) as String));
+				DataTypeFactory.INSTANCE.initDB(templatesXML);
+				DataEditorFactory.INSTANCE.initTable(editorsXML, DataTypeFactory.INSTANCE.dataContext);
 				var viewStruct:Object = XMLSerializer.readObjectFromXMLFile(getGlobalConfig(NameDef.CFG_PROJ_VIEW_STRUCTURE) as String);
-				mainWnd.buildSceneList(viewStruct);
+				EditorGlobal.DATA_MEMORY.initializeSceneTemplates(viewStruct);
+				
+				// build windows view
+				resLibraryWnd.configFile = getGlobalConfig(NameDef.CFG_RES_LIBRARY) as String;
+				mainWnd.buildTabNavigateView();
 				KeyBoardMgr.focusTarget = mainWnd;
 			}
 		}

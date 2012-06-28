@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<scene name="LovelyStreet" type="Page" class="Scene" width="960" height="560">
+	<layers name="bg" class="SceneLayer"  type="normal"/>
+	<entities>
+		<NPC>
+		  <string property="resource">../assets/blackdude.swf</string>
+		  <Actor property="minion">
+		    <string property="name">Chewbacca</string>
+		    <string property="resource">../assets/chewie.swf</string>
+		    <number property="id">-9</number>
+		    <boolean property="visible">false</boolean>
+		  </Actor>
+		  <int property="id">12</int>
+		  <string property="tip_msg">Sup dawg?</string>
+		  <string property="name">Han Solo</string>
+		  <array property="dialog">
+		    <string>Yo ain't know me.</string>
+		    <string>Check this out.</string>
+		  </array>
+		  <boolean property="visible">true</boolean>
+		</NPC>
+		<NPC>
+		  <string property="resource">../assets/blackdude.swf</string>
+		  <Actor property="minion">
+		    <string property="name">Chewbacca</string>
+		    <string property="resource">../assets/chewie.swf</string>
+		    <number property="id">-9</number>
+		    <boolean property="visible">false</boolean>
+		  </Actor>
+		  <int property="id">12</int>
+		  <string property="tip_msg">Sup dawg?</string>
+		  <string property="name">Han Solo</string>
+		  <array property="dialog">
+		    <string>Yo ain't know me.</string>
+		    <string>Check this out.</string>
+		  </array>
+		  <boolean property="visible">true</boolean>
+		</NPC>
+	</entities>
+</scene>

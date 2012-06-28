@@ -6,6 +6,8 @@
 		<![CDATA[
 			override public function set data(value:Object):void {
 				super.data = value;
+				if(treeListData == null)
+					return;
 				if(treeListData.hasChildren) {
 					setStyle("color", 0x222222);
 					setStyle("fontWeight", 'bold');

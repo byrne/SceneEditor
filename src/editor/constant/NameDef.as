@@ -17,6 +17,7 @@ package editor.constant
 		public static const CFG_PROJ_EDITORS:String = "proj_editors";
 		public static const CFG_SAMPLE_DATA:String = "sample_data";
 		public static const CFG_SAMPLE_TEMPLATE:String = "sample_templates";
+		public static const CFG_SCENE_FILES_DIR:String = "scene_files_dir";
 		
 		// storage
 		public static const STORAGE_GLOBAL:String = "editor_storage_global";

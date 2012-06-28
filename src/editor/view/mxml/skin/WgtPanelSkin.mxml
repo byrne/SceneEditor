@@ -21,7 +21,7 @@
 	</fx:Script>
 	<flexlib:SuperTabNavigator id="navigator" width="100%" height="100%" horizontalGap="1" closePolicy="{SuperTab.CLOSE_NEVER}" tabWidth="90">
 		<mx:VBox label="图层" icon="{layers_icon}" width="100%" height="100%">
-			<widget:WgtLayers width="100%" height="100%"/>
+			<widget:WgtLayers id="wgtLayers" width="100%" height="100%"/>
 		</mx:VBox>
 		<mx:VBox label="输出" icon="{output_icon}"/>
 	</flexlib:SuperTabNavigator>

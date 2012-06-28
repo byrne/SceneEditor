@@ -33,22 +33,23 @@ package editor.utils
 			return xml;
 		}
 		
-		public static function writeObjectToXMLFile(object:Object, fname:String):void
+		public static function writeObjectToXMLFile(object:Object, fname:String, rootTag:String="xml_root"):void
 		{
 			var xmlDoc:XMLDocument = new XMLDocument();
 			xmlDoc.xmlDecl = '<?xml version="1.0" encoding="utf-8"?>\n';
 			var encoder:SimpleXMLEncoder = new SimpleXMLEncoder(xmlDoc);
-			encoder.encodeValue(object, new QName(null, "xml_root"), xmlDoc);
+			encoder.encodeValue(object, new QName(null, rootTag), xmlDoc);
 			var xml:XML = new XML(xmlDoc.toString());
 			FileSerializer.writeToFile(xmlDoc.xmlDecl + xml.toString(), fname);
 		}
 		
-		public static function readObjectFromXMLFile(fname:String):Object
+		public static function readObjectFromXMLFile(fname:String, rootTag:String="xml_root"):Object
 		{
 			var data:String = FileSerializer.readFromFile(fname);
 			var xmlDoc:XMLDocument = new XMLDocument(data);
-			var decoder:SimpleXMLDecoder = new SimpleXMLDecoder(true);
-			return CommonUtil.translateObjectProxy(decoder.decodeXML(xmlDoc)["xml_root"]);
+			var decoder:SimpleXMLDecoder = new SimpleXMLDecoder(false);
+			return decoder.decodeXML(xmlDoc)[rootTag];
+//			return CommonUtil.translateObjectProxy(decoder.decodeXML(xmlDoc)["xml_root"]);
 		}
 	}
 }
