@@ -5,13 +5,14 @@ package editor.dataeditor.impl.parser.xml
 	import editor.dataeditor.impl.ElementProperty;
 	import editor.datatype.impl.parser.xml.XMLDataParser;
 	import editor.datatype.type.DataContext;
+	import editor.utils.DictionaryUtil;
+	import editor.utils.StringRep;
 	
 	import flash.utils.Dictionary;
 
 	public class XMLEditorParser
 	{
-		public function XMLEditorParser() {
-		}
+		public static const RESERVED_PROPERTIES:Array = ['component', 'property', 'view_label'];
 		
 		public static function importFromXML(xml:XML, ctx:DataContext, cache:Dictionary):void {
 			var editorBase:EditorBase;
@@ -39,19 +40,33 @@ package editor.dataeditor.impl.parser.xml
 				dataEditor.name = xml.@name;
 				dataEditor.componentClass = cache[xml.@component.toString()];
 			}
-			dataEditor.property = processProperties(xml, ctx);
+			dataEditor.property = DictionaryUtil.merge(dataEditor.property, processPropertiesInAttribute(xml), false);
+			dataEditor.property = DictionaryUtil.merge(dataEditor.property, processProperties(xml, ctx), false);
 			dataEditor.children = processChildren(xml, ctx, cache);
-			if(xml.hasOwnProperty('@label'))
-				dataEditor.label = xml.@label;
+			if(xml.hasOwnProperty('@view_label'))
+				dataEditor.view_label = xml.@view_label;
 			if(xml.hasOwnProperty('@property'))
 				dataEditor.bindingTarget = xml.@property;
 			return dataEditor;
 		}
 		
-		private static function processProperties(editorXml:XML, ctx:DataContext):Vector.<ElementProperty> {
-			var props:Vector.<ElementProperty> = new Vector.<ElementProperty>;
+		private static function processPropertiesInAttribute(editorXml:XML):Dictionary {
+			var props:Dictionary = new Dictionary;
+			var prop_name:String;
+			
+			for each(var att:XML in editorXml.attributes()) {
+				prop_name = att.name().toString();
+				if(RESERVED_PROPERTIES.indexOf(prop_name) == -1)
+					props[prop_name] = new ElementProperty(prop_name, StringRep.read(att));
+			}
+			return props;
+		}
+		
+		private static function processProperties(editorXml:XML, ctx:DataContext):Dictionary {
+			var props:Dictionary = new Dictionary;
 			for each(var p:XML in editorXml.elements('property')) {
-				props.push(onProperty(p, ctx));
+				var elemProp:ElementProperty = onProperty(p, ctx);
+				props[elemProp.property] = elemProp;
 			}
 			return props;
 		}

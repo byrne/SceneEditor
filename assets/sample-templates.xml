@@ -1,7 +1,5 @@
 <?xml version="1.0"?>
 <root>
-	<type name="NPC_TYPE" style="basic">
-	</type>
 	<type name="NPC">
 		<inherit type="Actor"/>
 		<property name="type" type="string" />

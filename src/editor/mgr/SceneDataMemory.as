@@ -11,6 +11,7 @@ package editor.mgr
 	public class SceneDataMemory
 	{
 		private var _entitiesCache:Dictionary = new Dictionary;
+		private var _entityKeyMap:Dictionary = new Dictionary(true);
 		
 		private var _sceneTemplates:Dictionary;
 		
@@ -37,40 +38,55 @@ package editor.mgr
 		}
 		
 		/**
-		 * Get the entity from a specific UID.
-		 * @param uid
-		 * @return 
-		 * 
+		 * Get the entity stored under the given keyword,
+		 * return null if nothing has been stored under this keyword.
 		 */
-		public function getEntity(uid:String):* {
-			var data:* = undefined;
-			
-			if(_entitiesCache.hasOwnProperty(uid) && _entitiesCache[uid] != null) {
-				if(_entitiesCache[uid].object != null)
-					data = _entitiesCache[uid].object;
-				else
-					delete _entitiesCache[uid];
-			}
-			
-			return data;
+		public function getEntity(keyword:String):* {
+			return hasKey(keyword) ? _entitiesCache[keyword] : null;
 		}
 		
 		/**
-		 * Store a entity under a specific UID (a new one will be created if not specified in paramter)
+		 * Store an entity under a given key.
 		 *  
-		 * @param data data to store
-		 * @param uid UID associated to this data
-		 * @return UID under which the data has been stored
-		 * 
+		 * @param data entity to store
+		 * @param keyword keyword under which the entity is stored
+		 * @param update whether to update the entity of the given keyword if there is one in the memory already.
 		 */
-		public function setEntity(data:*, uid:String = null):String {
+		public function setEntity(data:*, keyword:String, update:Boolean = false):void {
 			if(data == null)
 				throw new Error("can not store null");
-			if(uid == null)
-				uid = UIDUtil.getUID(data);
-			_entitiesCache[uid] = new WeakReference(data);
-			
-			return uid;
+			else if(hasKey(keyword)  == true && update == false)
+				throw new Error("there is a data with keyword " + keyword + " already.");
+			else {
+				_entitiesCache[keyword] = data;
+				_entityKeyMap[data] = keyword;
+			}
+		}
+		
+		public function deleteEntity(data:*):Boolean {
+			var keyword:String = getKey(data);
+			if(keyword != null) {
+				delete _entityKeyMap[data];
+				delete _entitiesCache[keyword];
+				return true;
+			}
+			else
+				return false;
+		}
+		
+		public function hasKey(keyword:String):Boolean {
+			return _entitiesCache.hasOwnProperty(keyword);
+		}
+		
+		/**
+		 * Get the keyword under which a given data has been stored, 
+		 * return null if the data does not present in the memory.
+		 */
+		public function getKey(data:*):String {
+			if(data == null || _entitiesCache.hasOwnProperty(data) == false)
+				return null;
+			else
+				return _entityKeyMap[data];
 		}
 	}
 }

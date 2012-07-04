@@ -2,6 +2,7 @@ package editor.dataeditor.impl
 {
 	public class ElementProperty
 	{
+		public function get property():String {return _property;}
 		private var _property:String;
 		private var _value:Object;
 		

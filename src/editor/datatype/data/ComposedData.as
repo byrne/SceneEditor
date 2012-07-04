@@ -23,6 +23,7 @@ package editor.datatype.data
 		protected var _$cache:Dictionary = new Dictionary;
 		protected var _$keys:Array;
 		protected var _$vals:Array;
+		protected var _$assignmentCount:Dictionary = new Dictionary;
 		
 		public function ComposedData() {
 			super();
@@ -40,6 +41,7 @@ package editor.datatype.data
 			}
 			
 			_$cache[name] = value;
+			_$assignmentCount[name] =  numAssignments(name) + 1;
 		}
 		
 		private function resolveTypeMismatch(value:*, propertyType:IDataType):* {
@@ -48,6 +50,20 @@ package editor.datatype.data
 				 return i.value;
 			 else
 				 throw new UnexpectedTypeError(StringUtil.substitute("Expecting a {0}, got a {1} instead", propertyType.name, typeof value));
+		}
+		
+		private function numAssignments(prop:String):int {
+			return _$assignmentCount.hasOwnProperty(prop) ? _$assignmentCount[prop] : 0;
+		}
+		
+		/**
+		 * Whether a property has been assigned a value by the user. 
+		 * @param property
+		 * @return 
+		 * 
+		 */
+		public function assigned(property:String):Boolean {
+			return _$assignmentCount.hasOwnProperty(property) ? _$assignmentCount[property] > 1 : false;
 		}
 		
 		override flash_proxy function getProperty(name:*):* {
@@ -59,6 +75,7 @@ package editor.datatype.data
 		}
 		
 		override flash_proxy function deleteProperty(name:*):Boolean {
+			delete _$assignmentCount[name];
 			return delete _$cache[name];
 		}
 		

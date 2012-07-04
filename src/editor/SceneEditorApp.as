@@ -106,7 +106,7 @@ package editor
 			statusMessage.text = "";
 			prepareContextMenu();
 			
-//			dataTypeTest();
+			dataTypeTest();
 			super.app_creationCompleteHandler(event);
 		}
 		
@@ -121,6 +121,7 @@ package editor
 			var a:IDataType = DataTypeFactory.INSTANCE.dataContext['NPC'];
 			var carl:Object = a.construct();
 			var ed:EditorBase = DataEditorFactory.INSTANCE.getEditor('SimpleNPCEditor');
+//			carl['visible'] = false;
 			var view:IElement = ed.buildView(carl);
 			var window:TitleWindow = new TitleWindow(); 
 			var dataXML:XML;
@@ -129,6 +130,7 @@ package editor
 				dataXML = XMLDataParser.toXML(carl);
 				PopUpManager.removePopUp(e.target as IFlexDisplayObject);
 				var clone:* = XMLDataParser.fromXML(dataXML, DataTypeFactory.INSTANCE.dataContext);
+				trace(dataXML.toString());
 			});
 			PopUpManager.addPopUp(window as IFlexDisplayObject, FlexGlobals.topLevelApplication as DisplayObject, true);
 			PopUpManager.centerPopUp(window as IFlexDisplayObject);

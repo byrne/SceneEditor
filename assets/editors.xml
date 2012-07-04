@@ -1,47 +1,21 @@
 <?xml version="1.0"?>
 <root>
-	<editor name="NPCTypeSelector" component="ItemSelector">
-		<property name="dataProvider">
-			<array>
-				<string>路人</string>
-				<string>守卫</string>
-				<string>向导</string>
-			</array>
-		</property>
-	</editor>
-	<editor name="SimpleNPCEditor" component="Panel">
-		<property name="title">
-			<string>NPC编辑器</string>
-		</property>
+	<editor name="NPCTypeSelector" component="ItemSelector" dataProvider="['路人', '守卫', '向导']" />
+	<editor name="SimpleNPCEditor" component="Panel" title="'NPC编辑器'">
 		<child component="TabNavigator">
-			<child component="AccordionContent">
-				<property name="label">
-					<string>这些是什么</string>
-				</property>
-				<property name="percentageWidth">
-					<number>100</number>
-				</property>
-				<property name="percentageHeight">
-					<number>100</number>
-				</property>
+			<child component="AccordionContent" label="'这是什么'" percentageWidth="100" percentageHeight="100">
 				<child component="Form">
-					<child component="SingleLineText" label="名字" property="name" />
-					<child component="SingleLineText" label="素材文件" property="resource" />
-					<child component="NumericStepper" label="ID" property="id" />
-					<child component="NPCTypeSelector" label="类型" property="type" />
+					<child component="SingleLineText" view_label="名字" property="name" />
+					<child component="SingleLineText" view_label="素材文件" property="resource" />
+					<child component="NumericStepper" view_label="ID" property="id" />
+					<child component="NPCTypeSelector" view_label="类型" property="type" />
 				</child>
 			</child>
-			<child component="AccordionContent">
-				<property name="percentageWidth">
-					<number>100</number>
-				</property>
-				<property name="label">
-					<string>可选项</string>
-				</property>
+			<child component="AccordionContent" label="'可选项'" percentageWidth="100">
 				<child component="VLayout">
-					<child component="CheckBox" label="可见" property="visible" />
-					<child component="SingleLineText" label="默认语言" property="tip_msg" />
-					<child component="SingleLineText" label="对话内容" property="dialog" />
+					<child component="CheckBox" view_label="可见" property="visible" selected="true" />
+					<child component="SingleLineText" view_label="默认语言" property="tip_msg" />
+					<child component="SingleLineText" view_label="对话内容" property="dialog" />
 				</child>
 			</child>
 		</child>

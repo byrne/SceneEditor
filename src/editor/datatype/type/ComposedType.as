@@ -17,7 +17,7 @@ package editor.datatype.type
 		
 		public var hierarchies:Vector.<IDataType> = new Vector.<IDataType>;
 		/**
-		 * ONLY those properties defined in definition, but not those inherited properies. 
+		 * ONLY those properties defined in definition, but not those inherited properties. 
 		 */
 		public var nativeProperties:Vector.<DataProperty> = new Vector.<DataProperty>;
 		/**
