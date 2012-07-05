@@ -16,7 +16,7 @@ package editor.dataeditor.elements
 		}
 		
 		public function set defaultValue(v:Object):void {
-			selected = v ? true : false;
+			this[bindingProperty] = v ? true : false;
 		}
 	}
 }

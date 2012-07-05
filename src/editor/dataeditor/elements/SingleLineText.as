@@ -15,7 +15,7 @@ package editor.dataeditor.elements
 		}
 		
 		public function set defaultValue(v:Object):void {
-			text = String(v);
+			this[bindingProperty] = String(v);
 		}
 	}
 }

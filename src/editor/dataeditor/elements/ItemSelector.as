@@ -16,12 +16,14 @@ package editor.dataeditor.elements
 		
 		public function set defaultValue(v:Object):void {
 			if(v is int)
-				selectedIndex = v as int;
+				this[bindingProperty] = v;
 		}
 		
 		override public function set selectedItem(value:Object):void {
 			if(value == null)
 				selectedIndex = 0;
+			else
+				super.selectedIndex = value as int;
 		}
 	}
 }
