@@ -14,5 +14,9 @@ package editor.dataeditor.elements
 		{
 			return 'selected';
 		}
+		
+		public function set defaultValue(v:Object):void {
+			selected = v ? true : false;
+		}
 	}
 }

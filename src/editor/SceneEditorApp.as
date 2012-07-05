@@ -114,14 +114,9 @@ package editor
 		 * 演示方法，随便删 
 		 */
 		public function dataTypeTest():void {
-//			var typeXML:XML = XML(FileSerializer.readFromFile(working_dir+"/sample-templates.xml"));
-//			var editorXML:XML = XML(FileSerializer.readFromFile(working_dir+"/sample-editor.xml"));
-//			DataTypeFactory.INSTANCE.initDB(typeXML);
-//			DataEditorFactory.INSTANCE.initTable(editorXML, DataTypeFactory.INSTANCE.dataContext);
 			var a:IDataType = DataTypeFactory.INSTANCE.dataContext['NPC'];
 			var carl:Object = a.construct();
 			var ed:EditorBase = DataEditorFactory.INSTANCE.getEditor('SimpleNPCEditor');
-//			carl['visible'] = false;
 			var view:IElement = ed.buildView(carl);
 			var window:TitleWindow = new TitleWindow(); 
 			var dataXML:XML;

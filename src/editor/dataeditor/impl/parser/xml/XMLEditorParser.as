@@ -13,6 +13,9 @@ package editor.dataeditor.impl.parser.xml
 	public class XMLEditorParser
 	{
 		public static const RESERVED_PROPERTIES:Array = ['component', 'property', 'view_label'];
+		public static const TRANSLATION:Object = {
+			'default': 'defaultValue'
+		};
 		
 		public static function importFromXML(xml:XML, ctx:DataContext, cache:Dictionary):void {
 			var editorBase:EditorBase;
@@ -56,8 +59,11 @@ package editor.dataeditor.impl.parser.xml
 			
 			for each(var att:XML in editorXml.attributes()) {
 				prop_name = att.name().toString();
-				if(RESERVED_PROPERTIES.indexOf(prop_name) == -1)
-					props[prop_name] = new ElementProperty(prop_name, StringRep.read(att));
+				if(RESERVED_PROPERTIES.indexOf(prop_name) != -1)
+					continue;
+				if(TRANSLATION.hasOwnProperty(prop_name))
+					prop_name = TRANSLATION[prop_name];
+				props[prop_name] = new ElementProperty(prop_name, StringRep.read(att));
 			}
 			return props;
 		}

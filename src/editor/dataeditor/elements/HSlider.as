@@ -13,5 +13,10 @@ package editor.dataeditor.elements
 		public function get bindingProperty():Object {
 			return "value";
 		}
+		
+		public function set defaultValue(v:Object):void {
+			if(v is Number)
+				value = v as Number;
+		}
 	}
 }

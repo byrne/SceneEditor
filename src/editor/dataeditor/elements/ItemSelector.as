@@ -14,6 +14,11 @@ package editor.dataeditor.elements
 			return "selectedItem";
 		}
 		
+		public function set defaultValue(v:Object):void {
+			if(v is int)
+				selectedIndex = v as int;
+		}
+		
 		override public function set selectedItem(value:Object):void {
 			if(value == null)
 				selectedIndex = 0;

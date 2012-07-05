@@ -13,5 +13,9 @@ package editor.dataeditor.elements
 		public function get bindingProperty():Object {
 			return "text";
 		}
+		
+		public function set defaultValue(v:Object):void {
+			text = String(v);
+		}
 	}
 }
