@@ -164,9 +164,12 @@ package editor
 			}
 			var handler:Function = menuHandler["handler"] as Function;
 			if (null!=handler) {
-				if(menuHandler["param"] != null)
-					handler.apply(this, menuHandler["param"]);
-				else
+				var param:* = menuHandler["param"];
+				if(param != null) {
+					if(!(param is Array))
+						param = [param];
+					handler.apply(this, param);
+				} else
 					handler.call(this);
 			}
 		}

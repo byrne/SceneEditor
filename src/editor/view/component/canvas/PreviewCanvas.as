@@ -156,6 +156,8 @@ package editor.view.component.canvas
 			if(!hasItem(obj)) {
 				this.addChild(obj);
 				items.push(obj);
+				if(obj is EntityBaseView)
+					(obj as EntityBaseView).doAddToSceneJod();
 			}
 			setItemPos(obj, x, y);
 		}
@@ -165,6 +167,8 @@ package editor.view.component.canvas
 				return;
 			obj.x = axisXbase + x;
 			obj.y = axisYbase + y;
+			if(obj is EntityBaseView)
+				(obj as EntityBaseView).syncDataFromView();
 		}
 		
 		public function getItemPos(obj:DisplayObject):Point {
@@ -182,6 +186,8 @@ package editor.view.component.canvas
 			if(itemIndex >= 0) {
 				this.removeChild(obj);
 				items.splice(itemIndex, 1);
+				if(obj is EntityBaseView)
+					(obj as EntityBaseView).doRemoveFromSceneJod();
 				return true;
 			}
 			return false;

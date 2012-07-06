@@ -82,7 +82,7 @@ package editor.view.component.canvas
 				return;
 			}
 			_dragTarget = mouseTarget;
-			_dragStartPos = _dragTarget.getScenePos();
+			_dragStartPos = _dragTarget.scenePos;
 			_dragTarget.addEventListener(MouseEvent.MOUSE_MOVE, dragAndMoveHandler);
 			for each(enti in _selectedEntities) {
 				if(enti != _dragTarget)
@@ -94,13 +94,13 @@ package editor.view.component.canvas
 		
 		private function dragAndMoveHandler(evt:MouseEvent):void {
 			if(_dragTarget && _dragStartPos) {
-				var crtPos:Point = _dragTarget.getScenePos(); 
+				var crtPos:Point = _dragTarget.scenePos; 
 				var ox:Number = crtPos.x - _dragStartPos.x;
 				var oy:Number = crtPos.y - _dragStartPos.y;
 				var pos:Point;
 				for each(var enti:EntityBaseView in _selectedEntities) {
 					if(enti != _dragTarget) {
-						pos = enti.getScenePos();
+						pos = enti.scenePos;
 						this.setItemPos(enti, enti.dragStartPos.x+ox, enti.dragStartPos.y+oy);
 					}
 				}

@@ -11,6 +11,8 @@
 	</type>
 	<type name="Actor">
 		<property name="id" type="int" />
+		<property name="x" type="int" />
+		<property name="y" type="int" />
 		<property name="name" type="string" />
 		<property name="resource" type="string" />
 		<property name="visible" type="boolean" />

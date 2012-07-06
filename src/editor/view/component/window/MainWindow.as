@@ -3,6 +3,8 @@ package editor.view.component.window
 	import editor.EditorGlobal;
 	import editor.constant.EventDef;
 	import editor.constant.NameDef;
+	import editor.datatype.ReservedName;
+	import editor.datatype.impl.DataTypeFactory;
 	import editor.datatype.type.DataProperty;
 	import editor.event.DataEvent;
 	import editor.utils.LogUtil;
@@ -169,9 +171,10 @@ package editor.view.component.window
 						,"win.swf - saybotmc"
 					];
 					var randIndex:int = Math.random()*testEntities.length;
-					var vo:Object = new Object();
-					vo["res"] = testEntities[randIndex];
-					var enti:EntityBaseView = new EntityBaseView(vo);
+					var a:IDataType = DataTypeFactory.INSTANCE.dataContext['NPC'];
+					var npc:Object = a.construct();
+					npc[ReservedName.RESOURCE] = testEntities[randIndex];
+					var enti:EntityBaseView = new EntityBaseView(npc);
 					enti.canSelect = operateMode == NameDef.TBTN_SELECT;
 					sceneCanvas.addItem(enti);
 					sceneCanvas.setItemPos(enti, Math.random()* 800, Math.random()* 600);
