@@ -1,9 +1,11 @@
 package editor.view.scene
 {
+	import editor.EditorGlobal;
 	import editor.constant.EventDef;
 	import editor.datatype.data.ComposedData;
 	import editor.event.DataEvent;
 	import editor.mgr.ResMgr;
+	import editor.utils.swf.SWF;
 	import editor.view.component.canvas.MainCanvas;
 	import editor.view.component.canvas.PreviewCanvas;
 	
@@ -33,7 +35,8 @@ package editor.view.scene
 			_indicator = new Indicator();
 			this.addChild(_indicator);
 			_vo = vo;
-			ResMgr.getSwfSymbolByName(vo["res"], "saybotmc", getResHandler);
+			var resFileAndSymbol:Array = (vo["res"] as String).split(" - "); 
+			ResMgr.getSwfSymbolByName(EditorGlobal.APP.resLibraryWnd.baseDir + "/" + resFileAndSymbol[0], resFileAndSymbol[1] as String, getResHandler);
 //			this.addEventListener(MouseEvent.CLICK, clickHandler);
 			var thisRef:EntityBaseView = this;
 			this.addEventListener(MouseEvent.MOUSE_DOWN, function(evt:MouseEvent):void {
@@ -54,7 +57,7 @@ package editor.view.scene
 		}
 		
 		protected function getResHandler(cls:Class):void {
-			_rigidBody = new cls as DisplayObject;
+			_rigidBody = SWF.buildSymbolInstance(cls);
 			if(_rigidBody is MovieClip) {
 				(_rigidBody as MovieClip).gotoAndStop(1);
 			}

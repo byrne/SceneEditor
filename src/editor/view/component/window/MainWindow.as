@@ -154,10 +154,23 @@ package editor.view.component.window
 			sceneCanvas.draggable = operateMode == NameDef.TBTN_MOVE;
 			switch(operateMode) {
 				case NameDef.TBTN_TEST:
-					var testEntities:Array = ["win.swf", "idle.swf", "lose.swf", "dodge.swf", "attack_prepare.swf", "hurt.swf"];
+					var testEntities:Array = [
+						"idle.swf - saybotmc"
+						,"lose.swf - saybotmc"
+						,"test.swf - layers"
+						,"test.swf - move"
+						,"test.swf - saybotmc"
+						,"test1/idle.swf - saybotmc"
+						,"test1/win.swf - saybotmc"
+						,"test2/idle.swf - saybotmc"
+						,"test2/test3/lose.swf - saybotmc"
+						,"test2/test3/win.swf - saybotmc"
+						,"test2/win.swf - saybotmc"
+						,"win.swf - saybotmc"
+					];
 					var randIndex:int = Math.random()*testEntities.length;
 					var vo:Object = new Object();
-					vo["res"] = EditorGlobal.APP.resLibraryWnd.baseDir + "/" + testEntities[randIndex];
+					vo["res"] = testEntities[randIndex];
 					var enti:EntityBaseView = new EntityBaseView(vo);
 					enti.canSelect = operateMode == NameDef.TBTN_SELECT;
 					sceneCanvas.addItem(enti);

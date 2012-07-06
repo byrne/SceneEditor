@@ -85,6 +85,22 @@ package editor.utils
 			writeToFile(jsonStr, "file:///" + filename);
 		}
 		
+		public static function writeListFile(arr:Array, filename:String):void {
+			var file:File = new File(filename);
+			var fileStream:FileStream = new FileStream();
+			fileStream.open(file, FileMode.WRITE);
+			var str:String;
+			for(var i:int=0; i<arr.length; i++) {
+				str = arr[i];
+				if (str is String) {
+					fileStream.writeUTFBytes(i==arr.length-1 ? str : str+"\n");
+				} else {
+					throw "data content not supported!";
+				}	
+			}
+			fileStream.close();
+		}
+		
 		public static function readFromFileHandle(file:File):String {
 			if(file.exists) {
 				var fileStream:FileStream = new FileStream();
