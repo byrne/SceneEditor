@@ -13,9 +13,11 @@
 	
 	<fx:Script>
 		<![CDATA[
+			import editor.utils.CommonUtil;
 			import editor.utils.FileSerializer;
 			import editor.utils.LogUtil;
 			import editor.utils.StringUtil;
+			import editor.utils.XMLSerializer;
 			import editor.utils.swf.CustomEvent;
 			import editor.utils.swf.SWF;
 			import editor.view.mxml.CustomListItemSkin;
@@ -44,23 +46,40 @@
 				var output:Object = new Object();
 				var configFileName:String = args[0] as String;
 				var proj_dir:String = args[1] as String;
-				var config:Object = FileSerializer.readJsonFile(configFileName);
-				var base_dir:String = config["base_dir"];
+				var config:Object = XMLSerializer.readObjectFromXMLFile(configFileName, "proj_res");// FileSerializer.readJsonFile(configFileName);
+				var base_dir:String = config["base_url"];
 				output["base_dir"] = base_dir;
 				base_dir = base_dir.replace("{proj_dir}", proj_dir);
-				var output_file:String = config["output_file"];
-				output_file = output_file.replace("{proj_dir}", proj_dir);
-				var file_list:Array = config["file_list"] as Array;
+				
+				var output_json:String = config["output_json"];
+				output_json = output_json.replace("{proj_dir}", proj_dir);
+				
+				var output_list:String = config["output_list"];
+				output_list = output_list.replace("{proj_dir}", proj_dir);
+				
+				var files:Array = [];
+				appendFileList(files, config["file"]);
+				var fileListsArr:Array = config["filelist"] is Array ? config["filelist"] as Array : [config["filelist"]];
+				for each(var list:Object in fileListsArr) {
+					appendFileList(files, list["file"], list.base_url);
+				} 
+				var symbols:Array = [];
 				output["symbol_classes"] = new Object();
-				for each(var fileName:String in file_list) {
-//					fileName = fileName.replace("{base_dir}", base_dir);
+				for each(var fileName:String in files) {
 					fileName = StringUtil.substitute("{0}/{1}", base_dir, fileName);
-					dumpSwfSymbolClass(fileName, output, output_file, base_dir);
+					dumpSwfSymbolClass(fileName, output, output_json, symbols, output_list, base_dir);
 				}
 			}
 			
+			private static function appendFileList(output:Array, src:*, baseDir:String=null):void {
+				var srcArr:Array = src is Array ? src as Array : [src];
+				for each(var file:Object in srcArr) {
+					output.push(baseDir ? baseDir+"/"+file.url : file.url);
+				}
+			} 
+			
 			private static var remainSwfCnt:int;
-			private function dumpSwfSymbolClass(fileName:String, output:Object, output_file:String, base_dir:String):void {
+			private function dumpSwfSymbolClass(fileName:String, output:Object, output_json:String, outSymbolsArr:Array, output_list:String, base_dir:String):void {
 				remainSwfCnt += 1;
 				var ba:ByteArray = FileSerializer.readBytesFromFile(fileName);
 				var swf:SWF = new SWF(ba);
@@ -69,11 +88,18 @@
 					var symbols:Array = swf.symbolClassNamesArr;
 					fileName = fileName.substr(base_dir.length+1);
 					output["symbol_classes"][fileName] = symbols;
+					for each(var symbol:String in symbols) {
+						outSymbolsArr.push(fileName + " - " + symbol);
+					}
 					LogUtil.info("dump swf symbol class {0}, count {1}", fileName, symbols.length);
 					remainSwfCnt -= 1;
 					if(remainSwfCnt <= 0) {
-						FileSerializer.writeJsonFile(output, output_file);
-						LogUtil.info("write to file: {0}", output_file);
+						FileSerializer.writeJsonFile(output, output_json);
+						LogUtil.info("write to file: {0}", output_json);
+						
+						outSymbolsArr.sort();
+						FileSerializer.writeListFile(outSymbolsArr, output_list);
+						LogUtil.info("write to file: {0}", output_list);
 //						exit();
 					}
 				});

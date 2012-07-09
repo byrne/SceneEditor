@@ -3,12 +3,12 @@ package editor.view.component.window
 	import editor.EditorGlobal;
 	import editor.constant.EventDef;
 	import editor.constant.NameDef;
-	import editor.datatype.impl.UtilDataType;
+	import editor.datatype.ReservedName;
 	import editor.datatype.impl.parser.xml.XMLDataParser;
+	import editor.datatype.type.IDataType;
 	import editor.event.DataEvent;
 	import editor.utils.FileSerializer;
 	import editor.utils.LogUtil;
-	import editor.utils.XMLSerializer;
 	import editor.utils.keyboard.KeyBoardMgr;
 	import editor.utils.keyboard.KeyShortcut;
 	import editor.view.component.SceneEntitiesTree;
@@ -24,16 +24,11 @@ package editor.view.component.window
 	import flash.events.Event;
 	import flash.events.MouseEvent;
 	import flash.ui.Keyboard;
-	import flash.xml.XMLDocument;
 	
 	import mx.containers.Canvas;
 	import mx.containers.DividedBox;
 	import mx.containers.HBox;
 	import mx.containers.TabNavigator;
-	import mx.rpc.xml.SimpleXMLEncoder;
-	import mx.utils.ObjectUtil;
-	
-	import org.puremvc.as3.multicore.utilities.air.xmldb.model.XMLDatabaseProxy;
 	
 	import spark.components.NavigatorContent;
 	
@@ -145,11 +140,25 @@ package editor.view.component.window
 			sceneCanvas.draggable = operateMode == NameDef.TBTN_MOVE;
 			switch(operateMode) {
 				case NameDef.TBTN_TEST:
-					var testEntities:Array = ["win.swf", "idle.swf", "lose.swf", "dodge.swf", "attack_prepare.swf", "hurt.swf"];
+					var testEntities:Array = [
+						"idle.swf - saybotmc"
+						,"lose.swf - saybotmc"
+						,"test.swf - layers"
+						,"test.swf - move"
+						,"test.swf - saybotmc"
+						,"test1/idle.swf - saybotmc"
+						,"test1/win.swf - saybotmc"
+						,"test2/idle.swf - saybotmc"
+						,"test2/test3/lose.swf - saybotmc"
+						,"test2/test3/win.swf - saybotmc"
+						,"test2/win.swf - saybotmc"
+						,"win.swf - saybotmc"
+					];
 					var randIndex:int = Math.random()*testEntities.length;
-					var vo:Object = new Object();
-					vo["res"] = EditorGlobal.APP.resLibraryWnd.baseDir + "/" + testEntities[randIndex];
-					var enti:EntityBaseView = new EntityBaseView(vo);
+					var a:IDataType = EditorGlobal.DATA_MANAGER.types['NPC'];
+					var npc:Object = a.construct();
+					npc[ReservedName.RESOURCE] = testEntities[randIndex];
+					var enti:EntityBaseView = new EntityBaseView(npc);
 					enti.canSelect = operateMode == NameDef.TBTN_SELECT;
 					sceneCanvas.addItem(enti);
 					sceneCanvas.setItemPos(enti, Math.random()* 800, Math.random()* 600);

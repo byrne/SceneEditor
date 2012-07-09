@@ -89,7 +89,7 @@ package editor.dataeditor.impl.parser.xml
 			if(!xml.hasOwnProperty('@name'))
 				throw new Error("ElementProperty must have the name of the property: " + xml.toString());
 			var name:String = xml.@name;
-			var value:Object = XMLDataParser.basicDataFromXML(xml.children()[0], ctx);
+			var value:Object = XMLDataParser.fromXML(xml.children()[0], ctx);
 			return new ElementProperty(name, value);
 		}
 	}

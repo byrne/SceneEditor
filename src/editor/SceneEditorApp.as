@@ -96,6 +96,7 @@ package editor
 			statusMessage.text = "";
 			prepareContextMenu();
 			
+//			dataTypeTest();
 			super.app_creationCompleteHandler(event);
 		}
 		
@@ -196,7 +197,7 @@ package editor
 		
 		private var resLibraryMenuItem:Object = {"type":"check", "label":NameDef.WND_RES_LIBRARY, "toggled":true, "handler":toggleWindowPopup}; 
 		private function prepareContextMenu():void {
-			resLibraryMenuItem["param"] = [resLibraryWnd];
+			resLibraryMenuItem["param"] = resLibraryWnd;
 			var menuData:ContextMenuData = new ContextMenuData();
 			menuData.menuItems = mainWndMenuData;
 			menuData.beforeHandler = appBeforeContextMenuHandler;

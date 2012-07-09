@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<proj_res base_url="{proj_dir}/assets/swf" output_json="{proj_dir}/assets/res.json" output_list="{proj_dir}/assets/res.list">
+	<file url="idle.swf"/>
+	<file url="win.swf"/>
+	<file url="lose.swf"/>
+	<file url="test.swf"/>
+	<file url="test1/idle.swf"/>
+	<file url="test1/win.swf"/>
+	<filelist name="test2" base_url="test2">
+		<file url="idle.swf"/>
+		<file url="win.swf"/>
+		<file url="test3/win.swf"/>
+		<file url="test3/lose.swf"/>
+	</filelist>
+</proj_res>
