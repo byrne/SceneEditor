@@ -1,7 +1,7 @@
 package editor.datatype.impl.parser.xml
 {
 	import editor.datatype.type.ComposedType;
-	import editor.datatype.type.DataContext;
+	import editor.datatype.type.DataTypeContext;
 	import editor.datatype.type.DataProperty;
 	import editor.datatype.type.IDataType;
 	import editor.datatype.type.NativeType;
@@ -24,7 +24,7 @@ package editor.datatype.impl.parser.xml
 		 * @param ctx dataContext to which the created DataType objects will be stored
 		 * 
 		 */
-		public static function importToContext(src:XML, ctx:DataContext):void {
+		public static function importToContext(src:XML, ctx:DataTypeContext):void {
 			var type_element:XML;
 			
 			for each(type_element in src.children()) {
@@ -33,7 +33,7 @@ package editor.datatype.impl.parser.xml
 			bindAttributes(ctx);
 		}
 		
-		public static function bindAttributes(ctx:DataContext):void {
+		public static function bindAttributes(ctx:DataTypeContext):void {
 			for each(var e:IDataType in ctx) {
 				if(!(e is ComposedType))
 					continue;
@@ -48,7 +48,7 @@ package editor.datatype.impl.parser.xml
 		 * therefore, we have to make sure every DataType object exists before we actually link 
 		 * those reference.
 		 */
-		private static function buildPlaceHolder(src:XML, ctx:DataContext):void {
+		private static function buildPlaceHolder(src:XML, ctx:DataTypeContext):void {
 			if(src.localName() != QNAME_TYPE)
 				return;
 			
@@ -72,7 +72,7 @@ package editor.datatype.impl.parser.xml
 		 * @param ctx the DataContext object given
 		 * 
 		 */
-		private static function bindHierarchy(src:XMLList, dType:ComposedType, ctx:DataContext):void {
+		private static function bindHierarchy(src:XMLList, dType:ComposedType, ctx:DataTypeContext):void {
 			for each(var element:XML in src) {
 				dType.hierarchies.push(ctx[element.@type]);
 			}
@@ -88,7 +88,7 @@ package editor.datatype.impl.parser.xml
 		 * @param ctx the DataContext object given
 		 * 
 		 */
-		private static function bindProperty(src:XMLList, dType:ComposedType, ctx:DataContext):void {
+		private static function bindProperty(src:XMLList, dType:ComposedType, ctx:DataTypeContext):void {
 			for each(var element:XML in src) {
 				dType.nativeProperties.push(new DataProperty(element.@name, ctx[element.@type]));
 			}

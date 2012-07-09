@@ -8,6 +8,8 @@ package editor.vo
 	{
 		protected var _properties:Object;
 		
+		public var class_name:String;
+		
 		public function ValueObjectBase(properties:Object=null)
 		{
 			initProperties(properties);
@@ -17,7 +19,6 @@ package editor.vo
 			var val:*;
 			var valtype:String;
 			_properties = properties;
-			properties = ObjectUtil.copy(_properties);
 			for(var p:String in properties) {
 				if(this.hasOwnProperty(p)) {
 					val = properties[p];
@@ -40,14 +41,20 @@ package editor.vo
 			}
 		}
 		
+		protected var importCls:Array = [SceneTemplate, SceneLayer];
 		public static function translateObject2VO(obj:Object):Object {
-			if(!obj.hasOwnProperty("class")) {
+			if(obj == null)
+				return null;
+			if(!obj.hasOwnProperty("class_name"))
 				return obj;
+			var clsName:String = "editor.vo."+obj["class_name"];
+			var cls:Class;
+			try {
+				cls = getDefinitionByName(clsName) as Class;
 			}
-			var importCls:Array = [SceneTemplate, SceneLayer];
-			var clsName:String = "editor.vo."+obj["class"];
-			var cls:Class = getDefinitionByName(clsName) as Class;
-			return new cls(obj);
+			catch(e:Error) {
+			}
+			return cls ? new cls(obj) : obj;
 		}
 		
 		public function clone():ValueObjectBase {

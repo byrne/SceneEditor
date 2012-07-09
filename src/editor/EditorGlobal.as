@@ -1,6 +1,7 @@
 package editor
 {
 	
+	import editor.mgr.DataManager;
 	import editor.mgr.SceneDataMemory;
 	import editor.view.component.window.MainWindow;
 	
@@ -18,6 +19,10 @@ package editor
 		
 		public static function get DATA_MEMORY():SceneDataMemory {
 			return APP.dataMemory;
+		}
+		
+		public static function get DATA_MANAGER():DataManager {
+			return APP.dataManager;
 		}
 		
 		public static function get MAIN_WND():MainWindow {

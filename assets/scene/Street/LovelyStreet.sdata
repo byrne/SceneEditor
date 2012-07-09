@@ -1,41 +1,32 @@
 <?xml version="1.0"?>
-<scene name="LovelyStreet" type="Street" class="Scene" width="960" height="560">
-	<layers name="bg" class="SceneLayer"  type="normal"/>
-	<layers name="physics" class="SceneLayer" type="physics"/>
-	<entities>
+<Scene>
+	<string property="name">LovelyStreet</string>
+	<string property="type">Street</string>
+	<number property="width">960</number>
+	<number property="height">560</number>
+	<array  property="layers">
+		<SceneLayer>
+			<string property="name">bg</string>
+			<string property="class_name">SceneLayer</string>
+			<string property="type">normal</string>
+		</SceneLayer>
+		<SceneLayer>
+			<string property="name">physics</string>
+			<string property="class_name">SceneLayer</string>
+			<string property="type">physics</string>
+		</SceneLayer>
+	</array>
+	<array property="entities">
 		<NPC>
-		  <string property="resource">../assets/blackdude.swf</string>
-		  <Actor property="minion">
-		    <string property="name">Chewbacca</string>
-		    <string property="resource">../assets/chewie.swf</string>
-		    <number property="id">-9</number>
-		    <boolean property="visible">false</boolean>
-		  </Actor>
-		  <int property="id">12</int>
-		  <string property="tip_msg">Sup dawg?</string>
-		  <string property="name">Han Solo</string>
-		  <array property="dialog">
-		    <string>Yo ain't know me.</string>
-		    <string>Check this out.</string>
-		  </array>
-		  <boolean property="visible">true</boolean>
+		  <string property="resource">../assets/something.swf</string>
+		  <string property="tip_msg">Hrrrrr</string>
+		  <string property="name">Chewiee</string>
 		</NPC>
 		<NPC>
 		  <string property="resource">../assets/blackdude.swf</string>
-		  <Actor property="minion">
-		    <string property="name">Chewbacca</string>
-		    <string property="resource">../assets/chewie.swf</string>
-		    <number property="id">-9</number>
-		    <boolean property="visible">false</boolean>
-		  </Actor>
-		  <int property="id">12</int>
 		  <string property="tip_msg">Sup dawg?</string>
 		  <string property="name">Han Solo</string>
-		  <array property="dialog">
-		    <string>Yo ain't know me.</string>
-		    <string>Check this out.</string>
-		  </array>
-		  <boolean property="visible">true</boolean>
+		  <boolean property="enabled">true</boolean>
 		</NPC>
-	</entities>
-</scene>
+	</array>
+</Scene>

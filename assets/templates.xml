@@ -1,18 +1,41 @@
 <?xml version="1.0"?>
 <root>
-	<type name="NPC_TYPE" style="basic">
-	</type>
-	<type name="NPC" editor="">
-		<inherit type="Actor"/>
-		<property name="type" type="string" />
-		<property name="tip_msg" type="string" />
-		<property name="dialog" type="string"  />
-		<property name="minion" type="Actor" />
-	</type>
-	<type name="Actor">
-		<property name="id" type="int" />
+	<type name="ValueObject" >
+		<property name="class_name" type="string" />
 		<property name="name" type="string" />
+	</type>
+	
+	<type name="Position" >
+		<property name="x" type="number" />
+		<property name="y" type="number" />
+	</type>
+	
+	<type name="Scene" >
+		<inherit  type="ValueObject" />
+		<property name="id" type="int" />
+		<property name="width" type="number" />
+		<property name="height" type="number" />
+		<property name="layers" type="array" />
+		<property name="type" type="string" />
+		<property name="entities" type="array" />
+	</type>
+	
+	<type name="SceneLayer" >
+		<inherit  type="ValueObject" />
+		<property name="type" type="string" />
+	</type>
+	
+	<type name="Actor">
+		<inherit type="ValueObject" />
+		<inherit type="Position" />
+		<property name="default_action" type="string" />
+		<property name="viewProxy" type="string" />
+		<property name="enabled" type="boolean" />
 		<property name="resource" type="string" />
-		<property name="visible" type="boolean" />
+	</type>
+	
+	<type name="NPC">
+		<inherit  type="Actor" />
+		<property name="tip_msg" type="string" />
 	</type>
 </root>

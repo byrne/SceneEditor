@@ -3,10 +3,11 @@ package editor.view.component.window
 	import editor.EditorGlobal;
 	import editor.constant.EventDef;
 	import editor.constant.NameDef;
-	import editor.datatype.type.DataProperty;
+	import editor.datatype.impl.UtilDataType;
+	import editor.datatype.impl.parser.xml.XMLDataParser;
 	import editor.event.DataEvent;
+	import editor.utils.FileSerializer;
 	import editor.utils.LogUtil;
-	import editor.utils.StringUtil;
 	import editor.utils.XMLSerializer;
 	import editor.utils.keyboard.KeyBoardMgr;
 	import editor.utils.keyboard.KeyShortcut;
@@ -16,33 +17,23 @@ package editor.view.component.window
 	import editor.view.component.ToolbarButton;
 	import editor.view.component.canvas.MainCanvas;
 	import editor.view.component.widget.WgtPanel;
-	import editor.view.mxml.skin.ToolbarSkin;
 	import editor.view.scene.EntityBaseView;
 	import editor.vo.Scene;
 	import editor.vo.SceneTemplate;
 	
-	import flash.display.NativeMenu;
-	import flash.display.NativeMenuItem;
-	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
-	import flash.filesystem.File;
 	import flash.ui.Keyboard;
+	import flash.xml.XMLDocument;
 	
-	import flexlib.containers.SuperTabNavigator;
-	import flexlib.controls.SuperTabBar;
-	
-	import mx.collections.ArrayCollection;
 	import mx.containers.Canvas;
 	import mx.containers.DividedBox;
 	import mx.containers.HBox;
 	import mx.containers.TabNavigator;
-	import mx.containers.VBox;
-	import mx.controls.MenuBar;
-	import mx.controls.Tree;
-	import mx.events.DragEvent;
-	import mx.events.FlexEvent;
-	import mx.utils.ObjectProxy;
+	import mx.rpc.xml.SimpleXMLEncoder;
+	import mx.utils.ObjectUtil;
+	
+	import org.puremvc.as3.multicore.utilities.air.xmldb.model.XMLDatabaseProxy;
 	
 	import spark.components.NavigatorContent;
 	
@@ -182,9 +173,11 @@ package editor.view.component.window
 		}
 		
 		public function openScene(st:SceneTemplate, fName:String):void {
-			var sceneData:Object = XMLSerializer.readObjectFromXMLFile(fName, "scene");
+			var data:XML = XML(FileSerializer.readFromFile(fName));
+			var sceneData:Object = XMLDataParser.fromXML(data, EditorGlobal.DATA_MANAGER.types);
 			curScene = new Scene(sceneData);
 			parameterPanel.wgtLayers.initLayers(curScene);
+			var ouput:XML = XMLDataParser.toXML(curScene, EditorGlobal.DATA_MANAGER.types);
 			sceneEntitiesTree.refreshView();
 			tabNavigateTo(1);
 		}

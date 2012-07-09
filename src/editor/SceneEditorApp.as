@@ -3,17 +3,13 @@ package editor
 	import editor.constant.EventDef;
 	import editor.constant.NameDef;
 	import editor.constant.ScreenDef;
-	import editor.dataeditor.DataEditorFactory;
-	import editor.dataeditor.IElement;
-	import editor.dataeditor.impl.EditorBase;
-	import editor.datatype.impl.DataTypeFactory;
-	import editor.datatype.impl.parser.xml.XMLDataParser;
-	import editor.datatype.type.IDataType;
+	import editor.dataeditor.impl.parser.xml.XMLEditorParser;
+	import editor.datatype.impl.parser.xml.XMLTypeParser;
 	import editor.event.DataEvent;
+	import editor.mgr.DataManager;
 	import editor.mgr.PopupMgr;
 	import editor.mgr.SceneDataMemory;
 	import editor.storage.GlobalStorage;
-	import editor.utils.CommonUtil;
 	import editor.utils.FileSerializer;
 	import editor.utils.LogUtil;
 	import editor.utils.StringUtil;
@@ -28,25 +24,18 @@ package editor
 	import editor.view.mxml.skin.CustomAppSkin;
 	import editor.vo.ContextMenuData;
 	
-	import flash.display.DisplayObject;
 	import flash.events.Event;
-	import flash.utils.Dictionary;
 	
-	import mx.core.FlexGlobals;
-	import mx.core.IFlexDisplayObject;
-	import mx.core.IVisualElement;
-	import mx.events.CloseEvent;
 	import mx.events.FlexEvent;
 	import mx.events.MenuEvent;
-	import mx.managers.PopUpManager;
 	
 	import spark.components.Label;
-	import spark.components.TitleWindow;
 
 	
 	public class SceneEditorApp extends WindowedApplicationBase
 	{
 		public var dataMemory:SceneDataMemory;
+		public var dataManager:DataManager;
 		
 		public var working_dir:String;
 		public var proj_dir:String;
@@ -86,6 +75,7 @@ package editor
 		
 		override protected function app_creationCompleteHandler(event:FlexEvent):void {
 			dataMemory = new SceneDataMemory();
+			dataManager = new DataManager();
 			KeyBoardMgr.initialize(this);
 //			this.stage.nativeWindow.menu = createMenuBar();
 			createMenuBar(menuBarXml);
@@ -106,29 +96,7 @@ package editor
 			statusMessage.text = "";
 			prepareContextMenu();
 			
-			dataTypeTest();
 			super.app_creationCompleteHandler(event);
-		}
-		
-		/**
-		 * 演示方法，随便删 
-		 */
-		public function dataTypeTest():void {
-			var a:IDataType = DataTypeFactory.INSTANCE.dataContext['NPC'];
-			var carl:Object = a.construct();
-			var ed:EditorBase = DataEditorFactory.INSTANCE.getEditor('SimpleNPCEditor');
-			var view:IElement = ed.buildView(carl);
-			var window:TitleWindow = new TitleWindow(); 
-			var dataXML:XML;
-			window.addElement(view as IVisualElement);
-			window.addEventListener(CloseEvent.CLOSE, function(e:Event):void {
-				dataXML = XMLDataParser.toXML(carl);
-				PopUpManager.removePopUp(e.target as IFlexDisplayObject);
-				var clone:* = XMLDataParser.fromXML(dataXML, DataTypeFactory.INSTANCE.dataContext);
-				trace(dataXML.toString());
-			});
-			PopUpManager.addPopUp(window as IFlexDisplayObject, FlexGlobals.topLevelApplication as DisplayObject, true);
-			PopUpManager.centerPopUp(window as IFlexDisplayObject);
 		}
 		
 		public function switchWorkspace(dir:String):void {
@@ -149,11 +117,10 @@ package editor
 				// read templates and editors config
 				var templatesXML:XML = XML(FileSerializer.readFromFile(getGlobalConfig(NameDef.CFG_PROJ_TEMPLATES) as String));
 				var editorsXML:XML = XML(FileSerializer.readFromFile(getGlobalConfig(NameDef.CFG_PROJ_EDITORS) as String));
-				DataTypeFactory.INSTANCE.initDB(templatesXML);
-				DataEditorFactory.INSTANCE.initTable(editorsXML, DataTypeFactory.INSTANCE.dataContext);
+				dataManager.initTypes(templatesXML, XMLTypeParser.importToContext);
+				dataManager.initEditors(editorsXML, dataManager.types, XMLEditorParser.importFromXML);
 				var viewStruct:Object = XMLSerializer.readObjectFromXMLFile(getGlobalConfig(NameDef.CFG_PROJ_VIEW_STRUCTURE) as String);
 				EditorGlobal.DATA_MEMORY.initializeSceneTemplates(viewStruct);
-				
 				// build windows view
 				resLibraryWnd.configFile = getGlobalConfig(NameDef.CFG_RES_LIBRARY) as String;
 				mainWnd.buildTabNavigateView();

@@ -7,68 +7,56 @@ package editor.datatype.type
 	import flash.utils.Proxy;
 	import flash.utils.flash_proxy;
 
-	public class DataContext extends Proxy
+	public class DataTypeContext extends Proxy
 	{
-		private var _cache:Dictionary = new Dictionary;
-		private var _keys:Array;
-		private var _vals:Array;
-		private var override:Boolean = false;
+		private var _$cache:Dictionary = new Dictionary;
+		private var _$keys:Array;
+		private var _$vals:Array;
+		private var $override:Boolean = false;
 		
-		public function DataContext() {
+		public function DataTypeContext() {
 		}
 		
 		override flash_proxy function setProperty(name:*, value:*):void {
-			if(_cache.hasOwnProperty(name) && !override)
+			if(_$cache.hasOwnProperty(name) && !$override)
 				throw new Error("Error: " + name.toString() + " exist already.");
 			if(value is IDataType)
-				_cache[name] = value;
+				_$cache[name] = value;
 			else
 				throw new UnexpectedTypeError("not a IDataType");
 		}
 		
 		override flash_proxy function getProperty(name:*):* {
-			return _cache[name];
+			return _$cache[name];
 		}
 		
 		override flash_proxy function deleteProperty(name:*):Boolean {
-			return delete _cache[name];
+			return delete _$cache[name];
 		}
 		
 		override flash_proxy function hasProperty(name:*):Boolean {
-			return _cache.hasOwnProperty(name);
+			return _$cache.hasOwnProperty(name);
 		}
 		
 		override flash_proxy function nextNameIndex(index:int):int {
 			if(index == 0) {
-				_keys = new Array;
-				_vals = new Array;
-				for(var key:String in _cache) {
-					_keys.push(key);
-					_vals.push(_cache[key]);
+				_$keys = new Array;
+				_$vals = new Array;
+				for(var key:String in _$cache) {
+					_$keys.push(key);
+					_$vals.push(_$cache[key]);
 				}
 			}
 			
-			return index < _keys.length ? index+1 : 0;
+			return index < _$keys.length ? index+1 : 0;
 		}
 		
 		override flash_proxy function nextName(index:int):String {
-			return _keys[index-1];
+			return _$keys[index-1];
 		}
 		
 		override flash_proxy function nextValue(index:int):* {
-			return _vals[index-1];
-		}
-		
-		/**
-		 * Get the DataType Object associated with the given key. 
-		 * @param key
-		 * @return 
-		 * 
-		 */
-		public function getType(key:String):IDataType {
-			if(_cache.hasOwnProperty(key) == false)
-				throw new UndefinedDataTypeError(key);
-			return _cache[key];
+			return _$vals[index-1];
 		}
 		
 		/**
@@ -81,8 +69,8 @@ package editor.datatype.type
 		 * 
 		 */
 		public function setType(key:String, type:IDataType, override:Boolean = true):Boolean {
-			if(_cache.hasOwnProperty(key) == false || override == true) {
-				_cache[key] = type;
+			if(_$cache.hasOwnProperty(key) == false || override == true) {
+				_$cache[key] = type;
 				return true;
 			}
 			else {

@@ -1,11 +1,13 @@
 package editor.datatype.impl.parser.xml
 {
 	import editor.datatype.data.ComposedData;
-	import editor.datatype.impl.DataTypeFactory;
 	import editor.datatype.impl.UtilDataType;
 	import editor.datatype.type.ComposedType;
-	import editor.datatype.type.DataContext;
+	import editor.datatype.type.DataTypeContext;
 	import editor.datatype.type.IDataType;
+	import editor.mgr.DataManager;
+	
+	import mx.utils.ObjectUtil;
 
 	public class XMLDataParser
 	{
@@ -19,35 +21,68 @@ package editor.datatype.impl.parser.xml
 		 * @return XML representation of the object
 		 * 
 		 */
-		public static function toXML(obj:Object):XML {
-			if(obj && (typeof obj) == "object" && obj.hasOwnProperty("$type"))
-				return composedDataToXML(obj);
+		public static function toXML(obj:Object, ctx:DataTypeContext):XML {
+			if(obj && obj is ComposedData)
+				return composedDataToXML(obj, ctx);
+			if(obj && (typeof obj) == "object" && !(obj is Array))
+				return genericDataToXML(obj, ctx);
 			else
-				return basicDataToXML(obj);
+				return simpleDataToXML(obj, ctx);
 		}
 		
-		private static function basicDataToXML(obj:Object):XML {
+		private static function simpleDataToXML(obj:Object, ctx:DataTypeContext):XML {
 			var xml:XML = <value />;
 			xml.setName(UtilDataType.typeOf(obj));
 			if(obj.hasOwnProperty("source"))
 				obj = obj["source"];
 			if(obj is Array) {
 				for(var i:int = 0; i < (obj as Array).length; i++)
-					xml.appendChild(toXML(obj[i]));
+					xml.appendChild(toXML(obj[i], ctx));
 			}
 			else
 				xml.appendChild(obj);
 			return xml;
 		}
 		
-		private static function composedDataToXML(obj:Object):XML {
+		private static function composedDataToXML(obj:Object, ctx:DataTypeContext):XML {
 			var xml:XML = <value />;
 			xml.setName(UtilDataType.typeOf(obj));
 			
-			for(var key:String in obj) {
+			for (var key:String in obj) {
 				if(obj[key] == null)
 					continue;
-				var childXML:XML = toXML(obj[key]);
+				var childXML:XML = toXML(obj[key], ctx);
+				childXML.@property = key;
+				xml.appendChild(childXML);
+			}
+			
+			return xml;
+		}
+		
+		/**
+		 * Convert explicitly defined vo's into XML using associated ComposedType's infomation. <p>
+		 * There must exist a ComposedType with exactly the same name as the vo Class, otherwise it will not be
+		 * translated into XML.
+		 * <p>
+		 * @param obj vo object to be translated
+		 * @param ctx DataTypeContext inwhich ComposedType has been defined
+		 * @return XML representation of the vo object, parsable using XMLDataParser
+		 * 
+		 */
+		private static function genericDataToXML(obj:Object, ctx:DataTypeContext):XML {
+			var xml:XML = <value />;
+			xml.setName(UtilDataType.typeOf(obj));
+			
+			var type_name:String = UtilDataType.guessType(obj);
+			var type:ComposedType = ctx[type_name];
+			if(type == null)
+				throw new Error("Cannot found propotype for " + ObjectUtil.toString(obj));
+			
+			var desc:Object = ObjectUtil.getClassInfo(obj);
+			for (var key:String in type.properties) {
+				if(!obj.hasOwnProperty(key) ||obj[key] == null)
+					continue;
+				var childXML:XML = toXML(obj[key], ctx);
 				childXML.@property = key;
 				xml.appendChild(childXML);
 			}
@@ -63,7 +98,7 @@ package editor.datatype.impl.parser.xml
 		 * @return a data object
 		 * 
 		 */
-		public static function fromXML(xml:XML, ctx:DataContext):Object {
+		public static function fromXML(xml:XML, ctx:DataTypeContext):Object {
 			var data:Object;
 			var type:IDataType = ctx[xml.localName()];
 			if(type is ComposedType)
@@ -73,26 +108,26 @@ package editor.datatype.impl.parser.xml
 			return data;
 		}
 		
-		public static function basicDataFromXML(xml:XML, ctx:DataContext):Object {
+		private static function basicDataFromXML(xml:XML, ctx:DataTypeContext):Object {
 			var value:Object;
 			
 			switch(xml.localName()) {
-				case DataTypeFactory.TYPE_UNDEFINED:
+				case DataManager.TYPE_UNDEFINED:
 					value = null;
 					break;
-				case DataTypeFactory.TYPE_BOOLEAN:
+				case DataManager.TYPE_BOOLEAN:
 					value = xml.text().toLowerCase() == "false" ? false : true;
 					break;
-				case DataTypeFactory.TYPE_FLOAT:
+				case DataManager.TYPE_FLOAT:
 					value = parseFloat(xml.text());
 					break;
-				case DataTypeFactory.TYPE_INT:
+				case DataManager.TYPE_INT:
 					value = parseInt(xml.text());
 					break;
-				case DataTypeFactory.TYPE_STRING:
+				case DataManager.TYPE_STRING:
 					value = xml.text().toString();
 					break;
-				case DataTypeFactory.TYPE_ARRAY:
+				case DataManager.TYPE_ARRAY:
 					value = arrayFromXML(xml, ctx);
 					break;
 			}
@@ -100,7 +135,7 @@ package editor.datatype.impl.parser.xml
 			return value;
 		}
 		
-		private static function arrayFromXML(xml:XML, ctx:DataContext):Object {
+		private static function arrayFromXML(xml:XML, ctx:DataTypeContext):Object {
 			var array:Array = [];
 			for each(var element:XML in xml.children()) {
 				array.push(fromXML(element, ctx));
@@ -108,7 +143,7 @@ package editor.datatype.impl.parser.xml
 			return array;
 		}
 		
-		private static function composedDataFromXML(xml:XML, ctx:DataContext):ComposedData {
+		private static function composedDataFromXML(xml:XML, ctx:DataTypeContext):ComposedData {
 			var type:IDataType = ctx[xml.name()];
 			var data:ComposedData = type.construct();
 			for each(var element:XML in xml.children()) {

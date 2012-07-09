@@ -4,7 +4,7 @@ package editor.dataeditor.impl.parser.xml
 	import editor.dataeditor.impl.EditorBase;
 	import editor.dataeditor.impl.ElementProperty;
 	import editor.datatype.impl.parser.xml.XMLDataParser;
-	import editor.datatype.type.DataContext;
+	import editor.datatype.type.DataTypeContext;
 	import editor.utils.DictionaryUtil;
 	import editor.utils.StringRep;
 	
@@ -17,7 +17,7 @@ package editor.dataeditor.impl.parser.xml
 			'default': 'defaultValue'
 		};
 		
-		public static function importFromXML(xml:XML, ctx:DataContext, cache:Dictionary):void {
+		public static function importFromXML(xml:XML, ctx:DataTypeContext, cache:Dictionary):void {
 			var editorBase:EditorBase;
 			for each(var editorXML:XML in xml.elements('editor')) {
 				editorBase = new EditorBase(null, null);
@@ -32,7 +32,7 @@ package editor.dataeditor.impl.parser.xml
 		/* ***************************************
 		 * Routins used in parsing Editor.
 		 */
-		private static function makeEditor(xml:XML, ctx:DataContext, cache:Dictionary, haloEditor:EditorBase = null):EditorBase {
+		private static function makeEditor(xml:XML, ctx:DataTypeContext, cache:Dictionary, haloEditor:EditorBase = null):EditorBase {
 			if(xml.hasOwnProperty('@component') == false)
 				throw new Error("Missing component attribute: " + xml.toString());
 			var dataEditor:EditorBase;
@@ -68,7 +68,7 @@ package editor.dataeditor.impl.parser.xml
 			return props;
 		}
 		
-		private static function processProperties(editorXml:XML, ctx:DataContext):Dictionary {
+		private static function processProperties(editorXml:XML, ctx:DataTypeContext):Dictionary {
 			var props:Dictionary = new Dictionary;
 			for each(var p:XML in editorXml.elements('property')) {
 				var elemProp:ElementProperty = onProperty(p, ctx);
@@ -77,7 +77,7 @@ package editor.dataeditor.impl.parser.xml
 			return props;
 		}
 		
-		private static function processChildren(editorXml:XML, ctx:DataContext, cache:Dictionary):Vector.<EditorBase> {
+		private static function processChildren(editorXml:XML, ctx:DataTypeContext, cache:Dictionary):Vector.<EditorBase> {
 			var children:Vector.<EditorBase> = new Vector.<EditorBase>;
 			for each(var c:XML in editorXml.elements('child')) {
 				children.push(makeEditor(c, ctx, cache));
@@ -85,7 +85,7 @@ package editor.dataeditor.impl.parser.xml
 			return children;
 		}
 		
-		private static function onProperty(xml:XML, ctx:DataContext):ElementProperty {
+		private static function onProperty(xml:XML, ctx:DataTypeContext):ElementProperty {
 			if(!xml.hasOwnProperty('@name'))
 				throw new Error("ElementProperty must have the name of the property: " + xml.toString());
 			var name:String = xml.@name;
