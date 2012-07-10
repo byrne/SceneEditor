@@ -1,5 +1,6 @@
 package editor.datatype.type
 {
+	import editor.EditorGlobal;
 	import editor.datatype.data.ComposedData;
 	import editor.datatype.impl.UtilDataType;
 	

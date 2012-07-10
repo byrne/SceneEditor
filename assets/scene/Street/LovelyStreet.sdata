@@ -1,17 +1,17 @@
 <?xml version="1.0"?>
 <Scene>
-	<string property="name">LovelyStreet</string>
+	<string property="keyword">LovelyStreet</string>
 	<string property="type">Street</string>
 	<number property="width">960</number>
 	<number property="height">560</number>
 	<array  property="layers">
 		<SceneLayer>
-			<string property="name">bg</string>
+			<string property="keyword">bg</string>
 			<string property="class_name">SceneLayer</string>
 			<string property="type">normal</string>
 		</SceneLayer>
 		<SceneLayer>
-			<string property="name">physics</string>
+			<string property="keyword">physics</string>
 			<string property="class_name">SceneLayer</string>
 			<string property="type">physics</string>
 		</SceneLayer>
@@ -20,12 +20,12 @@
 		<NPC>
 		  <string property="resource">../assets/something.swf</string>
 		  <string property="tip_msg">Hrrrrr</string>
-		  <string property="name">Chewiee</string>
+		  <string property="keyword">Chewiee</string>
 		</NPC>
 		<NPC>
 		  <string property="resource">../assets/blackdude.swf</string>
 		  <string property="tip_msg">Sup dawg?</string>
-		  <string property="name">Han Solo</string>
+		  <string property="keyword">Han Solo</string>
 		  <boolean property="enabled">true</boolean>
 		</NPC>
 	</array>

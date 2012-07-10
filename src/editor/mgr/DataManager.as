@@ -69,7 +69,7 @@ package editor.mgr
 		}
 		
 		public function getEditorByType(typename:String):EditorBase {
-			return null;
+			return _editors[typename+"Editor"];
 		}
 	}
 }

@@ -2,7 +2,7 @@
 <root>
 	<type name="ValueObject" >
 		<property name="class_name" type="string" />
-		<property name="name" type="string" />
+		<property name="keyword" type="string" />
 	</type>
 	
 	<type name="Position" >

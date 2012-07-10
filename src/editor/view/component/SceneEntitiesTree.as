@@ -1,10 +1,22 @@
 package editor.view.component
 {
 	import editor.EditorGlobal;
+	import editor.dataeditor.IElement;
+	import editor.dataeditor.impl.EditorBase;
+	import editor.datatype.data.ComposedData;
 	import editor.vo.Scene;
+	
+	import flash.display.DisplayObject;
+	
+	import mx.core.FlexGlobals;
+	import mx.core.IFlexDisplayObject;
+	import mx.events.ListEvent;
+	import mx.managers.PopUpManager;
 
 	public class SceneEntitiesTree extends TreeBase
 	{
+		public var scene:Scene;
+		
 		public function SceneEntitiesTree()
 		{
 			super();
@@ -12,23 +24,51 @@ package editor.view.component
 		}
 		
 		override public function refreshView(data:Object=null):void {
-			var scene:Scene = EditorGlobal.MAIN_WND.curScene;
+			scene = data as Scene;
 			var entityClassArr:Array = scene.template.entities;
 			var dataProvider:XML = <node/>;
 			for each(var entityClassName:String in entityClassArr) {
-				var xml:XML = <node/>;
-				xml.@label = entityClassName;
-				xml.@leaf = false;
-				dataProvider.appendChild(xml);
-				var childXML:XML;
-				for(var i:int=0; i<3; i++) {
-					childXML = <node/>;
-					childXML.@label = entityClassName+"_00"+(i+1).toString();
-					childXML.@leaf = true;
-					xml.appendChild(childXML);
-				}
+				dataProvider.appendChild(populateCategory(entityClassName, data as Scene));
 			}
 			this.dataProvider = dataProvider;
+		}
+		
+		private function populateCategory(cate_name:String, scene:Scene):XML {
+			var categoryTree:XML = <node />;
+			var child:XML;
+			
+			categoryTree.@label = cate_name;
+			categoryTree.@leaf = false;
+			
+			for each(var entity:ComposedData in scene.entities) {
+				if(entity.$type.name != cate_name) continue;
+				child = <node />;
+				child.@label = entity['keyword'];
+				child.@leaf = true;
+				categoryTree.appendChild(child);
+			}
+			
+			return categoryTree;
+		}
+		
+		override protected function itemDoubleClickHandler(evt:ListEvent):void {
+			var selectItem:XML = this.selectedItem as XML;
+			if(selectItem.@leaf != true)
+				return;
+			var data:ComposedData;
+			
+			for each(var entity:ComposedData in scene.entities) {
+				if(entity['keyword'] == selectItem.@label) {
+					data = entity;
+					break;
+				}
+			}
+			
+			if(data != null) {
+				var data_editor:EditorBase = EditorGlobal.DATA_MANAGER.getEditorByType(data.$type.name);
+				var view:IElement = data_editor.buildView(data);
+				PopUpManager.addPopUp(view as IFlexDisplayObject, FlexGlobals.topLevelApplication as DisplayObject);
+			}
 		}
 		
 		override public function get contextMenuItems():Array {

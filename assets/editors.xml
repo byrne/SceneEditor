@@ -1,17 +1,17 @@
 <?xml version="1.0"?>
 <root>
 	<editor name="NPCTypeSelector" component="ItemSelector" dataProvider="['路人', '守卫', '向导']" />
-	<editor name="SimpleNPCEditor" component="Panel" title="'NPC编辑器'">
+	<editor name="NPCEditor" component="Panel" title="'NPC编辑器'">
 		<child component="TabNavigator">
 			<child component="AccordionContent" label="'这是什么'" percentageWidth="100" percentageHeight="100">
 				<child component="Form">
-					<child component="SingleLineText" view_label="名字" property="name" />
+					<child component="SingleLineText" view_label="名字" property="keyword" />
 					<child component="SingleLineText" view_label="素材文件" property="resource" />
 					<child component="SingleLineText" view_label="默认动作" property="default_action" />
 					<child component="SingleLineText" view_label="默认语言" property="tip_msg" />
 				</child>
 			</child>
-			<child component="AccordionContent" label="'可选项'" percentageWidth="100">
+			<child component="AccordionContent" label="可选项" percentageWidth="100">
 				<child component="VLayout">
 					<child component="CheckBox" view_label="可见" property="enabled" default="true" />
 					<child component="NumericStepper" view_label="x" property="x" />

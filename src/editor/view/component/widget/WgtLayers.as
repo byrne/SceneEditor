@@ -69,7 +69,7 @@ package editor.view.component.widget
 				clearView();
 			_targetScene = scene;
 			for each(var sceneLayer:SceneLayer in scene.layers) {
-				addLayer(sceneLayer.name);
+				addLayer(sceneLayer.keyword);
 			}
 		}
 		

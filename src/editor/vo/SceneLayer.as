@@ -2,7 +2,7 @@ package editor.vo
 {
 	public class SceneLayer extends ValueObjectBase
 	{
-		public var name:String;
+		public var keyword:String;
 		
 		public var type:String;
 		
