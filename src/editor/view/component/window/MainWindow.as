@@ -186,8 +186,7 @@ package editor.view.component.window
 			var sceneData:Object = XMLDataParser.fromXML(data, EditorGlobal.DATA_MANAGER.types);
 			curScene = new Scene(sceneData);
 			parameterPanel.wgtLayers.initLayers(curScene);
-			var ouput:XML = XMLDataParser.toXML(curScene, EditorGlobal.DATA_MANAGER.types);
-			sceneEntitiesTree.refreshView();
+			sceneEntitiesTree.refreshView(curScene);
 			tabNavigateTo(1);
 		}
 		

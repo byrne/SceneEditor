@@ -16,7 +16,7 @@ package editor.datatype.impl.parser.xml
 		
 		/**
 		 * Create an XML representation of an object constructed by a DataType.
-		 *   
+		 * 
 		 * @param obj an object constructed by a DataType
 		 * @return XML representation of the object
 		 * 
@@ -35,10 +35,9 @@ package editor.datatype.impl.parser.xml
 			xml.setName(UtilDataType.typeOf(obj));
 			if(obj.hasOwnProperty("source"))
 				obj = obj["source"];
-			if(obj is Array) {
+			if(obj is Array)
 				for(var i:int = 0; i < (obj as Array).length; i++)
 					xml.appendChild(toXML(obj[i], ctx));
-			}
 			else
 				xml.appendChild(obj);
 			return xml;

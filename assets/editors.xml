@@ -7,15 +7,15 @@
 				<child component="Form">
 					<child component="SingleLineText" view_label="名字" property="name" />
 					<child component="SingleLineText" view_label="素材文件" property="resource" />
-					<child component="NumericStepper" view_label="ID" property="id" default="2"/>
-					<child component="NPCTypeSelector" view_label="类型" property="type" default="1" />
+					<child component="SingleLineText" view_label="默认动作" property="default_action" />
+					<child component="SingleLineText" view_label="默认语言" property="tip_msg" />
 				</child>
 			</child>
 			<child component="AccordionContent" label="'可选项'" percentageWidth="100">
 				<child component="VLayout">
-					<child component="CheckBox" view_label="可见" property="visible" default="true" />
-					<child component="SingleLineText" view_label="默认语言" property="tip_msg" default="'你想怎么样?!'" />
-					<child component="SingleLineText" view_label="对话内容" property="dialog" default="'拉影四天王'"/>
+					<child component="CheckBox" view_label="可见" property="enabled" default="true" />
+					<child component="NumericStepper" view_label="x" property="x" />
+					<child component="NumericStepper" view_label="y" property="y" />
 				</child>
 			</child>
 		</child>
