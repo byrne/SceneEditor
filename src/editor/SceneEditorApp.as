@@ -51,8 +51,10 @@ package editor
 				<menu label="文件" event="mce_file">
 					<item label="新建" event="mce_file_new"/>
 					<item label="打开" event="mce_file_open"/>
-					<item label="切换工作路径" event="mce_switch_workspcae"/>
+					<item label="保存" event="mce_file_save"/>
+					<item label="另保为" event="mce_file_save_as"/>
 					<item type="separator" event=""/>
+					<item label="切换工作路径" event="mce_switch_workspcae"/>
 					<item label="退出" event="mce_quit"/>
 				</menu>	
 				<menu label="查看" event="mce_view">
@@ -155,6 +157,14 @@ package editor
 			var menuItemClickHandler:Function = function(evt:DataEvent):void {
 				var key:String = evt.data.@["event"];
 				switch(key) {
+					case "mce_file_save":
+						fileSaveHandler();
+						break;
+					
+					case "mce_file_save_as":
+						fileSaveAsHandler();
+						break;
+					
 					case "mce_switch_workspcae":
 						menuTriggerSwitchWorkspace();
 						break;
@@ -186,7 +196,11 @@ package editor
 		}
 		private function fileOpenHandler(evt:Event):void {
 		}
-		private function fileSaveHandler(evt:Event):void {
+		
+		private function fileSaveHandler():void {
+		}
+		
+		private function fileSaveAsHandler():void {
 		}
 		private function menuTriggerSwitchWorkspace():void {
 			var dlg:SetWoringDirDlg = new SetWoringDirDlg();

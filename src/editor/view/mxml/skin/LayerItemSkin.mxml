@@ -32,30 +32,30 @@
 	
 	<s:TextInput id="layerNameLabel" width="200" height="24" editable="false" borderVisible="false"/>
 	
-	<s:Image id="btnSelected" source="@Embed('pen.png')" x="200" y="4" visible="false"
+	<s:Image id="btnSelected" source="@Embed('img/pen.png')" x="200" y="4" visible="false"
 			 visible.selected="true"/>
-	<s:Image id="btnSelectedLocked" source="@Embed('pen_disable.png')" x="200" y="4" visible="false"
+	<s:Image id="btnSelectedLocked" source="@Embed('img/pen_disable.png')" x="200" y="4" visible="false"
 			 visible.lock_selected="true"
 			 visible.invisible_selected="true"
 			 visible.invisible_lock_selected="true"/>
 	
-	<s:Image id="btnInvisible" source="@Embed('cross.png')" x="300" y="4" visible="false" 
+	<s:Image id="btnInvisible" source="@Embed('img/cross.png')" x="300" y="4" visible="false" 
 			 visible.invisible="true" 
 			 visible.invisible_lock="true" 
 			 visible.invisible_lock_selected="true" 
 			 visible.invisible_selected="true"/>
-	<s:Image id="btnInvisibleSelect" source="@Embed('dot_white.png')" x="300" y="4" visible="false" visible.selected="true" visible.lock_selected="true"/>
-	<s:Image id="btnInvisibleUnselect" source="@Embed('dot_black.png')" x="300" y="4" visible="false" visible.normal="true" visible.lock="true"/>
+	<s:Image id="btnInvisibleSelect" source="@Embed('img/dot_white.png')" x="300" y="4" visible="false" visible.selected="true" visible.lock_selected="true"/>
+	<s:Image id="btnInvisibleUnselect" source="@Embed('img/dot_black.png')" x="300" y="4" visible="false" visible.normal="true" visible.lock="true"/>
 	
-	<s:Image id="btnLock" source="@Embed('lock.png')" x="400" y="4" visible="false"
+	<s:Image id="btnLock" source="@Embed('img/lock.png')" x="400" y="4" visible="false"
 			 visible.lock="true"
 			 visible.invisible_lock_selected="true"
 			 visible.invisible_lock="true"
 			 visible.lock_selected="true"/>
-	<s:Image id="btnLockSelect" source="@Embed('dot_white.png')" x="400" y="4" visible="false" visible.selected="true" visible.invisible_selected="true"/>
-	<s:Image id="btnLockUnselect" source="@Embed('dot_black.png')" x="400" y="4" visible="false" visible.normal="true" visible.invisible="true"/>
+	<s:Image id="btnLockSelect" source="@Embed('img/dot_white.png')" x="400" y="4" visible="false" visible.selected="true" visible.invisible_selected="true"/>
+	<s:Image id="btnLockUnselect" source="@Embed('img/dot_black.png')" x="400" y="4" visible="false" visible.normal="true" visible.invisible="true"/>
 	
-	<s:Image id="btnDelete" source="@Embed('delete.png')" right="20" y="4"/>
+	<s:Image id="btnDelete" source="@Embed('img/delete.png')" right="20" y="4"/>
 	<s:Rect id="endline" width="100%" height="1" y="23">
 		<s:fill>
 			<s:SolidColor color="0x888888"/>

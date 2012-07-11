@@ -12,10 +12,10 @@
 		<![CDATA[
 			import flexlib.controls.tabBarClasses.SuperTab;
 			
-			[Embed(source="layers.png")]
+			[Embed(source="img/layers.png")]
 			private var layers_icon:Class;
 			
-			[Embed(source="pen.png")]
+			[Embed(source="img/pen.png")]
 			private var output_icon:Class;
 		]]>
 	</fx:Script>

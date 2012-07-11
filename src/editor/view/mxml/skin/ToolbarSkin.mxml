@@ -34,14 +34,14 @@
 	</s:Rect>
 	
 	<s:VGroup id="iconsDisplay" width="100%" height="100%" horizontalAlign="center" gap="3" top="4" bottom="4" left="1" right="1">
-		<component:ToolbarButton id="tbtn_select" iconSource="move.png" group="operate" toolTip="选择(S)"/>
-		<component:ToolbarButton id="tbtn_move" iconSource="move.png" group="operate" toolTip="移动(M)"/>
-		<component:ToolbarButton id="tbtn_test" iconSource="scale.png" group="operate" toolTip="创建 (T)"/>
-		<component:ToolbarButton id="scale_2" iconSource="scale.png" group="operate" />
-		<component:ToolbarButton id="text_1" iconSource="text.png" group="operate"/>
-		<component:ToolbarButton id="text_2" iconSource="text.png" group="operate"/>
-		<component:ToolbarButton id="vect_1" iconSource="vect.png" group="operate"/>
-		<component:ToolbarButton id="vect_2" iconSource="vect.png" group="operate"/>
+		<component:ToolbarButton id="tbtn_select" iconSource="img/move.png" group="operate" toolTip="选择(S)"/>
+		<component:ToolbarButton id="tbtn_move" iconSource="img/move.png" group="operate" toolTip="移动(M)"/>
+		<component:ToolbarButton id="tbtn_test" iconSource="img/scale.png" group="operate" toolTip="创建 (T)"/>
+		<component:ToolbarButton id="scale_2" iconSource="img/scale.png" group="operate" />
+		<component:ToolbarButton id="text_1" iconSource="img/text.png" group="operate"/>
+		<component:ToolbarButton id="text_2" iconSource="img/text.png" group="operate"/>
+		<component:ToolbarButton id="vect_1" iconSource="img/vect.png" group="operate"/>
+		<component:ToolbarButton id="vect_2" iconSource="img/vect.png" group="operate"/>
 	</s:VGroup>
 	
 </s:SparkSkin>

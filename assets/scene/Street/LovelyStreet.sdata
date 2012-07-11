@@ -18,12 +18,12 @@
 	</array>
 	<array property="entities">
 		<NPC>
-		  <string property="resource">../assets/something.swf</string>
+		  <string property="resource">test.swf - saybotmc</string>
 		  <string property="tip_msg">Hrrrrr</string>
 		  <string property="keyword">Chewiee</string>
 		</NPC>
 		<NPC>
-		  <string property="resource">../assets/blackdude.swf</string>
+		  <string property="resource">test2/test3/win.swf - saybotmc</string>
 		  <string property="tip_msg">Sup dawg?</string>
 		  <string property="keyword">Han Solo</string>
 		  <boolean property="enabled">true</boolean>

@@ -35,11 +35,11 @@
 		</s:Rect>
 	
 		<s:Label text="图层名" x="10" y="-3"/>
-		<s:Image id="crtLayer" source="@Embed('pen.png')" x="200" y="-6"/>
-		<s:Image id="btnLayerVisible" source="@Embed('eye.png')" x="300" y="-6"/>
-		<s:Image id="btnLayerLock" source="@Embed('lock.png')" x="400" y="-6"/>
-		<s:Image id="btnLayerNew" source="@Embed('new_layer.png')" right="40" y="-6"/>
-		<s:Image id="btnLayerDelete" source="@Embed('delete.png')" right="20" y="-6"/>
+		<s:Image id="crtLayer" source="@Embed('img/pen.png')" x="200" y="-6"/>
+		<s:Image id="btnLayerVisible" source="@Embed('img/eye.png')" x="300" y="-6"/>
+		<s:Image id="btnLayerLock" source="@Embed('img/lock.png')" x="400" y="-6"/>
+		<s:Image id="btnLayerNew" source="@Embed('img/new_layer.png')" right="40" y="-6"/>
+		<s:Image id="btnLayerDelete" source="@Embed('img/delete.png')" right="20" y="-6"/>
 	</s:Group>
 	
 	<s:Scroller width="100%"  height="100%" top="14">
