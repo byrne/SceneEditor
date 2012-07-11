@@ -15,8 +15,7 @@ package editor.dataeditor.elements
 		}
 		
 		public function set defaultValue(v:Object):void {
-			if(v is Number)
-				this[bindingProperty] = v;
+			this[bindingProperty] = (v is Number) ? v : 0;
 		}
 	}
 }

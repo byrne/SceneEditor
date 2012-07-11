@@ -4,6 +4,7 @@ package editor.view.component
 	import editor.dataeditor.IElement;
 	import editor.dataeditor.impl.EditorBase;
 	import editor.datatype.data.ComposedData;
+	import editor.view.component.window.PropertyEditorWindow;
 	import editor.vo.Scene;
 	
 	import flash.display.DisplayObject;
@@ -65,9 +66,10 @@ package editor.view.component
 			}
 			
 			if(data != null) {
-				var data_editor:EditorBase = EditorGlobal.DATA_MANAGER.getEditorByType(data.$type.name);
-				var view:IElement = data_editor.buildView(data);
-				PopUpManager.addPopUp(view as IFlexDisplayObject, FlexGlobals.topLevelApplication as DisplayObject);
+				EditorGlobal.PROPERTY_WND.title = "Editing "+data.$type.name;
+				EditorGlobal.PROPERTY_WND.target = data;
+				PopUpManager.addPopUp(EditorGlobal.PROPERTY_WND, FlexGlobals.topLevelApplication as DisplayObject);
+				PopUpManager.centerPopUp(EditorGlobal.PROPERTY_WND);
 			}
 		}
 		

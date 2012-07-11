@@ -28,6 +28,7 @@ package editor.dataeditor.impl
 			'Panel': Panel,
 			'SingleLineText': SingleLineText,
 			'VLayout': VLayout,
+			'HLayout': HLayout,
 			'VSlider': VSlider,
 			'Form': Form,
 			'TitleWindow': TitleWindow,
