@@ -21,6 +21,7 @@
 		  <string property="resource">test.swf - saybotmc</string>
 		  <string property="tip_msg">Hrrrrr</string>
 		  <string property="keyword">Chewiee</string>
+		  <string property="default_action">WALK</string>
 		</NPC>
 		<NPC>
 		  <string property="resource">test2/test3/win.swf - saybotmc</string>

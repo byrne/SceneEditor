@@ -1,6 +1,5 @@
 package editor.dataeditor.impl.parser.xml
 {
-	import editor.dataeditor.impl.ComponentPool;
 	import editor.dataeditor.impl.EditorBase;
 	import editor.dataeditor.impl.ElementProperty;
 	import editor.datatype.impl.parser.xml.XMLDataParser;

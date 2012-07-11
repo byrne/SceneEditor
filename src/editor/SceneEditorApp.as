@@ -19,6 +19,7 @@ package editor
 	import editor.view.component.CustomMenuBar;
 	import editor.view.component.dialog.SetWoringDirDlg;
 	import editor.view.component.window.MainWindow;
+	import editor.view.component.window.PropertyEditorWindow;
 	import editor.view.component.window.ResLibraryWindow;
 	import editor.view.component.window.TitleWindowBase;
 	import editor.view.mxml.skin.CustomAppSkin;
@@ -36,6 +37,7 @@ package editor
 	{
 		public var dataMemory:SceneDataMemory;
 		public var dataManager:DataManager;
+		public var propertyEditor:PropertyEditorWindow = new PropertyEditorWindow("Editor");
 		
 		public var working_dir:String;
 		public var proj_dir:String;

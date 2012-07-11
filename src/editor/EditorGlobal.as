@@ -4,6 +4,7 @@ package editor
 	import editor.mgr.DataManager;
 	import editor.mgr.SceneDataMemory;
 	import editor.view.component.window.MainWindow;
+	import editor.view.component.window.PropertyEditorWindow;
 	
 	import mx.core.FlexGlobals;
 
@@ -27,6 +28,10 @@ package editor
 		
 		public static function get MAIN_WND():MainWindow {
 			return APP.mainWnd;
+		}
+		
+		public static function get PROPERTY_WND():PropertyEditorWindow {
+			return APP.propertyEditor;
 		}
 	}
 }
