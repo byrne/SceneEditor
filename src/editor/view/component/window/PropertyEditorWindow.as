@@ -10,6 +10,7 @@ package editor.view.component.window
 	import flash.events.MouseEvent;
 	
 	import mx.core.IVisualElement;
+	import mx.events.CloseEvent;
 	import mx.managers.PopUpManager;
 
 	public class PropertyEditorWindow extends TitleWindowBase
@@ -17,8 +18,8 @@ package editor.view.component.window
 		public var _content:IElement;
 		public var _data:ComposedData;
 		
-		public function PropertyEditorWindow(title:String, showCloseBtn:Boolean=true, modal:Boolean=false) {
-			super(title, showCloseBtn, modal);
+		public function PropertyEditorWindow(title:String) {
+			super(title, true, false);
 		}
 		
 		public function set target(data:ComposedData):void {
@@ -38,9 +39,8 @@ package editor.view.component.window
 			addElement(_content as IVisualElement);
 		}
 		
-		override protected function closeButton_clickHandler(event:MouseEvent):void {
-			PopUpManager.removePopUp(_content);
-			trace(_data);
+		override public function onClose(evt:CloseEvent=null):void {
+			super.onClose(evt);
 		}
 	}
 }
