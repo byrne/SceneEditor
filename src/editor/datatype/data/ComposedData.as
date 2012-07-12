@@ -21,6 +21,7 @@ package editor.datatype.data
 		private static const NAME_PATTERN:RegExp = new RegExp("^[a-z|A-Z][a-z|A-Z|0-9|_]+$", "ig");
 
 		public var $type:IDataType;
+		public var $uid:String;
 		
 		protected var _$cache:Dictionary = new Dictionary;
 		protected var _$keys:Array;
@@ -70,6 +71,20 @@ package editor.datatype.data
 		 */
 		public function assigned(property:String):Boolean {
 			return _$assignmentCount.hasOwnProperty(property) ? _$assignmentCount[property] > 1 : false;
+		}
+		
+		/**
+		 * Whether the ComposedData object has just been constructed, and has NOT been assigned any value to any of
+		 * its property. 
+		 * @return 
+		 * 
+		 */
+		public function get isNew():Boolean {
+			for each(var key:String in _$cache) {
+				if(assigned(key))
+					return false;
+			}
+			return true;
 		}
 		
 		override flash_proxy function getProperty(name:*):* {

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:SparkSkin xmlns:fx="http://ns.adobe.com/mxml/2009" 
-		xmlns:s="library://ns.adobe.com/flex/spark" 
-		xmlns:mx="library://ns.adobe.com/flex/mx">
+			 xmlns:s="library://ns.adobe.com/flex/spark" 
+			 xmlns:mx="library://ns.adobe.com/flex/mx">
 	<!-- host component -->
 	<fx:Metadata>
 		[HostComponent("editor.view.component.widget.WgtLayers")]
@@ -33,7 +33,7 @@
 				<s:SolidColor color="0x333333"/>
 			</s:fill>
 		</s:Rect>
-	
+		
 		<s:Label text="图层名" x="10" y="-3"/>
 		<s:Image id="crtLayer" source="@Embed('img/pen.png')" x="200" y="-6"/>
 		<s:Image id="btnLayerVisible" source="@Embed('img/eye.png')" x="300" y="-6"/>

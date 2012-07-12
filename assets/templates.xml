@@ -3,6 +3,7 @@
 	<type name="ValueObject" >
 		<property name="class_name" type="string" />
 		<property name="keyword" type="string" />
+		<property name="UID" type="string" />
 	</type>
 	
 	<type name="Position" >

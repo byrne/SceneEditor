@@ -18,9 +18,9 @@ package editor.view.component.dialog
 	
 	public class SetWoringDirDlg extends DialogBase
 	{
-		var confirmBtn:Button;
+		protected var confirmBtn:Button;
 		
-		var selectDirView:SelectDirectorySkin;
+		protected var selectDirView:SelectDirectorySkin;
 		
 		public function SetWoringDirDlg()
 		{

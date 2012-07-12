@@ -55,7 +55,7 @@ package editor.view.component.canvas
 			EditorGlobal.APP.cursorMessage.text = StringUtil.substitute("{0}:{1}", int(p.x - axisXbase), int(p.y - axisYbase));
 		}
 		
-		protected function entitySelectedStatusChange(enti:EntityBaseView, val):void {
+		protected function entitySelectedStatusChange(enti:EntityBaseView, val:*):void {
 			var entiIndex:int = _selectedEntities.indexOf(enti);
 			if(val && entiIndex<0) {
 				_selectedEntities.push(enti);

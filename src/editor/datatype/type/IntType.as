@@ -15,7 +15,7 @@ package editor.datatype.type
 		}
 		
 		override public function convert(v:*):DataConvertResult {
-			var result:DataConvertResult = new DataConvertResult(null, true);;
+			var result:DataConvertResult = new DataConvertResult(null, true);
 			var tmp:int;
 			
 			if(v is Number) {

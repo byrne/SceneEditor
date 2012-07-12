@@ -19,7 +19,7 @@ package editor.mgr
 		
 		private static var resCache:Dictionary = new Dictionary();
 		
-		public static function getSwfSymbolByName(swfFile:String, symbol:String, successHandler:Function, errorHandler:Function=null) {
+		public static function getSwfSymbolByName(swfFile:String, symbol:String, successHandler:Function, errorHandler:Function=null):void {
 			var ret:* = fetchFromCache(swfFile, symbol);
 			if(ret != null) {
 				successHandler.call(null, ret as Class);
@@ -31,7 +31,7 @@ package editor.mgr
 			});
 		}
 		
-		public static function getSwfSymbols(swfFile:String, successHandler:Function, errorHandler:Function=null) {
+		public static function getSwfSymbols(swfFile:String, successHandler:Function, errorHandler:Function=null):void {
 			var ret:* = fetchFromCache(swfFile);
 			if(ret != null) {
 				successHandler.call(null, ret as Array);

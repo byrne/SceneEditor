@@ -179,7 +179,6 @@ package editor
 		}
 		
 		protected function contextMenuHide(event:MenuEvent):void {
-			var menuData:ContextMenuData;
 			var beforeHandler:Function;
 			var menuData:ContextMenuData;
 			for each(menuData in curHitMenuDatas) {
