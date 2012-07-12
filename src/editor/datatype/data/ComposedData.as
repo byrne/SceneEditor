@@ -1,5 +1,6 @@
 package editor.datatype.data
 {
+	import editor.datatype.ReservedName;
 	import editor.datatype.error.InvalidPropertyNameError;
 	import editor.datatype.error.UndefinedPropertyError;
 	import editor.datatype.error.UnexpectedTypeError;
@@ -7,6 +8,7 @@ package editor.datatype.data
 	import editor.datatype.type.ComposedType;
 	import editor.datatype.type.DataConvertResult;
 	import editor.datatype.type.IDataType;
+	import editor.view.scene.EntityBaseView;
 	
 	import flash.utils.Dictionary;
 	import flash.utils.Proxy;
@@ -26,6 +28,8 @@ package editor.datatype.data
 		protected var _$vals:Array;
 		protected var _$assignmentCount:Dictionary = new Dictionary;
 		
+		protected var _view:EntityBaseView;
+		
 		public function ComposedData() {
 			super();
 		}
@@ -42,6 +46,8 @@ package editor.datatype.data
 			else
 				_$cache[name] = value;
 			_$assignmentCount[name] =  numAssignments(name) + 1;
+			if(ReservedName.isReservedName(name) && this.view != null)
+				this.view.syncDataToView();
 		}
 		
 		private function resolveTypeMismatch(value:*, propertyType:IDataType):* {
@@ -116,6 +122,14 @@ package editor.datatype.data
 		
 		public function toString():String {
 			return "[ComposedData " + $type.name + "]";
+		}
+		
+		public function set view(v:EntityBaseView):void {
+			this._view = v;
+		}
+		
+		public function get view():EntityBaseView {
+			return this._view;
 		}
 	}
 }

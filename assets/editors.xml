@@ -20,7 +20,7 @@
 			</child>
 			<child component="AccordionContent" label="可选项" minWidth="300">
 				<child component="Form">
-					<child component="CheckBox" view_label="可见" property="enabled" default="true" />
+					<child component="CheckBox" view_label="可见" property="visible" default="true" />
 					<child component="PositionEditor" view_label="坐标" />
 				</child>
 			</child>

@@ -1,6 +1,10 @@
 package editor.utils
 {
+	import flash.display.Bitmap;
 	import flash.display.BitmapData;
+	import flash.display.DisplayObject;
+	import flash.display.Loader;
+	import flash.display.MovieClip;
 	import flash.filesystem.File;
 	import flash.filesystem.FileMode;
 	import flash.filesystem.FileStream;
@@ -9,8 +13,11 @@ package editor.utils
 	
 	import json.JParser;
 	
+	import mx.controls.SWFLoader;
 	import mx.graphics.codec.PNGEncoder;
 	import mx.utils.ObjectProxy;
+	
+	import spark.components.Image;
 
 	public class CommonUtil {
 		
@@ -198,6 +205,33 @@ package editor.utils
 		public static function appendArray(main:Array, appending:Array):void {
 			for each (var e:* in appending) {
 				main.push(e);
+			}
+		}
+		
+		public static function unloadDisplay(target:*):void {
+			if (target == null) {
+				return; 
+			}
+			if(target.parent) {
+				target.parent.removeChild(target);
+			}
+			if (target is Image && (target as Image).source is Bitmap &&  ((target as Image).source as Bitmap).bitmapData) {
+				((target as Image).source as Bitmap).bitmapData.dispose();
+			} 
+			if (target is Loader) {
+				(target as Loader).unload();
+			}
+			if (target is SWFLoader) {
+				(target as SWFLoader).unloadAndStop(); 
+			} 
+			if (target is MovieClip) {
+				(target as MovieClip).gotoAndStop(1);
+			} 
+			if (target is Bitmap && (target as Bitmap).bitmapData) {
+				(target as Bitmap).bitmapData.dispose();
+			} 
+			if(target is BitmapData) {
+				(target as BitmapData).dispose();
 			}
 		}
 	}

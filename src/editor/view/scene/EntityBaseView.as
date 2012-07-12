@@ -6,6 +6,7 @@ package editor.view.scene
 	import editor.datatype.data.ComposedData;
 	import editor.event.DataEvent;
 	import editor.mgr.ResMgr;
+	import editor.utils.CommonUtil;
 	import editor.utils.swf.SWF;
 	import editor.view.component.canvas.MainCanvas;
 	import editor.view.component.canvas.PreviewCanvas;
@@ -26,6 +27,7 @@ package editor.view.scene
 		private var _vo:Object;
 		private var _dataSyncTimer:Timer = new Timer(DISPLAY_REFRESH_INTERVAL, 1);
 		
+		private var _resKeyword:String;
 		private var _rigidBody:DisplayObject;
 		
 		private var _indicator:Indicator;
@@ -41,9 +43,7 @@ package editor.view.scene
 			_indicator = new Indicator();
 			this.addChild(_indicator);
 			_vo = vo;
-			var resFileAndSymbol:Array = (vo[ReservedName.RESOURCE] as String).split(" - "); 
-			ResMgr.getSwfSymbolByName(EditorGlobal.APP.resLibraryWnd.baseDir + "/" + resFileAndSymbol[0], resFileAndSymbol[1] as String, getResHandler);
-//			this.addEventListener(MouseEvent.CLICK, clickHandler);
+			syncDataToView();
 			var thisRef:EntityBaseView = this;
 			this.addEventListener(MouseEvent.MOUSE_DOWN, function(evt:MouseEvent):void {
 				if(!canSelect)
@@ -63,6 +63,9 @@ package editor.view.scene
 		}
 		
 		protected function getResHandler(cls:Class):void {
+			if(_rigidBody != null) {
+				CommonUtil.unloadDisplay(_rigidBody);
+			}
 			_rigidBody = SWF.buildSymbolInstance(cls);
 			if(_rigidBody is MovieClip) {
 				(_rigidBody as MovieClip).gotoAndStop(1);
@@ -146,11 +149,24 @@ package editor.view.scene
 		}
 		
 		public function syncDataToView():void {
+			// X and Y
 			if(_vo.hasOwnProperty(ReservedName.X) && _vo.hasOwnProperty(ReservedName.Y)) {
 				var p:PreviewCanvas = this.parent as PreviewCanvas;
 				if(p) {
 					p.setItemPos(this, _vo[ReservedName.X], _vo[ReservedName.Y]);
 				}
+			}
+			
+			// res
+			if(_resKeyword != _vo[ReservedName.RESOURCE]) {
+				_resKeyword = _vo[ReservedName.RESOURCE] as String;
+				var resFileAndSymbol:Array = _resKeyword.split(" - "); 
+				ResMgr.getSwfSymbolByName(EditorGlobal.APP.resLibraryWnd.baseDir + "/" + resFileAndSymbol[0], resFileAndSymbol[1] as String, getResHandler);
+			}
+			
+			// visible
+			if(_vo.hasOwnProperty(ReservedName.VISIBLE)) {
+				this.visible = _vo[ReservedName.VISIBLE];
 			}
 		}
 		

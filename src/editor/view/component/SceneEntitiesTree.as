@@ -4,6 +4,7 @@ package editor.view.component
 	import editor.dataeditor.IElement;
 	import editor.dataeditor.impl.EditorBase;
 	import editor.datatype.data.ComposedData;
+	import editor.mgr.PopupMgr;
 	import editor.view.component.window.PropertyEditorWindow;
 	import editor.vo.Scene;
 	
@@ -46,31 +47,39 @@ package editor.view.component
 				child = <node />;
 				child.@label = entity['keyword'];
 				child.@leaf = true;
+				child.@template = cate_name;
 				categoryTree.appendChild(child);
 			}
 			
 			return categoryTree;
 		}
 		
-		override protected function itemDoubleClickHandler(evt:ListEvent):void {
-			var selectItem:XML = this.selectedItem as XML;
-			if(selectItem.@leaf != true)
-				return;
-			var data:ComposedData;
-			
-			for each(var entity:ComposedData in scene.entities) {
-				if(entity['keyword'] == selectItem.@label) {
-					data = entity;
-					break;
+		private function getEntiDataByXML(item:XML):ComposedData {
+			if(item.@leaf != true)
+				return null;
+			var enti:ComposedData;
+			for each(enti in scene.entities) {
+				if(enti['keyword'] == item.@label) {
+					return enti;
 				}
 			}
-			
-			var a:* = EditorGlobal.DATA_MEMORY;
-			if(data != null) {
-				EditorGlobal.PROPERTY_WND.title = "Editing "+data.$type.name;
-				EditorGlobal.PROPERTY_WND.target = data;
-				PopUpManager.addPopUp(EditorGlobal.PROPERTY_WND, FlexGlobals.topLevelApplication as DisplayObject);
-				PopUpManager.centerPopUp(EditorGlobal.PROPERTY_WND);
+			return null;
+		}
+		
+		override protected function itemClickHandler(evt:ListEvent):void {
+			super.itemClickHandler(evt);
+			var enti:ComposedData = getEntiDataByXML(this.selectedItem as XML);
+			if(enti && enti.view) {
+				enti.view.selected = true;
+			}
+		}
+		
+		override protected function itemDoubleClickHandler(evt:ListEvent):void {
+			var enti:ComposedData = getEntiDataByXML(this.selectedItem as XML);
+			if(enti != null) {
+				EditorGlobal.PROPERTY_WND.title = "Editing "+enti.$type.name;
+				EditorGlobal.PROPERTY_WND.target = enti;
+				PopupMgr.getInstance().popupWindow(EditorGlobal.PROPERTY_WND);
 			}
 		}
 		

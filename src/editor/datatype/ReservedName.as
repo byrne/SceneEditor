@@ -8,8 +8,16 @@ package editor.datatype
 		
 		public static const Y:String = "y";
 		
+		public static const VISIBLE:String = "visible";
+		
+		private static const _nameArr:Array = [RESOURCE, X, Y, VISIBLE];
+		
 		public function ReservedName()
 		{
+		}
+		
+		public static function isReservedName(name:String):Boolean {
+			return _nameArr.indexOf(name) >= 0;
 		}
 	}
 }

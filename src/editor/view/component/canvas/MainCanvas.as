@@ -59,23 +59,29 @@ package editor.view.component.canvas
 			var entiIndex:int = _selectedEntities.indexOf(enti);
 			if(val && entiIndex<0) {
 				_selectedEntities.push(enti);
+				unselectOthersIfCtrlUp(enti);
 			}
 			if(!val && entiIndex>=0) {
 				_selectedEntities.splice(entiIndex, 1);
 			}
 		}
 		
-		private var _dragTarget:EntityBaseView;
-		private var _dragStartPos:Point;
-		
-		public function startEntitiesDrag(mouseTarget:EntityBaseView):void {
+		private function unselectOthersIfCtrlUp(target:EntityBaseView):void {
 			var enti:EntityBaseView;
-			if(!KeyBoardMgr.isKeyDown(Keyboard.CONTROL) && !mouseTarget.selected) {
+			if(!KeyBoardMgr.isKeyDown(Keyboard.CONTROL)) {
 				for(var i:int=_selectedEntities.length-1; i>=0; i--) {
 					enti = _selectedEntities[i] as EntityBaseView;
-					if(enti != mouseTarget)
+					if(enti != target)
 						enti.selected = false;
 				}
+			}
+		}
+		
+		private var _dragTarget:EntityBaseView;
+		private var _dragStartPos:Point;
+		public function startEntitiesDrag(mouseTarget:EntityBaseView):void {
+			if(!mouseTarget.selected) {
+				unselectOthersIfCtrlUp(mouseTarget);
 			}
 			if(_dragTarget != null) {
 				LogUtil.warn("MainCanvas already has drag target, this operation will cancel");
@@ -84,6 +90,7 @@ package editor.view.component.canvas
 			_dragTarget = mouseTarget;
 			_dragStartPos = _dragTarget.scenePos;
 			_dragTarget.addEventListener(MouseEvent.MOUSE_MOVE, dragAndMoveHandler);
+			var enti:EntityBaseView;
 			for each(enti in _selectedEntities) {
 				if(enti != _dragTarget)
 					enti.beginDrag();
