@@ -1,19 +1,17 @@
 package editor.datatype.data
 {
+	import editor.EditorGlobal;
 	import editor.mgr.SceneDataMemory;
 
 	public class Reference
 	{
-		public static var MEM:SceneDataMemory;
+		public static var MEM:SceneDataMemory = EditorGlobal.DATA_MEMORY;
 		
 		public function get key():String { return _key; }
 		private var _key:String;
 		
-		private var types:Array = [];
-		
-		public function Reference(key:String = null, types:Array = null) {
+		public function Reference(key:String = null) {
 			_key = key;
-			this.types = types ? types : [];
 		}
 		
 		public function dereference():ComposedData {

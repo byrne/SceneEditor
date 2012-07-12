@@ -1,6 +1,8 @@
 package editor.mgr
 {
+	import editor.EditorGlobal;
 	import editor.datatype.data.ComposedData;
+	import editor.datatype.data.Reference;
 	import editor.datatype.impl.WeakReference;
 	import editor.vo.SceneTemplate;
 	import editor.vo.ValueObjectBase;
@@ -114,6 +116,19 @@ package editor.mgr
 				return null;
 			else
 				return _entityKeyMap[data];
+		}
+		
+		/**
+		 * Apply a given function to every entity stored in the memory one at a time. <p>
+		 * @param fun function to apply must have the signature of: <br>
+		 * <code>function(key:String, value:Object):void</code>
+		 */
+		public function foreach(fun:Function):void {
+			if(fun == null)
+				return;
+			for(var key:String in _entitiesCache)
+				fun.apply(_entitiesCache, [key, _entitiesCache[key]]);
+			return;
 		}
 	}
 }

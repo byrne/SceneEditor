@@ -29,5 +29,12 @@
 		  <string property="keyword">Han Solo</string>
 		  <boolean property="enabled">true</boolean>
 		</NPC>
+		<BossJunior uid="088AFD5A-D782-C8BF-BCE4-793106AADA28">
+		  <string property="resource">hurt.swf - saybotmc</string>
+		  <string property="tip_msg">I'm a Boss</string>
+		  <string property="keyword">Jabba</string>
+		  <string property="default_action">WALK</string>
+		  <Reference property="minion">76F1EC6D-D5D3-C4A0-6214-751F8381FE9E</Reference>
+		</BossJunior>
 	</array>
 </Scene>

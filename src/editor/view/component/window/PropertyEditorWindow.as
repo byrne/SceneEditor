@@ -4,6 +4,7 @@ package editor.view.component.window
 	import editor.dataeditor.IElement;
 	import editor.dataeditor.impl.EditorBase;
 	import editor.datatype.data.ComposedData;
+	import editor.datatype.impl.parser.xml.XMLDataParser;
 	
 	import flash.display.DisplayObject;
 	import flash.events.Event;
@@ -41,6 +42,7 @@ package editor.view.component.window
 		override protected function closeButton_clickHandler(event:MouseEvent):void {
 			PopUpManager.removePopUp(_content);
 			trace(_data);
+			XMLDataParser.toXML(_data, EditorGlobal.DATA_MANAGER.types);
 		}
 	}
 }

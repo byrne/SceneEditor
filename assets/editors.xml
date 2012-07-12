@@ -26,4 +26,8 @@
 			</child>
 		</child>
 	</editor>
+	<editor name="BossJuniorEditor" component="VLayout">
+		<child component="NPCEditor" />
+		<child component="ReferenceChooser" view_label="随从" property="minion" />
+	</editor>
 </root>

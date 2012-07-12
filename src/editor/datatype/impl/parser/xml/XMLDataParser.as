@@ -139,7 +139,7 @@ package editor.datatype.impl.parser.xml
 		}
 		
 		private static function referenceFromXML(xml:XML, ctx:DataTypeContext):Object {
-			var ref:Reference = new Reference;
+			var ref:Reference = new Reference(xml.text());
 			return ref;
 		}
 		

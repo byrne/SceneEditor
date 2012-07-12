@@ -34,7 +34,8 @@ package editor.dataeditor.impl
 			'TitleWindow': TitleWindow,
 			'Accordion': Accordion,
 			'AccordionContent': AccordionContent,
-			'TabNavigator': TabNavigator
+			'TabNavigator': TabNavigator,
+			'ReferenceChooser': ReferenceChooser
 		};
 	}
 }
