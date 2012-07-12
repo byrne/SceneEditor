@@ -42,7 +42,7 @@ package editor.view.component.window
 		override protected function closeButton_clickHandler(event:MouseEvent):void {
 			PopUpManager.removePopUp(_content);
 			trace(_data);
-			XMLDataParser.toXML(_data, EditorGlobal.DATA_MANAGER.types);
+			var a:* = XMLDataParser.toXML(_data, EditorGlobal.DATA_MANAGER.types);
 		}
 	}
 }

@@ -26,16 +26,26 @@ package editor.datatype.impl.parser.xml
 		public static function toXML(obj:Object, ctx:DataTypeContext):XML {
 			if(obj && obj is ComposedData)
 				return composedDataToXML(obj, ctx);
+			else if(obj is Reference)
+				return referenceToXML(obj, ctx);
 			if(obj && (typeof obj) == "object" && !(obj is Array))
 				return genericDataToXML(obj, ctx);
 			else
 				return simpleDataToXML(obj, ctx);
 		}
 		
+		private static function referenceToXML(obj:Object, ctx:DataTypeContext):XML
+		{
+			var xml:XML = <value />;
+			xml.setName(UtilDataType.typeOf(obj));
+			xml.appendChild((obj as Reference).key);
+			return xml;
+		}
+		
 		private static function simpleDataToXML(obj:Object, ctx:DataTypeContext):XML {
 			var xml:XML = <value />;
 			xml.setName(UtilDataType.typeOf(obj));
-			if(obj.hasOwnProperty("source"))
+			if(obj.hasOwnProperty("source") && obj['source'] is Array)
 				obj = obj["source"];
 			if(obj is Array)
 				for(var i:int = 0; i < (obj as Array).length; i++)
@@ -105,11 +115,11 @@ package editor.datatype.impl.parser.xml
 			if(type is ComposedType)
 				data = composedDataFromXML(xml, ctx);
 			else
-				data = basicDataFromXML(xml, ctx);
+				data = simpleDataFromXML(xml, ctx);
 			return data;
 		}
 		
-		private static function basicDataFromXML(xml:XML, ctx:DataTypeContext):Object {
+		private static function simpleDataFromXML(xml:XML, ctx:DataTypeContext):Object {
 			var value:Object;
 			
 			switch(xml.localName()) {

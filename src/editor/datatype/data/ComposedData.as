@@ -37,11 +37,10 @@ package editor.datatype.data
 				throw new InvalidPropertyNameError(name);
 			if(propertyType == null)	// property with the given name has been defined
 				throw new UndefinedPropertyError(name, $type);
-			if(propertyType.check(value) == false)	{	// value to assign is the right type
+			if(propertyType.check(value) == false)	// value to assign is the right type
 				_$cache[name] = resolveTypeMismatch(value, propertyType);
-			}
-			
-			_$cache[name] = value;
+			else
+				_$cache[name] = value;
 			_$assignmentCount[name] =  numAssignments(name) + 1;
 		}
 		
