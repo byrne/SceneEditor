@@ -114,15 +114,15 @@
         <!--- @copy spark.components.WindowedApplication#titleBar -->
         <mxml:CustomTitleBar id="titleBar" width="100%" minHeight="28" alpha.inactiveGroup="0.5"/>
 		<component:CustomMenuBar id="menuBar" width="100%" minHeight="24"/>
-		<!--mxml:ToolbarButton label="" icon="@Embed('icon.PNG')" enabled="false" toolTip="AA" right="10"/>  
-		<mxml:ToolbarButton label="" icon="@Embed('icon.PNG')" enabled="true" toolTip="BB" right="32" top="4" bottom="4"/-->
+		<!--mxml:ToolbarButton label="" icon="@Embed('img/icon.PNG')" enabled="false" toolTip="AA" right="10"/>  
+		<mxml:ToolbarButton label="" icon="@Embed('img/icon.PNG')" enabled="true" toolTip="BB" right="32" top="4" bottom="4"/-->
 		<!--s:ButtonBar>
 			<s:dataProvider>
 				<s:ArrayList>
-					<s:BitmapImage source="@Embed('icon.PNG')"/>
-					<s:BitmapImage source="@Embed('icon.PNG')"/>
-					<s:BitmapImage source="@Embed('icon.PNG')"/>
-					<s:BitmapImage source="@Embed('icon.PNG')"/>
+					<s:BitmapImage source="@Embed('img/icon.PNG')"/>
+					<s:BitmapImage source="@Embed('img/icon.PNG')"/>
+					<s:BitmapImage source="@Embed('img/icon.PNG')"/>
+					<s:BitmapImage source="@Embed('img/icon.PNG')"/>
 				</s:ArrayList>
 			</s:dataProvider>
 		</s:ButtonBar-->

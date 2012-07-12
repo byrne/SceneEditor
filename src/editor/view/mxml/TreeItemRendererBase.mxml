@@ -4,16 +4,22 @@
 					  xmlns:mx="library://ns.adobe.com/flex/mx">
 	<fx:Script>
 		<![CDATA[
+			
+			[Bindable]
+			private var isLeaf:Boolean;
+			
 			override public function set data(value:Object):void {
 				super.data = value;
 				if(treeListData == null)
 					return;
-				if(treeListData.hasChildren) {
+				if(value is XML && value.@leaf == true)
+					isLeaf = true;
+				if(treeListData.hasChildren || !isLeaf) {
 					setStyle("color", 0x222222);
 					setStyle("fontWeight", 'bold');
 					var tmp:XMLList = 
 						new XMLList(treeListData.item);
-					var myStr:int = tmp[0].children().length();
+					var myStr:int = treeListData.hasChildren ? tmp[0].children().length() : 0;
 					numberField.text = "(" + myStr + ")";
 				} else {
 					setStyle("color", 0x000000);
@@ -36,8 +42,9 @@
 		<s:Group id="disclosureGroup">
 			<s:BitmapImage source="{treeListData.disclosureIcon}" visible="{treeListData.hasChildren}" />
 		</s:Group>
+		<!--s:BitmapImage source="{isLeaf ? 'img/move.png' : 'img/scale.png'}" /-->
 		<s:BitmapImage source="{treeListData.icon}" />
 		<s:Label id="labelField" text="{treeListData.label}" paddingTop="2"/>
-		<s:Label id="numberField" text="{treeListData.label}" paddingTop="2" visible="{treeListData.hasChildren}"/>
+		<s:Label id="numberField" text="{treeListData.label}" paddingTop="2" visible="{treeListData.hasChildren || !isLeaf}"/>
 	</s:HGroup>
 </s:MXTreeItemRenderer>

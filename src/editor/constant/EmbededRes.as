@@ -6,8 +6,11 @@ package editor.constant
 		{
 		}
 		
-		[Embed("icon.PNG")]
+		[Embed("img/icon.PNG")]
 		public static const ICON:Class;
+		
+		[Embed("img/move.png")]
+		public static const MOVE:Class;
 
 	}
 }

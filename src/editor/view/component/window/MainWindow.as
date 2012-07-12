@@ -188,6 +188,15 @@ package editor.view.component.window
 			parameterPanel.wgtLayers.initLayers(curScene);
 			sceneEntitiesTree.refreshView(curScene);
 			tabNavigateTo(1);
+			
+			var enti:Object;
+			var entiView:EntityBaseView;
+			for each(enti in curScene.entities) {
+				entiView = new EntityBaseView(enti);
+				entiView.canSelect = operateMode == NameDef.TBTN_SELECT;
+				sceneCanvas.addItem(entiView);
+				sceneCanvas.setItemPos(entiView, Math.random()* 800, Math.random()* 600);
+			}
 		}
 		
 		public function tabNavigateTo(index:int):void {

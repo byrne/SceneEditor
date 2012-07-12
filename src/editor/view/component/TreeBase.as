@@ -1,6 +1,7 @@
 package editor.view.component
 {
 	import editor.EditorGlobal;
+	import editor.constant.EmbededRes;
 	import editor.constant.EventDef;
 	import editor.constant.NameDef;
 	import editor.event.DataEvent;
@@ -9,6 +10,7 @@ package editor.view.component
 	import editor.view.mxml.TreeItemRendererBase;
 	import editor.vo.ContextMenuData;
 	
+	import flash.events.KeyboardEvent;
 	import flash.events.MouseEvent;
 	import flash.filesystem.File;
 	
@@ -35,7 +37,19 @@ package editor.view.component
 			this.addEventListener(ListEvent.ITEM_CLICK, itemClickHandler);
 			this.addEventListener(ListEvent.ITEM_DOUBLE_CLICK, itemDoubleClickHandler);
 			this.itemRenderer = new ClassFactory(TreeItemRendererBase);
+//			this.iconFunction = myIconFunction;
 		}
+		
+		override protected function keyDownHandler(event:KeyboardEvent):void {
+		}
+		
+//		protected function myIconFunction(obj:Object):Class {
+//			var isLeaf:Boolean = XML(obj).@leaf == true;
+//			if(isLeaf)
+//				return EmbededRes.ICON;
+//			else
+//				return EmbededRes.MOVE;
+//		}
 		
 		public function set contextMenuEnabled(val:Boolean):void {
 			if(val) {
