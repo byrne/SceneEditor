@@ -1,6 +1,8 @@
 package editor.datatype.impl.parser.xml
 {
+	import editor.EditorGlobal;
 	import editor.datatype.data.ComposedData;
+	import editor.datatype.data.Reference;
 	import editor.datatype.impl.UtilDataType;
 	import editor.datatype.type.ComposedType;
 	import editor.datatype.type.DataTypeContext;
@@ -129,9 +131,16 @@ package editor.datatype.impl.parser.xml
 				case DataManager.TYPE_ARRAY:
 					value = arrayFromXML(xml, ctx);
 					break;
+				case DataManager.TYPE_REFERENCE:
+					value = referenceFromXML(xml, ctx);
 			}
 			
 			return value;
+		}
+		
+		private static function referenceFromXML(xml:XML, ctx:DataTypeContext):Object {
+			var ref:Reference = new Reference;
+			return ref;
 		}
 		
 		private static function arrayFromXML(xml:XML, ctx:DataTypeContext):Object {
@@ -145,9 +154,16 @@ package editor.datatype.impl.parser.xml
 		private static function composedDataFromXML(xml:XML, ctx:DataTypeContext):ComposedData {
 			var type:IDataType = ctx[xml.name()];
 			var data:ComposedData = type.construct();
+			
+			if(xml.hasOwnProperty('@uid')) {
+				data.$uid = xml.@uid.toString();
+				data = EditorGlobal.DATA_MEMORY.trySetEntity(data);
+			}
+			
 			for each(var element:XML in xml.children()) {
 				data[element.@property] = fromXML(element, ctx);
 			}
+			
 			return data;
 		}
 	}

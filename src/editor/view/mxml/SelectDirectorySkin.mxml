@@ -14,7 +14,7 @@
 			[Bindable] public var directory:String = "";
 			
 			private function brosweDirectory(evt:MouseEvent):void {
-				var file = new File();
+				var file:File = new File();
 				file.addEventListener(Event.SELECT, function(evt:Event):void {
 					directory = file.nativePath;
 					dispatchEvent(new editor.event.DataEvent(EventDef.DIRECTORY_SELECT, directory));

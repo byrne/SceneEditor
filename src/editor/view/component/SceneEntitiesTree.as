@@ -65,6 +65,7 @@ package editor.view.component
 				}
 			}
 			
+			var a:* = EditorGlobal.DATA_MEMORY;
 			if(data != null) {
 				EditorGlobal.PROPERTY_WND.title = "Editing "+data.$type.name;
 				EditorGlobal.PROPERTY_WND.target = data;

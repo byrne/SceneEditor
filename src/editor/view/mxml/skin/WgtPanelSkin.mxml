@@ -12,9 +12,11 @@
 		<![CDATA[
 			import flexlib.controls.tabBarClasses.SuperTab;
 			
+			[Bindable]
 			[Embed(source="layers.png")]
 			private var layers_icon:Class;
 			
+			[Bindable]
 			[Embed(source="pen.png")]
 			private var output_icon:Class;
 		]]>

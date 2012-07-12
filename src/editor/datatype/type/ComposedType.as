@@ -43,9 +43,17 @@ package editor.datatype.type
 				return true;
 			else if(!(value is ComposedData)) 
 				return false;
-			else if((value as ComposedData).$type != this)
+			else if((value as ComposedData).$type == this)
+				return true;
+			else {
+				// value is a ComposedData, but its explicit type is not this ComposedType, so it is valid only if its
+				// type inherits this ComposedType.
+				for each(var dType:IDataType in (value.$type as ComposedType).hierarchies) {
+					if(dType.check(value))
+						return true;
+				}
 				return false;
-			return checkProperty(value as ComposedData);
+			}
 		}
 		
 		public function convert(v:*):DataConvertResult {
@@ -63,11 +71,6 @@ package editor.datatype.type
 					property_cache[nativeProperties[i].name] = nativeProperties[i].value;
 			}
 			return property_cache;
-		}
-		
-		private function checkProperty(value:ComposedData):Boolean {
-			// TO be implemented
-			return true;
 		}
 	}
 }

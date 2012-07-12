@@ -17,13 +17,13 @@
 		</SceneLayer>
 	</array>
 	<array property="entities">
-		<NPC>
+		<NPC uid="7DC10395-E380-AF41-6F87-751F838083DA">
 		  <string property="resource">../assets/something.swf</string>
 		  <string property="tip_msg">Hrrrrr</string>
 		  <string property="keyword">Chewiee</string>
 		  <string property="default_action">WALK</string>
 		</NPC>
-		<NPC>
+		<NPC uid="76F1EC6D-D5D3-C4A0-6214-751F8381FE9E">
 		  <string property="resource">../assets/blackdude.swf</string>
 		  <string property="tip_msg">Sup dawg?</string>
 		  <string property="keyword">Han Solo</string>

@@ -49,17 +49,17 @@ package editor.view.component.canvas
 		}
 		
 		protected function addToStageHandler(evt:Event):void {
-			this.addEventListener(MouseEvent.MOUSE_DOWN, function(evt:Event) {
+			this.addEventListener(MouseEvent.MOUSE_DOWN, function(evt:Event):void {
 				if(draggable)
 					startDrag();
 			});
-			this.addEventListener(MouseEvent.MOUSE_UP, function(evt:Event) {
+			this.addEventListener(MouseEvent.MOUSE_UP, function(evt:Event):void {
 				if(draggable) {
 					stopDrag();
 					updateBackground();
 				}
 			});
-			this.addEventListener(MouseEvent.MOUSE_MOVE, function(evt:Event) {
+			this.addEventListener(MouseEvent.MOUSE_MOVE, function(evt:Event):void {
 				updateBackground();
 			});
 		}

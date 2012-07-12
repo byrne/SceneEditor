@@ -14,6 +14,7 @@ package editor.mgr
 		public static const TYPE_STRING:String = 'string';
 		public static const TYPE_BOOLEAN:String = 'boolean';
 		public static const TYPE_UNDEFINED:String = 'undefined';
+		public static const TYPE_REFERENCE:String = 'Reference';
 		
 		public function get types():DataTypeContext { return _typeContext; }
 		private var _typeContext:DataTypeContext;
@@ -38,6 +39,7 @@ package editor.mgr
 			_typeContext[TYPE_BOOLEAN] = new BooleanType(TYPE_BOOLEAN);
 			_typeContext[TYPE_STRING] = new StringType(TYPE_STRING);
 			_typeContext[TYPE_ARRAY] = new ArrayType(TYPE_ARRAY);
+			_typeContext[TYPE_REFERENCE] = new ReferenceType(TYPE_REFERENCE);
 			
 			initFunction.apply(this, [typeDef, _typeContext]);
 		}

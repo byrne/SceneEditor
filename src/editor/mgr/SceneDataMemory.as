@@ -1,5 +1,6 @@
 package editor.mgr
 {
+	import editor.datatype.data.ComposedData;
 	import editor.datatype.impl.WeakReference;
 	import editor.vo.SceneTemplate;
 	import editor.vo.ValueObjectBase;
@@ -41,7 +42,7 @@ package editor.mgr
 		 * Get the entity stored under the given keyword,
 		 * return null if nothing has been stored under this keyword.
 		 */
-		public function getEntity(keyword:String):* {
+		public function getEntity(keyword:String):ComposedData {
 			return hasKey(keyword) ? _entitiesCache[keyword] : null;
 		}
 		
@@ -52,7 +53,7 @@ package editor.mgr
 		 * @param keyword keyword under which the entity is stored
 		 * @param update whether to update the entity of the given keyword if there is one in the memory already.
 		 */
-		public function setEntity(data:*, keyword:String, update:Boolean = false):void {
+		public function setEntity(data:ComposedData, keyword:String, update:Boolean = false):ComposedData {
 			if(data == null)
 				throw new Error("can not store null");
 			else if(hasKey(keyword)  == true && update == false)
@@ -61,6 +62,32 @@ package editor.mgr
 				_entitiesCache[keyword] = data;
 				_entityKeyMap[data] = keyword;
 			}
+			return _entitiesCache[keyword];
+		}
+		
+		
+		/**
+		 * Try and add a ComposedData object to the memory using its uid as key. <p>
+		 * If there is already a ComposedData object under that key in the memory, that object will be returned only 
+		 * when both of the two ComposedData objects are of the same ComposedType and the existing one has not been 
+		 * assigned after creation. Otherwise the existing one will be either replaced by the one passed in, or an Error
+		 * will be thrown depending on the <code>update</code>
+		 * parameter. 
+		 * @param data ComposedData object to be added to memory
+		 * @param update whether to override existing one having the same uid
+		 * @return see function description
+		 * 
+		 */
+		public function trySetEntity(data:ComposedData, update:Boolean = false):ComposedData {
+			var existingData:ComposedData = getEntity(data.$uid);
+			if(existingData && existingData.isNew) {
+				if(existingData.$type == data.$type)
+					return existingData;
+				else
+					throw Error("There are two ComposedData objects of different types having the same UID.");
+			}
+			else
+				return setEntity(data, data.$uid, update);
 		}
 		
 		public function deleteEntity(data:*):Boolean {
