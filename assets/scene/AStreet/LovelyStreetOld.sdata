@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<Scene>
+	<string property="keyword">LovelyStreetOld</string>
+	<string property="type">Street</string>
+	<number property="width">960</number>
+	<number property="height">560</number>
+	<array  property="layers">
+		<SceneLayer>
+			<string property="keyword">bg</string>
+			<string property="class_name">SceneLayer</string>
+			<string property="type">normal</string>
+		</SceneLayer>
+		<SceneLayer>
+			<string property="keyword">physics</string>
+			<string property="class_name">SceneLayer</string>
+			<string property="type">physics</string>
+		</SceneLayer>
+	</array>
+	<array property="entities">
+		<NPC uid="7DC10395-E380-AF41-6F87-751F838083DA">
+		  <string property="resource">test.swf - saybotmc</string>
+		  <string property="tip_msg">Hrrrrr</string>
+		  <string property="keyword">Chewiee</string>
+		  <string property="default_action">WALK</string>
+		  <boolean property="visible">true</boolean>
+		</NPC>
+		<NPC uid="76F1EC6D-D5D3-C4A0-6214-751F8381FE9E">
+		  <string property="resource">test2/test3/win.swf - saybotmc</string>
+		  <string property="tip_msg">Sup dawg?</string>
+		  <string property="keyword">Han Solo</string>
+		  <boolean property="visible">true</boolean>
+		</NPC>
+	</array>
+</Scene>

@@ -10,7 +10,9 @@ package editor.datatype
 		
 		public static const VISIBLE:String = "visible";
 		
-		private static const _nameArr:Array = [RESOURCE, X, Y, VISIBLE];
+		public static const KEYWORD:String = "keyword";
+		
+		private static const _nameArr:Array = [RESOURCE, X, Y, VISIBLE, KEYWORD];
 		
 		public function ReservedName()
 		{

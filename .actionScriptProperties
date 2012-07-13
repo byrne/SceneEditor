@@ -21,7 +21,17 @@
   </compiler>
   <applications>
     <application path="SceneEditor.mxml">
-      <airExcludes/>
+      <airExcludes>
+        <airExclude path="swf"/>
+        <airExclude path="editors.xml"/>
+        <airExclude path="templates.xml"/>
+        <airExclude path="editor_config.json"/>
+        <airExclude path="res.list"/>
+        <airExclude path="scene"/>
+        <airExclude path="view_structure.xml"/>
+        <airExclude path="res_config.xml"/>
+        <airExclude path="res.json"/>
+      </airExcludes>
     </application>
     <application path="SwfReader.mxml">
       <airExcludes>

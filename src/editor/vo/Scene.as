@@ -4,7 +4,7 @@ package editor.vo
 
 	public class Scene extends ValueObjectBase
 	{
-		public var name:String;
+		public var keyword:String;
 		
 		public var width:int;
 		

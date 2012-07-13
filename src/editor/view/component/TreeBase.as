@@ -22,9 +22,16 @@ package editor.view.component
 	import mx.events.ListEvent;
 	import mx.utils.ObjectProxy;
 	
+	import spark.collections.Sort;
+	import spark.collections.SortField;
+	
 	public class TreeBase extends Tree
 	{
 		protected var contextMenuData:ContextMenuData;
+		
+		public var rememberOpenState:Boolean;
+		protected var _scrollPosition:Number;
+		protected var _openedItems:Array;
 		
 		public function TreeBase()
 		{
@@ -37,6 +44,7 @@ package editor.view.component
 			this.addEventListener(ListEvent.ITEM_CLICK, itemClickHandler);
 			this.addEventListener(ListEvent.ITEM_DOUBLE_CLICK, itemDoubleClickHandler);
 			this.itemRenderer = new ClassFactory(TreeItemRendererBase);
+			rememberOpenState = true;
 //			this.iconFunction = myIconFunction;
 		}
 		
@@ -81,7 +89,8 @@ package editor.view.component
 		public function clearView():void {
 			if(this.contextMenuEnabled)
 				EditorGlobal.APP.unregisterContextMenu(this);
-			this.dataProvider = null;
+			if(this.dataProvider != null)
+				this.dataProvider = null;
 		}
 		
 		public function refreshView(data:Object=null):void {
@@ -96,6 +105,60 @@ package editor.view.component
 		
 		protected function itemDoubleClickHandler(evt:ListEvent):void {
 			
+		}
+		
+		override public function set dataProvider(value:Object):void {
+			var i:int;
+			var hasOldData:Boolean = dataProvider != null;
+			var item:Object;
+			var oldSelectedIndex:int;
+			if(hasOldData && rememberOpenState) {
+				_scrollPosition = this.verticalScrollPosition;
+				_openedItems = [];
+				oldSelectedIndex = this.selectedIndex;
+				var labelVal:Object;
+				for(i=0; i<this.openItems.length; i++) {
+					item = this.openItems[i];
+					with(item) {
+						labelVal = String(@label);
+					}
+					_openedItems.push(labelVal);
+				}
+			}
+			if(value != null) {
+				var sortField:SortField = new SortField("@label");
+				var sort:Sort = new Sort();
+				sort.fields = [sortField];
+				value.sort = sort;
+				value.refresh();
+			}
+			super.dataProvider = value;
+			this.validateNow();
+			if(hasOldData && rememberOpenState) {
+				for(i=0; i<this.dataProvider.length; i++) {
+					item = this.dataProvider.getItemAt(i);
+					openTreeItems(item);
+				}
+				this.verticalScrollPosition = _scrollPosition;
+				this.selectedIndex = oldSelectedIndex;
+			}
+		}
+		
+		private function openTreeItems(obj:Object):void {
+			var i:int;
+			var label:String = obj.@label;
+			for(i=0; i<_openedItems.length; i++) {
+				if(_openedItems[i] == label) {
+					this.expandItem(obj, true);
+					break;
+				}		
+			}
+//			var children:Object = obj.children(); 
+//			if(children) {
+//				for(i=0; i<children.length; i++) {
+//					openTreeItems(children[i]);
+//				}
+//			}
 		}
 	}
 }

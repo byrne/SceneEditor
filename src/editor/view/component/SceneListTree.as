@@ -14,6 +14,7 @@ package editor.view.component
 	import flash.utils.Dictionary;
 	
 	import mx.collections.ArrayCollection;
+	import mx.collections.XMLListCollection;
 	import mx.controls.Tree;
 	import mx.events.ListEvent;
 	import mx.utils.ObjectProxy;
@@ -32,13 +33,13 @@ package editor.view.component
 			clearView();
 			var sceneTemplates:Dictionary = EditorGlobal.DATA_MEMORY.sceneTemplates;
 			filesBaseDir = EditorGlobal.APP.getGlobalConfig(NameDef.CFG_SCENE_FILES_DIR) as String;
-			var dataProvider:XML = <node/>;
+			var dataProvider:ArrayCollection = new ArrayCollection();
 			for each(var st:SceneTemplate in sceneTemplates) {
 				var xml:XML = <node/>;
 				var dir:String = StringUtil.substitute("{0}/{1}", filesBaseDir, st.name);
 				xml.@label = st.name;
 				xml.@leaf = false;
-				dataProvider.appendChild(xml);
+				dataProvider.addItem(xml);
 				fetachDirectoyFiles(dir, xml);
 			}
 			this.dataProvider = dataProvider;
@@ -46,7 +47,7 @@ package editor.view.component
 		
 		override protected function itemDoubleClickHandler(evt:ListEvent):void {
 			var selectItem:XML = this.selectedItem as XML;
-			if(selectItem.@leaf == true) {
+			if(selectItem && selectItem.@leaf == true) {
 				var fileName:String = StringUtil.substitute("{0}/{1}/{2}{3}"
 					, filesBaseDir
 					, selectItem.@sceneType

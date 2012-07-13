@@ -4,6 +4,7 @@ package editor
 	import editor.constant.NameDef;
 	import editor.constant.ScreenDef;
 	import editor.dataeditor.impl.parser.xml.XMLEditorParser;
+	import editor.datatype.impl.parser.xml.XMLDataParser;
 	import editor.datatype.impl.parser.xml.XMLTypeParser;
 	import editor.event.DataEvent;
 	import editor.mgr.DataManager;
@@ -24,6 +25,7 @@ package editor
 	import editor.view.component.window.TitleWindowBase;
 	import editor.view.mxml.skin.CustomAppSkin;
 	import editor.vo.ContextMenuData;
+	import editor.vo.Scene;
 	
 	import flash.events.Event;
 	
@@ -146,6 +148,8 @@ package editor
 			// this function will be called before menubar shown
 			var menuShowHandler:Function = function(evt:MenuEvent):void {
 				menuBarXml.item.(@event=="mce_view_res_wnd").@toggled = resLibraryWnd.isPopup;
+				menuBarXml.item.(@event=="mce_file_save").@enabled = mainWnd.curScene != null;
+				menuBarXml.item.(@event=="mce_file_save_as").@enabled = mainWnd.curScene != null;
 			};
 			
 			var menuClickHandler:Function = function(evt:DataEvent):void {
@@ -200,6 +204,14 @@ package editor
 		}
 		
 		private function fileSaveHandler():void {
+			var scene:Scene = mainWnd.curScene; 
+			var xml:XML = XMLDataParser.toXML(scene, dataManager.types);
+			var fileName:String = StringUtil.substitute("{0}/{1}/{2}{3}"
+				, EditorGlobal.APP.getGlobalConfig(NameDef.CFG_SCENE_FILES_DIR) as String
+				, scene.type
+				, scene.keyword
+				, NameDef.FILE_SUFFIX);
+			XMLSerializer.writeXMLToFile(xml, fileName);
 		}
 		
 		private function fileSaveAsHandler():void {

@@ -124,5 +124,10 @@ package editor.view.component.canvas
 			_dragStartPos = null;
 			_dragTarget = null;
 		}
+		
+		override public function clearView():void {
+			_selectedEntities = [];
+			super.clearView();
+		}
 	}
 }

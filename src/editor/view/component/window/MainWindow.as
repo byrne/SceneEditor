@@ -172,10 +172,8 @@ package editor.view.component.window
 		}
 		
 		public function onClose():void {
+			closeScene();
 			sceneListTree.clearView();
-			sceneEntitiesTree.clearView();
-			if(parameterPanel.wgtLayers)
-				parameterPanel.wgtLayers.clearView();
 		}
 		
 		public function buildTabNavigateView():void {
@@ -183,11 +181,13 @@ package editor.view.component.window
 		}
 		
 		public function openScene(st:SceneTemplate, fName:String):void {
+			if(curScene)
+				closeScene();
 			var data:XML = XML(FileSerializer.readFromFile(fName));
 			var sceneData:Object = XMLDataParser.fromXML(data, EditorGlobal.DATA_MANAGER.types);
 			curScene = new Scene(sceneData);
 			parameterPanel.wgtLayers.initLayers(curScene);
-			sceneEntitiesTree.refreshView(curScene);
+			refreshEntitiesTree();
 			tabNavigateTo(1);
 			
 			var enti:ComposedData;
@@ -199,6 +199,19 @@ package editor.view.component.window
 				sceneCanvas.addItem(entiView);
 				sceneCanvas.setItemPos(entiView, Math.random()* 800, Math.random()* 600);
 			}
+		}
+		
+		public function closeScene():void {
+			if(curScene == null)
+				return;
+			sceneCanvas.clearView();
+			sceneEntitiesTree.clearView();
+			if(parameterPanel.wgtLayers)
+				parameterPanel.wgtLayers.clearView();
+		}
+		
+		public function refreshEntitiesTree():void {
+			sceneEntitiesTree.refreshView(curScene);
 		}
 		
 		public function tabNavigateTo(index:int):void {

@@ -194,9 +194,13 @@ package editor.view.component.canvas
 		}
 		
 		public function removeAllItems():void {
-			for each(var obj:DisplayObject in items) {
-				removeItem(obj);
+			while(items.length > 0) {
+				removeItem(items[0] as DisplayObject);
 			}
+		}
+		
+		public function clearView():void {
+			removeAllItems();
 		}
 	}
 }

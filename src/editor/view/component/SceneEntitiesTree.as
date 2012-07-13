@@ -10,6 +10,8 @@ package editor.view.component
 	
 	import flash.display.DisplayObject;
 	
+	import mx.collections.ArrayCollection;
+	import mx.collections.XMLListCollection;
 	import mx.core.FlexGlobals;
 	import mx.core.IFlexDisplayObject;
 	import mx.events.ListEvent;
@@ -26,11 +28,14 @@ package editor.view.component
 		}
 		
 		override public function refreshView(data:Object=null):void {
+			var scrollPosition:Number;
+			var openedItems:Object;
 			scene = data as Scene;
 			var entityClassArr:Array = scene.template.entities;
-			var dataProvider:XML = <node/>;
+			var dataProvider:ArrayCollection = new ArrayCollection(); // = <node/>;
 			for each(var entityClassName:String in entityClassArr) {
-				dataProvider.appendChild(populateCategory(entityClassName, data as Scene));
+				dataProvider.addItem(populateCategory(entityClassName, data as Scene));
+//				dataProvider.appendChild(populateCategory(entityClassName, data as Scene));
 			}
 			this.dataProvider = dataProvider;
 		}
@@ -38,7 +43,6 @@ package editor.view.component
 		private function populateCategory(cate_name:String, scene:Scene):XML {
 			var categoryTree:XML = <node />;
 			var child:XML;
-			
 			categoryTree.@label = cate_name;
 			categoryTree.@leaf = false;
 			

@@ -1,5 +1,6 @@
 package editor.datatype.data
 {
+	import editor.EditorGlobal;
 	import editor.datatype.ReservedName;
 	import editor.datatype.error.InvalidPropertyNameError;
 	import editor.datatype.error.UndefinedPropertyError;
@@ -41,22 +42,30 @@ package editor.datatype.data
 				throw new InvalidPropertyNameError(name);
 			if(propertyType == null)	// property with the given name has been defined
 				throw new UndefinedPropertyError(name, $type);
-			if(propertyType.check(value) == false)	{	// value to assign is the right type
-				_$cache[name] = resolveTypeMismatch(value, propertyType);
-			}
 			
-			_$cache[name] = value;
-			_$assignmentCount[name] =  numAssignments(name) + 1;
-			if(ReservedName.isReservedName(name) && this.view != null)
-				this.view.syncDataToView();
+			value = forgeTypeValue(value, propertyType);
+			var propertyChanged:Boolean = !_$cache.hasOwnProperty(name) || _$cache[name] != value;
+			if(propertyChanged) {
+				_$cache[name] = value;
+				_$assignmentCount[name] =  numAssignments(name) + 1;
+				if(ReservedName.isReservedName(name) && this.view != null) {
+					if(name == ReservedName.KEYWORD)
+						EditorGlobal.MAIN_WND.refreshEntitiesTree();
+					else
+						this.view.syncDataToView();
+				}
+			}
 		}
 		
-		private function resolveTypeMismatch(value:*, propertyType:IDataType):* {
+		private function forgeTypeValue(value:*, propertyType:IDataType):* {
+			if(propertyType.check(value))
+				return value;
 			 var i:DataConvertResult = propertyType.convert(value);
 			 if(i.success)
 				 return i.value;
-			 else
+			 else {
 				 throw new UnexpectedTypeError(StringUtil.substitute("Expecting a {0}, got a {1} instead", propertyType.name, typeof value));
+			 }
 		}
 		
 		private function numAssignments(prop:String):int {
