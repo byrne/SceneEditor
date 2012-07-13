@@ -28,6 +28,6 @@
 	</editor>
 	<editor name="BossJuniorEditor" component="VLayout">
 		<child component="NPCEditor" />
-		<child component="ReferenceChooser" view_label="随从" property="minion" />
+		<child component="ReferenceChooser" view_label="随从" property="minion" type="NPC*"/>
 	</editor>
 </root>

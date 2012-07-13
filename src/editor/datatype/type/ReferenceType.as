@@ -38,5 +38,9 @@ package editor.datatype.type
 			
 			return result;
 		}
+		
+		public function isa(typename:String):Boolean {
+			return typename == name;
+		}
 	}
 }

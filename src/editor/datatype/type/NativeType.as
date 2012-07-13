@@ -33,5 +33,9 @@ package editor.datatype.type
 		public function convert(v:*):DataConvertResult {
 			return new DataConvertResult;
 		}
+		
+		public function isa(typename:String):Boolean {
+			return typename == name;
+		}
 	}
 }

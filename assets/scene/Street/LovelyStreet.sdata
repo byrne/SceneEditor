@@ -30,12 +30,24 @@
 		  <string property="keyword">Han Solo</string>
 		  <boolean property="visible">true</boolean>
 		</NPC>
+		<Actor uid="748352E9-3FE0-6D44-3CAE-7EE64525BC6E">
+		  <string property="resource">lose.swf - saybotmc</string>
+		  <string property="keyword">Minion1</string>
+		  <string property="default_action">WETPANTS</string>
+		  <boolean property="visible">true</boolean>
+		</Actor>
+		<Actor uid="A5F7523D-218A-F4B5-09A0-7EE64525244D">
+		  <string property="resource">lose.swf - saybotmc</string>
+		  <string property="default_action">CRY</string>
+		  <string property="keyword">Minion2</string>
+		  <boolean property="visible">true</boolean>
+		</Actor>
 		<BossJunior uid="088AFD5A-D782-C8BF-BCE4-793106AADA28">
 		  <string property="resource">hurt.swf - saybotmc</string>
 		  <string property="tip_msg">I'm a Boss</string>
 		  <string property="keyword">Jabba</string>
 		  <string property="default_action">WALK</string>
-		  <Reference property="minion">76F1EC6D-D5D3-C4A0-6214-751F8381FE9E</Reference>
+		  <Reference property="minion">A5F7523D-218A-F4B5-09A0-7EE64525244D</Reference>
 		</BossJunior>
 	</array>
 </Scene>

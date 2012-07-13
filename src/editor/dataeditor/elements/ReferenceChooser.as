@@ -2,7 +2,10 @@ package editor.dataeditor.elements
 {
 	import editor.EditorGlobal;
 	import editor.dataeditor.IEditorElement;
+	import editor.datatype.data.ComposedData;
 	import editor.datatype.data.Reference;
+	import editor.utils.StringRep;
+	import editor.utils.StringUtil;
 	
 	import mx.collections.ArrayList;
 	
@@ -12,19 +15,43 @@ package editor.dataeditor.elements
 	{
 		public static const DEFAULT_SOURCE:String = "EditorGlobal.DATA_MEMORY|*";
 		public var showTips:Boolean = false;
-		
+		private var _types:Array;
 		private var _source:String = DEFAULT_SOURCE;
 		
 		public function ReferenceChooser() {
 			super();
 			labelField = "keyword";
 			labelToItemFunction = myLabelToItemFunction;
-			var candidates:ArrayList = new ArrayList;
+			updateCandidates();
+		}
+		
+		public function set type(v:String):void {
+			if(v == null || StringUtil.trim(v) == '')
+				return;
+			
+			if(v.charAt(0) == '[' && v.charAt(v.length-1) == ']')
+				_types = StringRep.read(v);
+			else
+				_types = StringRep.read('[' + v + ']');
+			
+			updateCandidates();
+		}
+		
+		protected function updateCandidates():void {
+			if(dataProvider != null)
+				dataProvider.removeAll();
+			
+			var candidates:Array = []
 			EditorGlobal.DATA_MEMORY.foreach(function(key:String, value:Object):void {
-				candidates.addItem(value);
+				if(_types == null || _types.length == 0)
+					candidates.push(value);
+				for each(var t:String in _types) {
+					if(value is ComposedData && (value as ComposedData).$type.isa(t))
+						candidates.push(value);
+				}
 			});
 			
-			dataProvider = candidates;
+			dataProvider = new ArrayList(candidates);
 		}
 		
 		public function set source(v:String):void {

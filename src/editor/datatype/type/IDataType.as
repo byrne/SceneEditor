@@ -29,5 +29,13 @@ package editor.datatype.type
 		 * 
 		 */
 		function convert(value:*):DataConvertResult;
+
+		/**
+		 * Whether this IDataType can be considered as another IDataType of the given typename. 
+		 * @param typename
+		 * @return 
+		 * 
+		 */		
+		function isa(typename:String):Boolean;
 	}
 }
