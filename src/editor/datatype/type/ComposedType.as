@@ -1,5 +1,8 @@
 package editor.datatype.type
 {
+	import editor.datatype.data.ComposedData;
+	import editor.datatype.impl.UtilDataType;
+	
 	import flash.utils.Dictionary;
 
 	public class ComposedType implements IDataType

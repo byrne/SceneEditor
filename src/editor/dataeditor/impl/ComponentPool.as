@@ -23,7 +23,7 @@ package editor.dataeditor.impl
 		public static const POOL:Object = {
 			'CheckBox': CheckBox,
 			'HSlider': HSlider,
-			'ItemSelector': ItemSelector,
+			'TextSelector': TextSelector,
 			'NumericStepper': NumericStepper,
 			'Panel': Panel,
 			'SingleLineText': SingleLineText,

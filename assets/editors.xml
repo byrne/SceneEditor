@@ -13,7 +13,7 @@
 			<child component="AccordionContent" label="'这是什么'" minWidth="300">
 				<child component="Form">
 					<child component="SingleLineText" view_label="名字" property="keyword" />
-					<child component="SingleLineText" view_label="素材文件" property="resource" />
+					<child component="TextSelector" view_label="素材文件" property="resource" source="res.list"/>
 					<child component="SingleLineText" view_label="默认动作" property="default_action" default="IDLE"/>
 					<child component="SingleLineText" view_label="默认语言" property="tip_msg" />
 				</child>
