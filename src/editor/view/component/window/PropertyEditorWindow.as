@@ -5,13 +5,8 @@ package editor.view.component.window
 	import editor.dataeditor.impl.EditorBase;
 	import editor.datatype.data.ComposedData;
 	
-	import flash.display.DisplayObject;
-	import flash.events.Event;
-	import flash.events.MouseEvent;
-	
 	import mx.core.IVisualElement;
 	import mx.events.CloseEvent;
-	import mx.managers.PopUpManager;
 
 	public class PropertyEditorWindow extends TitleWindowBase
 	{

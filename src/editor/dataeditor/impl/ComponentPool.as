@@ -23,7 +23,7 @@ package editor.dataeditor.impl
 		public static const POOL:Object = {
 			'CheckBox': CheckBox,
 			'HSlider': HSlider,
-			'ItemSelector': ItemSelector,
+			'TextSelector': TextSelector,
 			'NumericStepper': NumericStepper,
 			'Panel': Panel,
 			'SingleLineText': SingleLineText,
@@ -34,7 +34,8 @@ package editor.dataeditor.impl
 			'TitleWindow': TitleWindow,
 			'Accordion': Accordion,
 			'AccordionContent': AccordionContent,
-			'TabNavigator': TabNavigator
+			'TabNavigator': TabNavigator,
+			'ReferenceChooser': ReferenceChooser
 		};
 	}
 }

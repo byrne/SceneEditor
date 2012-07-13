@@ -1,39 +1,53 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0"?>
 <Scene>
-  <array property="layers">
-    <SceneLayer>
-      <string property="type">normal</string>
-      <string property="class_name">SceneLayer</string>
-      <string property="keyword">bg</string>
-    </SceneLayer>
-    <SceneLayer>
-      <string property="type">physics</string>
-      <string property="class_name">SceneLayer</string>
-      <string property="keyword">physics</string>
-    </SceneLayer>
-  </array>
-  <string property="type">Street</string>
-  <int property="width">960</int>
-  <string property="keyword">LovelyStreet</string>
-  <array property="entities">
-    <NPC>
-      <string property="default_action">WALK</string>
-      <string property="keyword">Chewie</string>
-      <int property="y">40</int>
-      <string property="tip_msg">Hrrrrr</string>
-      <string property="resource">test.swf - saybotmc</string>
-      <int property="x">341</int>
-      <boolean property="visible">true</boolean>
-    </NPC>
-    <NPC>
-      <string property="default_action">IDLE</string>
-      <string property="keyword">Han Solo</string>
-      <int property="y">117</int>
-      <string property="tip_msg">Sup dawg?</string>
-      <string property="resource">test2/test3/win.swf - saybotmc</string>
-      <int property="x">126</int>
-      <boolean property="visible">true</boolean>
-    </NPC>
-  </array>
-  <int property="height">560</int>
+	<string property="keyword">LovelyStreet</string>
+	<string property="type">Street</string>
+	<number property="width">960</number>
+	<number property="height">560</number>
+	<array  property="layers">
+		<SceneLayer>
+			<string property="keyword">bg</string>
+			<string property="class_name">SceneLayer</string>
+			<string property="type">normal</string>
+		</SceneLayer>
+		<SceneLayer>
+			<string property="keyword">physics</string>
+			<string property="class_name">SceneLayer</string>
+			<string property="type">physics</string>
+		</SceneLayer>
+	</array>
+	<array property="entities">
+		<NPC uid="7DC10395-E380-AF41-6F87-751F838083DA">
+		  <string property="resource">test.swf - saybotmc</string>
+		  <string property="tip_msg">Hrrrrr</string>
+		  <string property="keyword">Chewiee</string>
+		  <string property="default_action">WALK</string>
+		  <boolean property="visible">true</boolean>
+		</NPC>
+		<NPC uid="76F1EC6D-D5D3-C4A0-6214-751F8381FE9E">
+		  <string property="resource">test2/test3/win.swf - saybotmc</string>
+		  <string property="tip_msg">Sup dawg?</string>
+		  <string property="keyword">Han Solo</string>
+		  <boolean property="visible">true</boolean>
+		</NPC>
+		<Actor uid="748352E9-3FE0-6D44-3CAE-7EE64525BC6E">
+		  <string property="resource">lose.swf - saybotmc</string>
+		  <string property="keyword">Minion1</string>
+		  <string property="default_action">WETPANTS</string>
+		  <boolean property="visible">true</boolean>
+		</Actor>
+		<Actor uid="A5F7523D-218A-F4B5-09A0-7EE64525244D">
+		  <string property="resource">lose.swf - saybotmc</string>
+		  <string property="default_action">CRY</string>
+		  <string property="keyword">Minion2</string>
+		  <boolean property="visible">true</boolean>
+		</Actor>
+		<BossJunior uid="088AFD5A-D782-C8BF-BCE4-793106AADA28">
+		  <string property="resource">hurt.swf - saybotmc</string>
+		  <string property="tip_msg">I'm a Boss</string>
+		  <string property="keyword">Jabba</string>
+		  <string property="default_action">WALK</string>
+		  <Reference property="minion">A5F7523D-218A-F4B5-09A0-7EE64525244D</Reference>
+		</BossJunior>
+	</array>
 </Scene>

@@ -1,6 +1,5 @@
 package editor.datatype.type
 {
-	import editor.EditorGlobal;
 	import editor.datatype.data.ComposedData;
 	import editor.datatype.impl.UtilDataType;
 	
@@ -71,6 +70,42 @@ package editor.datatype.type
 					property_cache[nativeProperties[i].name] = nativeProperties[i].value;
 			}
 			return property_cache;
+		}
+		
+		/**
+		 * Whether this ComposedType is also another ComposedType with the given typename. has strict or general mode.
+		 * <p> 
+		 * Test rules: (recursively)<br>
+		 * <li>Rule 1. Any ComposedType is also itself, i.e. <code> n.isa(n.name) == true </code> </li>
+		 * <li>Rule 2. An ComposedType <code>a</code> is considered to be another ComposedType <code>b</code> 
+		 * if any ComposedType <code>x</code> from which <code>a</code> inherits <code>isa(b.name)</code>.</li> <p>
+		 * 
+		 * Strict mode uses Rule 1 only; general uses both rules and will return true if any is satisfied. <p>
+		 * 
+		 * @param typename name of the ComposedType to check against. <br>
+		 * <b>NOTE</b>: if the typename has no suffix, strict mode will be used; 
+		 * if the typename has a suffixing asterisk, general mode will be used. 
+		 * 
+		 * @return
+		 * 
+		 */
+		public function isa(typeName:String):Boolean {
+			switch (typeName.charAt(typeName.length-1)) {
+				case '*':
+					typeName = typeName.substr(0, typeName.length-1);
+					if(typeName == this.name)
+						return true;
+					else if(hierarchies.length > 0) {
+						for each(var item:IDataType in hierarchies) {
+							if(item is ComposedType && (item as ComposedType).isa(typeName))
+								return true;
+						}
+					}
+					break;
+				default:
+					return typeName == this.name;
+			}
+			return false;
 		}
 	}
 }

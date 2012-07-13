@@ -1,0 +1,11 @@
+How to add a DataEditor component in ActionScript/Flex:
+
+	1. create a custom class from a whatever FLEX display component, implements editor.dataeditor.IEditorElement 
+	interface, and implement everything defined in that interface.
+	2. add an entry in ComponentPool.POOL for your component, make sure the entry key is exactly match in case 
+	to the name you want to use in the definition file.
+
+	Note:
+	Everything has a setter in your component can be specified in definition file. In our case, through XML 
+	attributes (as long as the value is supported, see StringRep), or in <property /> element. If you are gonna 
+	use your custom component as a container, make sure it supports adding FLEX components as child.

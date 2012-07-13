@@ -28,10 +28,19 @@ package editor.datatype.type
 		public function convert(value:*):DataConvertResult {
 			var result:DataConvertResult = new DataConvertResult(null, false);
 
-			if(value is ComposedData && Reference.MEM.hasKey(value.$uid))
-				result.value = new Reference(value.$uid, [value.$type]);
+			if(value == null) {
+				result.success = true;
+			}
+			else if(value is ComposedData && Reference.MEM.hasKey(value.$uid)) {
+				result.success = true;
+				result.value = new Reference(value.$uid);
+			}
 			
 			return result;
+		}
+		
+		public function isa(typename:String):Boolean {
+			return typename == name;
 		}
 	}
 }

@@ -5,6 +5,7 @@ package editor
 	import editor.constant.ScreenDef;
 	import editor.dataeditor.impl.parser.xml.XMLEditorParser;
 	import editor.datatype.impl.parser.xml.XMLDataParser;
+	import editor.dataeditor.util.VariableResolver;
 	import editor.datatype.impl.parser.xml.XMLTypeParser;
 	import editor.event.DataEvent;
 	import editor.mgr.DataManager;

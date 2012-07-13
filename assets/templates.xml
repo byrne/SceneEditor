@@ -3,7 +3,6 @@
 	<type name="ValueObject" >
 		<property name="class_name" type="string" />
 		<property name="keyword" type="string" />
-		<property name="UID" type="string" />
 	</type>
 	
 	<type name="Position" >
@@ -38,5 +37,10 @@
 	<type name="NPC">
 		<inherit  type="Actor" />
 		<property name="tip_msg" type="string" />
+	</type>
+	
+	<type name="BossJunior">
+		<inherit type="NPC" />
+		<property name="minion" type="Reference"/>
 	</type>
 </root>
