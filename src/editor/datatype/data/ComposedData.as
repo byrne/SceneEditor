@@ -89,10 +89,8 @@ package editor.datatype.data
 		 * 
 		 */
 		public function get isNew():Boolean {
-			for each(var key:String in _$cache) {
-				if(assigned(key))
-					return false;
-			}
+			for(var key:String in _$cache)
+				if(assigned(key)) return false;
 			return true;
 		}
 		
@@ -146,8 +144,20 @@ package editor.datatype.data
 			return this.$type.name;
 		}
 		
+		public function clone():ComposedData {
+			var dup:ComposedData = $type.construct();
+			dup.$type = $type;
+			for (var k:String in _$cache)
+				dup._$cache[k] = UtilDataType.copy(_$cache[k]);
+			return dup;
+		}
+		
 		public function destroy():void {
 			EditorGlobal.DATA_MEMORY.deleteEntity(this);
+			view = null;
+			$type = null;
+			for(var k:String in _$cache)
+				delete _$cache[k];
 		}
 	}
 }

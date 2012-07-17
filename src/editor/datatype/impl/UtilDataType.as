@@ -1,5 +1,8 @@
 package editor.datatype.impl
 {
+	import editor.datatype.data.ComposedData;
+	import editor.datatype.data.Reference;
+	
 	import flash.utils.getQualifiedClassName;
 	
 	import mx.collections.ArrayCollection;
@@ -54,6 +57,26 @@ package editor.datatype.impl
 			}
 			
 			return typeName;
+		}
+		
+		public static function copy(source:*):* {
+			if(source == null)
+				return source;
+			else if(source is Array)
+				return copyArray(source as Array);
+			else if(source is ComposedData)
+				return (source as ComposedData).clone();
+			else if(source is Reference)
+				return (source as Reference).clone();
+			else 
+				return source;
+		}
+		
+		private static function copyArray(source:Array):Array {
+			var dup:Array = [];
+			for(var i:int = 0; i < source.length; i++)
+				dup.push(copy(source[i]));
+			return dup;
 		}
 	}
 }

@@ -7,6 +7,8 @@ package editor.dataeditor.elements.container.layout
 	import mx.core.IVisualElement;
 	
 	import spark.components.Form;
+	import spark.layouts.HorizontalLayout;
+	import spark.layouts.VerticalLayout;
 	
 	public class Form extends spark.components.Form implements IContainer
 	{
@@ -20,6 +22,11 @@ package editor.dataeditor.elements.container.layout
 		
 		override public function removeChild(child:DisplayObject):DisplayObject {
 			return removeElement(child as IVisualElement) as DisplayObject;
+		}
+		
+		public function set gap(v:int):void {
+			if(layout.hasOwnProperty('gap'))
+				layout['gap'] == v;
 		}
 	}
 }

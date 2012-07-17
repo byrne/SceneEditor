@@ -1,15 +1,10 @@
 package editor.mgr
 {
-	import editor.EditorGlobal;
 	import editor.datatype.data.ComposedData;
-	import editor.datatype.data.Reference;
-	import editor.datatype.impl.WeakReference;
 	import editor.vo.SceneTemplate;
 	import editor.vo.ValueObjectBase;
 	
 	import flash.utils.Dictionary;
-	
-	import mx.utils.UIDUtil;
 	
 	public class SceneDataMemory
 	{
@@ -112,7 +107,7 @@ package editor.mgr
 		 * return null if the data does not present in the memory.
 		 */
 		public function getKey(data:*):String {
-			if(data == null || _entitiesCache.hasOwnProperty(data) == false)
+			if(data == null || _entityKeyMap[data] == false)
 				return null;
 			else
 				return _entityKeyMap[data];

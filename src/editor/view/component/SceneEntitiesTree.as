@@ -1,25 +1,14 @@
 package editor.view.component
 {
 	import editor.EditorGlobal;
-	import editor.dataeditor.IElement;
-	import editor.dataeditor.impl.EditorBase;
 	import editor.datatype.ReservedName;
 	import editor.datatype.data.ComposedData;
-	import editor.datatype.type.IDataType;
-	import editor.mgr.DataManager;
 	import editor.mgr.EntityFactory;
 	import editor.mgr.PopupMgr;
-	import editor.view.component.window.PropertyEditorWindow;
 	import editor.vo.Scene;
 	
-	import flash.display.DisplayObject;
-	
 	import mx.collections.ArrayCollection;
-	import mx.collections.XMLListCollection;
-	import mx.core.FlexGlobals;
-	import mx.core.IFlexDisplayObject;
 	import mx.events.ListEvent;
-	import mx.managers.PopUpManager;
 
 	public class SceneEntitiesTree extends TreeBase
 	{
