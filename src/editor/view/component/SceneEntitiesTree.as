@@ -3,9 +3,11 @@ package editor.view.component
 	import editor.EditorGlobal;
 	import editor.dataeditor.IElement;
 	import editor.dataeditor.impl.EditorBase;
+	import editor.datatype.ReservedName;
 	import editor.datatype.data.ComposedData;
 	import editor.datatype.type.IDataType;
 	import editor.mgr.DataManager;
+	import editor.mgr.EntityFactory;
 	import editor.mgr.PopupMgr;
 	import editor.view.component.window.PropertyEditorWindow;
 	import editor.vo.Scene;
@@ -50,7 +52,7 @@ package editor.view.component
 			categoryTree.@leaf = false;
 			
 			for each(var entity:ComposedData in scene.entities) {
-				if(entity.$type.name != cate_name) continue;
+				if(entity.templateName != cate_name) continue;
 				child = <node />;
 				child.@label = entity['keyword'];
 				child.@leaf = true;
@@ -64,8 +66,7 @@ package editor.view.component
 		private function getEntiDataByXML(item:XML):ComposedData {
 			var enti:ComposedData;
 			if(item.@leaf != true) {
-				var type:IDataType = EditorGlobal.DATA_MANAGER.getType(item.@label);
-				enti = type.construct();
+				enti = EntityFactory.buildEntityByTemplate(item.@label);
 				return enti;
 			} else {
 				for each(enti in scene.entities) {
@@ -122,6 +123,7 @@ package editor.view.component
 		private function ctmNewInstance():void {
 			var enti:ComposedData = getEntiDataByXML(this.selectedItem as XML);
 			if(enti) {
+				enti[ReservedName.KEYWORD] = EntityFactory.buildKeyword(enti.templateName, scene.getEntityCntByTemplate(enti.templateName));
 				EditorGlobal.MAIN_WND.addEntity(enti);
 			}
 		}

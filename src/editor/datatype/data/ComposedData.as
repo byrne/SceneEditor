@@ -131,7 +131,7 @@ package editor.datatype.data
 		}
 		
 		public function toString():String {
-			return "[ComposedData " + $type.name + "]";
+			return "[ComposedData " + templateName + "]";
 		}
 		
 		public function set view(v:EntityBaseView):void {
@@ -140,6 +140,14 @@ package editor.datatype.data
 		
 		public function get view():EntityBaseView {
 			return this._view;
+		}
+		
+		public function get templateName():String {
+			return this.$type.name;
+		}
+		
+		public function destroy():void {
+			EditorGlobal.DATA_MEMORY.deleteEntity(this);
 		}
 	}
 }

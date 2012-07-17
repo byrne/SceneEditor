@@ -8,6 +8,7 @@ package editor.datatype.impl.parser.xml
 	import editor.datatype.type.DataTypeContext;
 	import editor.datatype.type.IDataType;
 	import editor.mgr.DataManager;
+	import editor.mgr.EntityFactory;
 	
 	import mx.utils.ObjectUtil;
 
@@ -162,13 +163,16 @@ package editor.datatype.impl.parser.xml
 		}
 		
 		private static function composedDataFromXML(xml:XML, ctx:DataTypeContext):ComposedData {
-			var type:IDataType = ctx[xml.name()];
-			var data:ComposedData = type.construct();
+			var uid:String = xml.hasOwnProperty('@uid') ? xml.@uid.toString() : null;
+			var data:ComposedData = EntityFactory.buildEntityByTemplate(xml.name(), uid);
 			
-			if(xml.hasOwnProperty('@uid')) {
-				data.$uid = xml.@uid.toString();
-				data = EditorGlobal.DATA_MEMORY.trySetEntity(data);
-			}
+//			var type:IDataType = ctx[xml.name()];
+//			var data:ComposedData = type.construct();
+//			
+//			if(xml.hasOwnProperty('@uid')) {
+//				data.$uid = xml.@uid.toString();
+//				data = EditorGlobal.DATA_MEMORY.trySetEntity(data);
+//			}
 			
 			for each(var element:XML in xml.children()) {
 				data[element.@property] = fromXML(element, ctx);
