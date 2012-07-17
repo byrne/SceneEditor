@@ -129,7 +129,7 @@ package editor.datatype.data
 		}
 		
 		public function toString():String {
-			return "[ComposedData " + $type.name + "]";
+			return "[ComposedData " + templateName + "]";
 		}
 		
 		public function set view(v:EntityBaseView):void {
@@ -140,11 +140,15 @@ package editor.datatype.data
 			return this._view;
 		}
 		
+		public function get templateName():String {
+			return this.$type.name;
+		}
+		
 		public function clone():ComposedData {
 			var dup:ComposedData = $type.construct();
 			dup.$type = $type;
 			for (var k:String in _$cache)
-				dup._$cache[k] = UtilDataType.copy(_$cache[k]);
+				dup[k] = UtilDataType.copy(_$cache[k]);
 			return dup;
 		}
 		

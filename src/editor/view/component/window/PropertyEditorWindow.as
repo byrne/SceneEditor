@@ -20,7 +20,7 @@ package editor.view.component.window
 		public function set target(data:ComposedData):void {
 			if(data == null)
 				return;
-			var editorBase:EditorBase = EditorGlobal.DATA_MANAGER.getEditorByType(data.$type.name);
+			var editorBase:EditorBase = EditorGlobal.DATA_MANAGER.getEditorByType(data.templateName);
 			_data = data;
 			content = editorBase.getEditorFor(data);
 		}

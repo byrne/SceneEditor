@@ -2,19 +2,6 @@
 <Scene>
   <string property="type">AStreet</string>
   <string property="keyword">LovelyStreet</string>
-  <int property="width">960</int>
-  <array property="entities">
-    <NPC>
-      <string property="resource">test.swf - saybotmc</string>
-      <string property="default_action">WALK</string>
-      <int property="x">341</int>
-      <int property="y">40</int>
-      <string property="keyword">Chewie</string>
-      <string property="tip_msg">Hrrrrr</string>
-      <boolean property="visible">true</boolean>
-    </NPC>
-  </array>
-  <int property="height">560</int>
   <array property="layers">
     <SceneLayer>
       <string property="class_name">SceneLayer</string>
@@ -26,5 +13,27 @@
       <string property="type">physics</string>
       <string property="keyword">physics</string>
     </SceneLayer>
+  </array>
+  <int property="width">960</int>
+  <int property="height">560</int>
+  <array property="entities">
+    <NPC>
+      <boolean property="visible">true</boolean>
+      <int property="x">341</int>
+      <string property="default_action">WALK</string>
+      <int property="y">40</int>
+      <string property="keyword">Chewie</string>
+      <string property="resource">test.swf - saybotmc</string>
+      <string property="tip_msg">Hrrrrr</string>
+    </NPC>
+    <NPC>
+      <boolean property="visible">true</boolean>
+      <int property="x">185</int>
+      <string property="default_action">IDLE</string>
+      <int property="y">333</int>
+      <string property="keyword">sss</string>
+      <string property="resource">idle.swf - saybotmc</string>
+      <string property="tip_msg"></string>
+    </NPC>
   </array>
 </Scene>

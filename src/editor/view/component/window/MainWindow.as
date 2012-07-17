@@ -201,6 +201,9 @@ package editor.view.component.window
 		public function addEntity(enti:ComposedData, refreshView:Boolean=true):Boolean {
 			if(hasEntity(enti) && enti.view != null)
 				return false;
+			if(!hasEntity(enti)) {
+				curScene.entities.push(enti);
+			}
 			var entiView:EntityBaseView = new EntityBaseView(enti);
 			enti.view = entiView;
 			sceneCanvas.addItem(entiView);
@@ -216,6 +219,7 @@ package editor.view.component.window
 				return false;
 			var index:int = curScene.entities.indexOf(enti);
 			curScene.entities.splice(index, 1);
+			enti.destroy();
 			if(enti.view)
 				sceneCanvas.removeItem(enti.view);
 			sceneEntitiesTree.refreshView(curScene);

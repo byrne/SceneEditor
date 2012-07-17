@@ -29,5 +29,14 @@ package editor.vo
 		public function hasEntity(enti:ComposedData):Boolean {
 			return entities.indexOf(enti) >= 0;
 		}
+		
+		public function getEntityCntByTemplate(templateName:String):int {
+			var ret:int = 0;
+			for each(var enti:ComposedData in entities) {
+				if(enti.templateName == templateName)
+					ret += 1;
+			}
+			return ret;
+		}
 	}
 }
