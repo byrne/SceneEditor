@@ -148,7 +148,7 @@ package editor.datatype.data
 			var dup:ComposedData = $type.construct();
 			dup.$type = $type;
 			for (var k:String in _$cache)
-				dup._$cache[k] = UtilDataType.copy(_$cache[k]);
+				dup[k] = UtilDataType.copy(_$cache[k]);
 			return dup;
 		}
 		

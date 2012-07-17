@@ -24,7 +24,10 @@ package editor.mgr
 		}
 		
 		public static function cloneEntity(enti:ComposedData):ComposedData {
-			return null;
+			enti = enti.clone();
+			enti.$uid = UIDUtil.createUID();
+			enti = EditorGlobal.DATA_MEMORY.trySetEntity(enti);
+			return enti;
 		} 
 		
 		public static function buildKeyword(templateName:String, count:int):String {

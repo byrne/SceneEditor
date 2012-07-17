@@ -99,7 +99,12 @@ package editor.view.component
 		}
 		
 		private function ctmCloneInstance():void {
-
+			var enti:ComposedData = getEntiDataByXML(this.selectedItem as XML);
+			if(enti) {
+				enti = EntityFactory.cloneEntity(enti);
+				enti[ReservedName.KEYWORD] = EntityFactory.buildKeyword(enti.templateName, scene.getEntityCntByTemplate(enti.templateName));
+				EditorGlobal.MAIN_WND.addEntity(enti);
+			}
 		}
 		
 		private function ctmDeleteInstance():void {
