@@ -27,5 +27,9 @@ package editor.datatype.data
 				throw new Error("Reference is read-only. Violated property: key");
 			_key = v;
 		}
+		
+		public function clone():Reference {
+			return new Reference(key);
+		}
 	}
 }

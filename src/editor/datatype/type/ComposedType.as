@@ -4,6 +4,8 @@ package editor.datatype.type
 	import editor.datatype.impl.UtilDataType;
 	
 	import flash.utils.Dictionary;
+	
+	import mx.utils.UIDUtil;
 
 	public class ComposedType implements IDataType
 	{
@@ -32,6 +34,7 @@ package editor.datatype.type
 		public function construct():* {
 			var data:ComposedData = new ComposedData();
 			data.$type = this;
+			data.$uid = UIDUtil.createUID();
 			for(var key:String in properties)
 				data[key] = (properties[key] is ComposedType) ? null : (properties[key] as IDataType).construct();
 			return data;
