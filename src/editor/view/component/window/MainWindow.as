@@ -187,18 +187,43 @@ package editor.view.component.window
 			var sceneData:Object = XMLDataParser.fromXML(data, EditorGlobal.DATA_MANAGER.types);
 			curScene = new Scene(sceneData);
 			parameterPanel.wgtLayers.initLayers(curScene);
-			refreshEntitiesTree();
 			tabNavigateTo(1);
 			
 			var enti:ComposedData;
 			var entiView:EntityBaseView;
 			for each(enti in curScene.entities) {
-				entiView = new EntityBaseView(enti);
-				enti.view = entiView;
-				entiView.canSelect = operateMode == NameDef.TBTN_SELECT;
-				sceneCanvas.addItem(entiView);
-				sceneCanvas.setItemPos(entiView, Math.random()* 800, Math.random()* 600);
+				addEntity(enti, false);
+				enti.view.canSelect = operateMode == NameDef.TBTN_SELECT;
 			}
+			refreshEntitiesTree();
+		}
+		
+		public function addEntity(enti:ComposedData, refreshView:Boolean=true):Boolean {
+			if(hasEntity(enti) && enti.view != null)
+				return false;
+			var entiView:EntityBaseView = new EntityBaseView(enti);
+			enti.view = entiView;
+			sceneCanvas.addItem(entiView);
+			entiView.syncDataToView();
+//				sceneCanvas.setItemPos(entiView, Math.random()* 800, Math.random()* 600);
+			if(refreshView)
+				sceneEntitiesTree.refreshView(curScene);
+			return true;
+		}
+		
+		public function deleteEntity(enti:ComposedData):Boolean {
+			if(!hasEntity(enti))
+				return false;
+			var index:int = curScene.entities.indexOf(enti);
+			curScene.entities.splice(index, 1);
+			if(enti.view)
+				sceneCanvas.removeItem(enti.view);
+			sceneEntitiesTree.refreshView(curScene);
+			return true;
+		}
+		
+		public function hasEntity(enti:ComposedData):Boolean {
+			return curScene && curScene.hasEntity(enti);
 		}
 		
 		public function closeScene():void {

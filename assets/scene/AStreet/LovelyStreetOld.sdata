@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <Scene>
 	<string property="keyword">LovelyStreetOld</string>
-	<string property="type">Street</string>
+	<string property="type">AStreet</string>
 	<number property="width">960</number>
 	<number property="height">560</number>
 	<array  property="layers">

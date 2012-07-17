@@ -96,7 +96,7 @@ package editor.view.component.canvas
 					enti.beginDrag();
 			}
 			_dragTarget.startDrag();
-			LogUtil.debug("startEntitiesDrag, mouseTarget: {0}, current selected item count {1}", _dragTarget, _selectedEntities.length);
+//			LogUtil.debug("startEntitiesDrag, mouseTarget: {0}, current selected item count {1}", _dragTarget, _selectedEntities.length);
 		}
 		
 		private function dragAndMoveHandler(evt:MouseEvent):void {
@@ -115,7 +115,7 @@ package editor.view.component.canvas
 		}
 		
 		public function stopEntitiesDrag():void {
-			LogUtil.debug("stopEntitiesDrag "+_selectedEntities.length);
+//			LogUtil.debug("stopEntitiesDrag "+_selectedEntities.length);
 			for each(var enti:EntityBaseView in _selectedEntities) {
 				enti.endDrag();
 				if(enti == _dragTarget)

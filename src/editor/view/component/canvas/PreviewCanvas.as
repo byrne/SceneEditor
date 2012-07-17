@@ -187,7 +187,7 @@ package editor.view.component.canvas
 				this.removeChild(obj);
 				items.splice(itemIndex, 1);
 				if(obj is EntityBaseView)
-					(obj as EntityBaseView).doRemoveFromSceneJod();
+					(obj as EntityBaseView).doRemoveFromSceneJob();
 				return true;
 			}
 			return false;

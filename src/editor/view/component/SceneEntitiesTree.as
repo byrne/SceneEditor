@@ -4,6 +4,8 @@ package editor.view.component
 	import editor.dataeditor.IElement;
 	import editor.dataeditor.impl.EditorBase;
 	import editor.datatype.data.ComposedData;
+	import editor.datatype.type.IDataType;
+	import editor.mgr.DataManager;
 	import editor.mgr.PopupMgr;
 	import editor.view.component.window.PropertyEditorWindow;
 	import editor.vo.Scene;
@@ -37,6 +39,7 @@ package editor.view.component
 				dataProvider.addItem(populateCategory(entityClassName, data as Scene));
 //				dataProvider.appendChild(populateCategory(entityClassName, data as Scene));
 			}
+			this.showRoot = true;
 			this.dataProvider = dataProvider;
 		}
 		
@@ -59,15 +62,19 @@ package editor.view.component
 		}
 		
 		private function getEntiDataByXML(item:XML):ComposedData {
-			if(item.@leaf != true)
-				return null;
 			var enti:ComposedData;
-			for each(enti in scene.entities) {
-				if(enti['keyword'] == item.@label) {
-					return enti;
+			if(item.@leaf != true) {
+				var type:IDataType = EditorGlobal.DATA_MANAGER.getType(item.@label);
+				enti = type.construct();
+				return enti;
+			} else {
+				for each(enti in scene.entities) {
+					if(enti['keyword'] == item.@label) {
+						return enti;
+					}
 				}
+				return null;
 			}
-			return null;
 		}
 		
 		override protected function itemClickHandler(evt:ListEvent):void {
@@ -92,8 +99,8 @@ package editor.view.component
 			var selectItem:XML = this.selectedItem as XML;
 			if(selectItem) {
 				if(selectItem.@leaf == true) {
-					ret = ret.concat([{"label":"克隆实例", "enabled":true, "handler":ctmNewInstance}
-						,{"label":"删除实例", "enabled":true, "handler":ctmNewInstance}]);
+					ret = ret.concat([{"label":"克隆实例", "enabled":true, "handler":ctmCloneInstance}
+						,{"label":"删除实例", "enabled":true, "handler":ctmDeleteInstance}]);
 				} else {
 					ret = ret.concat([{"label":"新建实例", "enabled":true, "handler":ctmNewInstance}]);
 				}
@@ -101,8 +108,22 @@ package editor.view.component
 			return ret;
 		}
 		
+		private function ctmCloneInstance():void {
+
+		}
+		
+		private function ctmDeleteInstance():void {
+			var enti:ComposedData = getEntiDataByXML(this.selectedItem as XML);
+			if(enti) {
+				EditorGlobal.MAIN_WND.deleteEntity(enti);
+			}
+		}
+		
 		private function ctmNewInstance():void {
-			
+			var enti:ComposedData = getEntiDataByXML(this.selectedItem as XML);
+			if(enti) {
+				EditorGlobal.MAIN_WND.addEntity(enti);
+			}
 		}
 	}
 }

@@ -89,7 +89,7 @@ package editor.view.scene
 		protected function arrangeChangeHandler(direcion:int):void {
 		}
 		
-		public function doRemoveFromSceneJod():void {
+		public function doRemoveFromSceneJob():void {
 			EditorGlobal.APP.unregisterContextMenu(this);
 		}
 		

@@ -78,19 +78,19 @@ package editor.view.component
 			}
 		}
 		
-		override public function get contextMenuItems():Array {
-			var ret:Array = [];
-			var selectItem:XML = this.selectedItem as XML;
-			if(selectItem) {
-				if(selectItem.@leaf == true) {
-					ret = ret.concat([{"label":"克隆实例", "enabled":true, "handler":ctmNewInstance}
-								,{"label":"删除实例", "enabled":true, "handler":ctmNewInstance}]);
-				} else {
-					ret = ret.concat([{"label":"新建实例", "enabled":true, "handler":ctmNewInstance}]);
-				}
-			}
-			return ret;
-		}
+//		override public function get contextMenuItems():Array {
+//			var ret:Array = [];
+//			var selectItem:XML = this.selectedItem as XML;
+//			if(selectItem) {
+//				if(selectItem.@leaf == true) {
+//					ret = ret.concat([{"label":"克隆实例", "enabled":true, "handler":ctmNewInstance}
+//								,{"label":"删除实例", "enabled":true, "handler":ctmNewInstance}]);
+//				} else {
+//					ret = ret.concat([{"label":"新建实例", "enabled":true, "handler":ctmNewInstance}]);
+//				}
+//			}
+//			return ret;
+//		}
 		
 		private function ctmNewInstance():void {
 			

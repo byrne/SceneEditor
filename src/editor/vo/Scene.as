@@ -1,6 +1,7 @@
 package editor.vo
 {
 	import editor.EditorGlobal;
+	import editor.datatype.data.ComposedData;
 
 	public class Scene extends ValueObjectBase
 	{
@@ -14,7 +15,7 @@ package editor.vo
 		
 		public var type:String;
 		
-		public var entities:Object;
+		public var entities:Array;
 		
 		public function Scene(properties:Object=null)
 		{
@@ -23,6 +24,10 @@ package editor.vo
 		
 		public function get template():SceneTemplate {
 			return EditorGlobal.DATA_MEMORY.getSceneTeamplate(type);
+		}
+		
+		public function hasEntity(enti:ComposedData):Boolean {
+			return entities.indexOf(enti) >= 0;
 		}
 	}
 }
