@@ -76,12 +76,5 @@ package editor.dataeditor.elements
 			if(v is int)
 				this[bindingProperty] = v;
 		}
-		
-		override public function set selectedItem(value:*):void {
-			if(value == null)
-				selectedIndex = 0;
-			else
-				super.selectedIndex = value as int;
-		}
 	}
 }

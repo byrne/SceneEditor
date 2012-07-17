@@ -2,7 +2,7 @@
 <Scene>
   <string property="type">Street</string>
   <array property="entities">
-    <NPC>
+    <NPC uid="7DC10395-E380-AF41-6F87-751F838083DA" >
       <int property="x">128</int>
       <string property="resource">test.swf - saybotmc</string>
       <int property="y">409</int>
@@ -11,7 +11,7 @@
       <string property="tip_msg">Hrrrrr</string>
       <boolean property="visible">true</boolean>
     </NPC>
-    <NPC>
+    <NPC uid="76F1EC6D-D5D3-C4A0-6214-751F8381FE9E">
       <int property="x">717</int>
       <string property="resource">test2/test3/win.swf - saybotmc</string>
       <int property="y">232</int>
@@ -19,7 +19,7 @@
       <string property="tip_msg">Sup dawg?</string>
       <boolean property="visible">true</boolean>
     </NPC>
-    <Actor>
+    <Actor uid="748352E9-3FE0-6D44-3CAE-7EE64525BC6E">
       <int property="x">377</int>
       <int property="y">218</int>
       <string property="default_action">WETPANTS</string>
@@ -27,7 +27,7 @@
       <string property="resource">lose.swf - saybotmc</string>
       <boolean property="visible">true</boolean>
     </Actor>
-    <Actor>
+    <Actor uid="A5F7523D-218A-F4B5-09A0-7EE64525244D">
       <int property="x">118</int>
       <int property="y">201</int>
       <string property="default_action">CRY</string>
@@ -35,7 +35,7 @@
       <string property="resource">lose.swf - saybotmc</string>
       <boolean property="visible">true</boolean>
     </Actor>
-    <BossJunior>
+    <BossJunior uid="088AFD5A-D782-C8BF-BCE4-793106AADA28">
       <int property="x">0</int>
       <int property="y">0</int>
       <string property="default_action">WALK</string>

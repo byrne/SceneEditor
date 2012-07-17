@@ -2,12 +2,24 @@ package editor.dataeditor.elements.container.layout
 {
 	import editor.dataeditor.ILayoutContainer;
 	
-	import mx.containers.HBox;
+	import flash.display.DisplayObject;
 	
-	public class HLayout extends HBox implements ILayoutContainer
+	import mx.core.IVisualElement;
+	
+	import spark.components.HGroup;
+	
+	public class HLayout extends HGroup implements ILayoutContainer
 	{
 		public function HLayout() {
 			super();
+		}
+		
+		override public function addChild(child:DisplayObject):DisplayObject {
+			return addElement(child as IVisualElement) as DisplayObject; 
+		}
+		
+		override public function removeChild(child:DisplayObject):DisplayObject {
+			return removeElement(child as IVisualElement) as DisplayObject;
 		}
 	}
 }

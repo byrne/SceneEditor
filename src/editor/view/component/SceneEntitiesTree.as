@@ -2,6 +2,7 @@ package editor.view.component
 {
 	import editor.EditorGlobal;
 	import editor.datatype.data.ComposedData;
+	import editor.datatype.impl.parser.xml.XMLDataParser;
 	import editor.datatype.type.IDataType;
 	import editor.mgr.PopupMgr;
 	import editor.vo.Scene;
@@ -76,6 +77,7 @@ package editor.view.component
 		}
 		
 		override protected function itemDoubleClickHandler(evt:ListEvent):void {
+			var something:XML = XMLDataParser.toXML(scene, EditorGlobal.DATA_MANAGER.types);
 			var enti:ComposedData = getEntiDataByXML(this.selectedItem as XML);
 			if(enti != null) {
 				EditorGlobal.PROPERTY_WND.title = "Editing "+enti.$type.name;

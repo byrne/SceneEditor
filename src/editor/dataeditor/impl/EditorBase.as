@@ -3,6 +3,8 @@ package editor.dataeditor.impl
 	import editor.dataeditor.IContainer;
 	import editor.dataeditor.IEditorElement;
 	import editor.dataeditor.IElement;
+	import editor.dataeditor.elements.container.layout.HLayout;
+	import editor.dataeditor.elements.container.layout.VLayout;
 	import editor.datatype.data.ComposedData;
 	
 	import flash.display.DisplayObject;
@@ -12,6 +14,7 @@ package editor.dataeditor.impl
 	import mx.core.IVisualElement;
 	
 	import spark.components.FormItem;
+	import spark.primitives.Rect;
 	
 	/**
 	 * EditorBase stores the structure of and rountines to create an editor to edit ComposedData objects. <p>
@@ -95,6 +98,9 @@ package editor.dataeditor.impl
 		private function processChildren(container:IContainer, target:Object, bindingMap:Dictionary):void {
 			var view:IElement;
 			var formItem:FormItem;
+			if(container is HLayout) {
+//				(container as HLayout).setStyle("borderStyle", "solid");
+			}
 			for(var i:int = 0; i < children.length; i++) {
 				view = children[i].buildView(target, bindingMap);
 				if(view is IEditorElement) {

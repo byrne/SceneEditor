@@ -8,6 +8,7 @@ package editor.datatype.impl.parser.xml
 	import editor.datatype.type.DataTypeContext;
 	import editor.datatype.type.IDataType;
 	import editor.mgr.DataManager;
+	import editor.utils.StringUtil;
 	
 	import mx.utils.ObjectUtil;
 
@@ -66,7 +67,9 @@ package editor.datatype.impl.parser.xml
 				childXML.@property = key;
 				xml.appendChild(childXML);
 			}
-			
+			var uid:String = (obj as ComposedData).$uid;
+			if(uid && StringUtil.trim(uid) != "")
+				xml.@uid=uid;
 			return xml;
 		}
 		
