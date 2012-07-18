@@ -8,7 +8,7 @@ package editor.view.scene
 	
 	public class Indicator extends Sprite
 	{
-		private var _showAxis:Boolean;
+		private var _showAxis:Boolean = true;
 		
 		private var _showSelector:Boolean;
 		

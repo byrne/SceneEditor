@@ -1,10 +1,13 @@
 package editor.view.component
 {
 	import editor.EditorGlobal;
+	import editor.datatype.ReservedName;
 	import editor.datatype.data.ComposedData;
 	import editor.datatype.impl.parser.xml.XMLDataParser;
 	import editor.datatype.type.IDataType;
+	import editor.mgr.EntityFactory;
 	import editor.mgr.PopupMgr;
+	import editor.view.scene.EntityBaseView;
 	import editor.vo.Scene;
 	
 	import mx.collections.ArrayCollection;
@@ -101,7 +104,12 @@ package editor.view.component
 		}
 		
 		private function ctmCloneInstance():void {
-
+			var enti:ComposedData = getEntiDataByXML(this.selectedItem as XML);
+			if(enti) {
+				enti = EntityFactory.cloneEntity(enti);
+				enti[ReservedName.KEYWORD] = EntityFactory.buildKeyword(enti.templateName, scene.getEntityCntByTemplate(enti.templateName));
+				EditorGlobal.MAIN_WND.addEntity(enti);
+			}
 		}
 		
 		private function ctmDeleteInstance():void {
@@ -114,6 +122,7 @@ package editor.view.component
 		private function ctmNewInstance():void {
 			var enti:ComposedData = getEntiDataByXML(this.selectedItem as XML);
 			if(enti) {
+				enti[ReservedName.KEYWORD] = EntityFactory.buildKeyword(enti.templateName, scene.getEntityCntByTemplate(enti.templateName));
 				EditorGlobal.MAIN_WND.addEntity(enti);
 			}
 		}

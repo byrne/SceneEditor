@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Scene>
-  <string property="type">AStreet</string>
-  <string property="keyword">LovelyStreet</string>
   <array property="layers">
     <SceneLayer>
       <string property="class_name">SceneLayer</string>
@@ -15,25 +13,45 @@
     </SceneLayer>
   </array>
   <int property="width">960</int>
-  <int property="height">560</int>
   <array property="entities">
-    <NPC>
-      <boolean property="visible">true</boolean>
-      <int property="x">341</int>
-      <string property="default_action">WALK</string>
-      <int property="y">40</int>
-      <string property="keyword">Chewie</string>
-      <string property="resource">test.swf - saybotmc</string>
+    <NPC uid="D779D9BA-DF70-FE90-F9DC-97F872746E05">
       <string property="tip_msg">Hrrrrr</string>
-    </NPC>
-    <NPC>
+      <int property="x">591</int>
+      <int property="y">427</int>
       <boolean property="visible">true</boolean>
-      <int property="x">185</int>
-      <string property="default_action">IDLE</string>
-      <int property="y">333</int>
-      <string property="keyword">sss</string>
-      <string property="resource">idle.swf - saybotmc</string>
+      <string property="default_action">WALK</string>
+      <string property="resource">test.swf - saybotmc</string>
+      <string property="keyword">Chewie</string>
+    </NPC>
+    <NPC uid="420FF1D8-14B0-6E42-B917-97F87274FFFD">
       <string property="tip_msg"></string>
+      <int property="x">315</int>
+      <int property="y">125</int>
+      <boolean property="visible">true</boolean>
+      <string property="default_action">IDLE</string>
+      <string property="resource">idle.swf - saybotmc</string>
+      <string property="keyword">sss</string>
+    </NPC>
+    <NPC uid="0A58D724-3338-4EA0-6455-97F8824C9BF3">
+      <string property="tip_msg">Hrrrrr</string>
+      <int property="x">585</int>
+      <int property="y">194</int>
+      <boolean property="visible">true</boolean>
+      <string property="default_action">WALK</string>
+      <string property="resource">test.swf - saybotmc</string>
+      <string property="keyword">NPC_003</string>
+    </NPC>
+    <NPC uid="3850D230-31F1-7718-D74B-97F8A910C33C">
+      <string property="tip_msg"></string>
+      <int property="x">131</int>
+      <int property="y">183</int>
+      <boolean property="visible">true</boolean>
+      <string property="default_action">IDLE</string>
+      <string property="resource">test.swf - layers</string>
+      <string property="keyword">NPC_004</string>
     </NPC>
   </array>
+  <string property="type">AStreet</string>
+  <string property="keyword">LovelyStreet</string>
+  <int property="height">560</int>
 </Scene>
