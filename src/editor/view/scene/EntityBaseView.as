@@ -3,7 +3,6 @@ package editor.view.scene
 	import editor.EditorGlobal;
 	import editor.constant.EventDef;
 	import editor.datatype.ReservedName;
-	import editor.datatype.data.ComposedData;
 	import editor.event.DataEvent;
 	import editor.mgr.ResMgr;
 	import editor.utils.CommonUtil;
@@ -11,6 +10,7 @@ package editor.view.scene
 	import editor.view.component.canvas.MainCanvas;
 	import editor.view.component.canvas.PreviewCanvas;
 	import editor.vo.ContextMenuData;
+	import editor.vo.SceneLayer;
 	
 	import flash.display.DisplayObject;
 	import flash.display.MovieClip;
@@ -18,7 +18,6 @@ package editor.view.scene
 	import flash.events.MouseEvent;
 	import flash.events.TimerEvent;
 	import flash.geom.Point;
-	import flash.geom.Rectangle;
 	import flash.utils.Timer;
 	
 	public class EntityBaseView extends Sprite
@@ -36,6 +35,7 @@ package editor.view.scene
 		private var _hasSelectMouseDown:Boolean;
 		
 		private var _dragStartPos:Point;
+		private var _layer:String;
 		
 		public function EntityBaseView(vo:Object)
 		{
@@ -77,16 +77,29 @@ package editor.view.scene
 		public function doAddToSceneJod():void {
 			var contextMenuData:ContextMenuData = new ContextMenuData();
 			var menuItems:Array = [
-				{"label":"上移", "enabled":true, "handler":arrangeChangeHandler, "param":-1}
-				,{"label":"移到顶层", "enabled":true, "handler":arrangeChangeHandler, "param":-2}
-				,{"label":"下移", "enabled":true, "handler":arrangeChangeHandler, "param":1}
-				,{"label":"移到底层", "enabled":true, "handler":arrangeChangeHandler, "param":2}
+				{"label":"上移", "enabled":true, "handler":arrangeChangeHandler, "param":1}
+				,{"label":"移到顶层", "enabled":true, "handler":arrangeChangeHandler, "param":2}
+				,{"label":"下移", "enabled":true, "handler":arrangeChangeHandler, "param":-1}
+				,{"label":"移到底层", "enabled":true, "handler":arrangeChangeHandler, "param":-2}
 			];
 			contextMenuData.menuItems = menuItems;
 			EditorGlobal.APP.registerContextMenu(this, contextMenuData);
 		}
 		
 		protected function arrangeChangeHandler(direcion:int):void {
+			if(parent == null)
+				return;
+			var oldIndex:int = parent.getChildIndex(this);
+			switch(direcion) {
+				case -1:
+					parent.setChildIndex(this, oldIndex > 0 ? oldIndex - 1 : oldIndex); break;
+				case 1:
+					parent.setChildIndex(this, oldIndex < parent.numChildren - 1 ? oldIndex + 1 : oldIndex ); break;
+				case -2:
+					parent.setChildIndex(this, 0); break;
+				case 2:
+					parent.setChildIndex(this, parent.numChildren - 1); break;
+			}
 		}
 		
 		public function doRemoveFromSceneJob():void {
@@ -98,6 +111,18 @@ package editor.view.scene
 				selected = !selected;
 				evt.stopPropagation();
 			}
+		}
+		
+		public function set layer(v:String):void {
+			if(v == null || v == layer)
+				return;
+			if(parent && parent is PreviewCanvas)
+				(parent as PreviewCanvas).setLayer(this, layer);
+			_layer = v;
+		}
+		
+		public function get layer():String {
+			return _layer;
 		}
 		
 		public function get selected():Boolean {
@@ -168,6 +193,10 @@ package editor.view.scene
 			if(_vo.hasOwnProperty(ReservedName.VISIBLE)) {
 				this.visible = _vo[ReservedName.VISIBLE];
 			}
+			// layer
+			if(_vo.hasOwnProperty(ReservedName.LAYER)) {
+				layer = _vo[ReservedName.LAYER];
+			}
 		}
 		
 		protected function doSyncDataFromView(evt:TimerEvent):void {
@@ -176,6 +205,10 @@ package editor.view.scene
 				var scenePos:Point = this.scenePos;
 				_vo[ReservedName.X] = scenePos.x;
 				_vo[ReservedName.Y] = scenePos.y;
+			}
+			
+			if(_vo.hasOwnProperty(ReservedName.LAYER)) {
+				_vo[ReservedName.LAYER] = layer;
 			}
 		}
 	}

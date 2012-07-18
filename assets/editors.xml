@@ -8,8 +8,27 @@
 		<child component="NumberStepper" view_label="y" property="y" />
 	</editor>
 	
-	<editor name="NPCEditor" component="Form"  >
-		<child component="Accordion">
+	<editor name="SceneElementEditor" component="Form" >
+		<child component="SingleLineText" view_label="类" property="class_name" />
+		<child component="SingleLineText" view_label="关键字" property="keyword" />
+		<child component="TextSelector" view_label="素材文件" property="resource" source="res.list"/>
+		<child component="SingleLineText" view_label="所属层" property="layer" default="physics" />
+		<child component="CheckBox" view_label="可见" property="visible" default="true" />
+		<child component="PositionEditor" />
+	</editor>
+	
+	<editor name="BuildingEditor" component="Form" >
+		<child component="PositionEditor" view_label="位置"/>
+		<child component="SingleLineText" view_label="类" property="class_name" default="not available" enabled="false" />
+		<child component="SingleLineText" view_label="关键字" property="keyword" />
+		<child component="TextSelector" view_label="素材文件" property="resource" source="res.list"/>
+		<child component="SingleLineText" view_label="所属层" property="layer" default="physics" />
+		<child component="CheckBox" view_label="可见" property="visible" default="true" />
+		<child component="CheckBox" view_label="可用" property="enabled" default="true" />
+	</editor>
+	
+	<editor name="NPCEditor" component="Form" >
+		<child component="TabNavigator">
 			<child component="AccordionContent" label="'这是什么'" minWidth="400">
 				<child component="Form">
 					<child component="SingleLineText" view_label="名字" property="keyword" />
@@ -18,7 +37,7 @@
 					<child component="SingleLineText" view_label="默认语言" property="tip_msg" />
 				</child>
 			</child>
-			<child component="AccordionContent" label="可选项"  minWidth="400">
+			<child component="AccordionContent" label="可选项" minWidth="400">
 				<child component="Form">
 					<child component="CheckBox" view_label="可见" property="visible" default="true" />
 					<child component="PositionEditor" view_label="坐标" />

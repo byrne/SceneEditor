@@ -202,5 +202,9 @@ package editor.view.component.canvas
 		public function clearView():void {
 			removeAllItems();
 		}
+		
+		public function setLayer(child:DisplayObject, layer:String):void {
+			trace('改变层了， 这功能还没有，需要实现');
+		}
 	}
 }

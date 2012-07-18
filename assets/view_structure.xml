@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <xml_root>
-	<sceneTemplate name="Street" class_name="SceneTemplate" width="960" height="560" entities="NPC,Actor,BossJunior">
+	<sceneTemplate name="Street" class_name="SceneTemplate" width="960" height="560" entities="SceneElement,Building,NPC">
 		<layers name="bg" class_name="SceneLayer"  type="normal"/>
 		<layers name="physics" class_name="SceneLayer" type="physics"/>
 	</sceneTemplate>
