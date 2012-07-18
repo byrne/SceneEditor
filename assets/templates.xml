@@ -5,6 +5,7 @@
 		<property name="keyword" type="string" />
 	</type>
 	
+	<!-- represents a location in 2-dimension surface -->
 	<type name="Position" >
 		<property name="x" type="number" />
 		<property name="y" type="number" />
@@ -19,6 +20,19 @@
 		<property name="type" type="string" />
 		<property name="entities" type="array" />
 	</type>
+		
+	<type name="SceneElement">
+		<inherit type="ValueObject" />
+		<inherit type="Position" />
+		<property name="layer" type="string" />
+		<property name="resource" type="string"/>
+		<property name="visible" type="boolean" />
+	</type>
+	
+	<type name="Building" >
+		<inherit type="SceneElement" />
+		<property name="enabled" type="string" />
+	</type>
 	
 	<type name="SceneLayer" >
 		<inherit  type="ValueObject" />
@@ -26,12 +40,11 @@
 	</type>
 	
 	<type name="Actor">
-		<inherit type="ValueObject" />
+		<inherit type="SceneElement" />
 		<inherit type="Position" />
 		<property name="default_action" type="string" />
 		<property name="viewProxy" type="string" />
-		<property name="visible" type="boolean" />
-		<property name="resource" type="string" />
+		<property name="enabled" type="boolean" />
 	</type>
 	
 	<type name="NPC">

@@ -12,4 +12,5 @@
 		<file url="test3/win.swf"/>
 		<file url="test3/lose.swf"/>
 	</filelist>
+	<file url="bg/HarbourBridge.swf" />
 </proj_res>
