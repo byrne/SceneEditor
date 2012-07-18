@@ -1,13 +1,13 @@
 <?xml version="1.0"?>
 <xml_root>
-	<sceneTemplate name="Street" class_name="SceneTemplate" width="960" height="560" entities="SceneElement,Building,NPC">
+	<sceneTemplate name="Street" class_name="SceneTemplate" width="960" height="560" entities="Decoration,Building,NPC,BossJunior,Actor">
 		<layers name="bg" class_name="SceneLayer"  type="normal"/>
 		<layers name="physics" class_name="SceneLayer" type="physics"/>
 	</sceneTemplate>
 	<sceneTemplate name="Page" class_name="SceneTemplate" width="960" height="560" entities="NPC">
 		<layers name="bg" class_name="SceneLayer" type="normal"/>
 	</sceneTemplate>
-	<sceneTemplate name="AStreet" class_name="SceneTemplate" width="960" height="560" entities="NPC">
+	<sceneTemplate name="AStreet" class_name="SceneTemplate" width="960" height="560" entities="Decoration,Building,NPC">
 		<layers name="bg" class_name="SceneLayer" type="normal"/>
 	</sceneTemplate>
 	<sceneTemplate name="BStreet" class_name="SceneTemplate" width="960" height="560" entities="NPC">
