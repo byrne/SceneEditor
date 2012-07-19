@@ -73,6 +73,8 @@ package editor.dataeditor.elements
 		}
 		
 		protected function myLabelToItemFunction(value:String):Object {
+			if(value == null)
+				return null;
 			for(var i:int = 0; i < dataProvider.length; i++)
 				if(dataProvider.getItemAt(i)[labelField] == value)
 					return dataProvider.getItemAt(i);
@@ -82,8 +84,10 @@ package editor.dataeditor.elements
 		override public function set selectedItem(value:*):void {
 			if(value is String)
 				super.selectedItem = myLabelToItemFunction(value);
-			else if(value is Reference && value != null)
-				super.selectedItem = myLabelToItemFunction((value as Reference).dereference()[labelField]);
+			else if(value is Reference && value != null) {
+				var refEnti:ComposedData = (value as Reference).dereference();
+				super.selectedItem = myLabelToItemFunction(refEnti ? refEnti[labelField] : null);
+			}
 		}
 	}
 }

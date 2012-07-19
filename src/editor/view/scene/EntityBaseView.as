@@ -20,7 +20,7 @@ package editor.view.scene
 	import flash.geom.Point;
 	import flash.utils.Timer;
 	
-	public class EntityBaseView extends Sprite
+	public class EntityBaseView extends Sprite implements IDisplayElement
 	{
 		private static const DISPLAY_REFRESH_INTERVAL:int = 100;
 		private var _vo:Object;
@@ -43,13 +43,13 @@ package editor.view.scene
 			_indicator = new Indicator();
 			this.addChild(_indicator);
 			_vo = vo;
-			syncDataToView();
+//			syncDataToView();
 			var thisRef:EntityBaseView = this;
 			this.addEventListener(MouseEvent.MOUSE_DOWN, function(evt:MouseEvent):void {
 				if(!canSelect)
 					return;
 				_hasSelectMouseDown = true;
-				(parent as MainCanvas).startEntitiesDrag(thisRef);
+				parentCanvas.startEntitiesDrag(thisRef);
 				evt.stopPropagation();
 			});
 			this.addEventListener(MouseEvent.MOUSE_UP, function(evt:MouseEvent):void {
@@ -57,7 +57,7 @@ package editor.view.scene
 					return;
 				if(_hasSelectMouseDown)
 					selected = true;
-				(parent as MainCanvas).stopEntitiesDrag();
+				parentCanvas.stopEntitiesDrag();
 				evt.stopPropagation();
 			})
 		}
@@ -87,19 +87,9 @@ package editor.view.scene
 		}
 		
 		protected function arrangeChangeHandler(direcion:int):void {
-			if(parent == null)
+			if(parentCanvas == null)
 				return;
-			var oldIndex:int = parent.getChildIndex(this);
-			switch(direcion) {
-				case -1:
-					parent.setChildIndex(this, oldIndex > 0 ? oldIndex - 1 : oldIndex); break;
-				case 1:
-					parent.setChildIndex(this, oldIndex < parent.numChildren - 1 ? oldIndex + 1 : oldIndex ); break;
-				case -2:
-					parent.setChildIndex(this, 0); break;
-				case 2:
-					parent.setChildIndex(this, parent.numChildren - 1); break;
-			}
+			parentCanvas.arrangeItem(this, direcion);
 		}
 		
 		public function doRemoveFromSceneJob():void {
@@ -116,9 +106,10 @@ package editor.view.scene
 		public function set layer(v:String):void {
 			if(v == null || v == layer)
 				return;
-			if(parent && parent is PreviewCanvas)
-				(parent as PreviewCanvas).setLayer(this, layer);
 			_layer = v;
+			if(parentCanvas) {
+				parentCanvas.setItemLayer(this, _layer);
+			}
 		}
 		
 		public function get layer():String {
@@ -146,6 +137,12 @@ package editor.view.scene
 			if(parentCanvas)
 				return parentCanvas.getItemPos(this);
 			return null;
+		}
+		
+		public function set scenePos(pos:Point):void {
+			var parentCanvas:PreviewCanvas = this.parent as PreviewCanvas;
+			if(parentCanvas)
+				parentCanvas.setItemPos(this, pos.x, pos.y);
 		}
 		
 		public function beginDrag():Point {
@@ -176,9 +173,8 @@ package editor.view.scene
 		public function syncDataToView():void {
 			// X and Y
 			if(_vo.hasOwnProperty(ReservedName.X) && _vo.hasOwnProperty(ReservedName.Y)) {
-				var p:PreviewCanvas = this.parent as PreviewCanvas;
-				if(p) {
-					p.setItemPos(this, _vo[ReservedName.X], _vo[ReservedName.Y]);
+				if(parentCanvas) {
+					parentCanvas.setItemPos(this, _vo[ReservedName.X], _vo[ReservedName.Y]);
 				}
 			}
 			
@@ -193,6 +189,7 @@ package editor.view.scene
 			if(_vo.hasOwnProperty(ReservedName.VISIBLE)) {
 				this.visible = _vo[ReservedName.VISIBLE];
 			}
+			
 			// layer
 			if(_vo.hasOwnProperty(ReservedName.LAYER)) {
 				layer = _vo[ReservedName.LAYER];
@@ -208,8 +205,14 @@ package editor.view.scene
 			}
 			
 			if(_vo.hasOwnProperty(ReservedName.LAYER)) {
+				if(parentCanvas)
+					parentCanvas.setItemLayer(this, layer);
 				_vo[ReservedName.LAYER] = layer;
 			}
+		}
+		
+		public function get parentCanvas():MainCanvas {
+			return this.parent as MainCanvas;
 		}
 	}
 }

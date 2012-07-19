@@ -73,9 +73,11 @@ package editor.view.component
 		
 		override protected function itemClickHandler(evt:ListEvent):void {
 			super.itemClickHandler(evt);
-			var enti:ComposedData = getEntiDataByXML(this.selectedItem as XML);
-			if(enti && enti.view) {
-				enti.view.selected = true;
+			if((this.selectedItem as XML).@leaf == true) {
+				var enti:ComposedData = getEntiDataByXML(this.selectedItem as XML);
+				if(enti && enti.view) {
+					enti.view.selected = true;
+				}
 			}
 		}
 		
@@ -94,10 +96,10 @@ package editor.view.component
 			var selectItem:XML = this.selectedItem as XML;
 			if(selectItem) {
 				if(selectItem.@leaf == true) {
-					ret = ret.concat([{"label":"克隆实例", "enabled":true, "handler":ctmCloneInstance}
-						,{"label":"删除实例", "enabled":true, "handler":ctmDeleteInstance}]);
+					ret = ret.concat([{"label":"克隆", "enabled":true, "handler":ctmCloneInstance}
+						,{"label":"删除", "enabled":true, "handler":ctmDeleteInstance}]);
 				} else {
-					ret = ret.concat([{"label":"新建实例", "enabled":true, "handler":ctmNewInstance}]);
+					ret = ret.concat([{"label":"新建", "enabled":true, "handler":ctmNewInstance}]);
 				}
 			}
 			return ret;

@@ -186,6 +186,7 @@ package editor.view.component.window
 			var data:XML = XML(FileSerializer.readFromFile(fName));
 			var sceneData:Object = XMLDataParser.fromXML(data, EditorGlobal.DATA_MANAGER.types);
 			curScene = new Scene(sceneData);
+			sceneCanvas.layers = curScene.layers;
 			parameterPanel.wgtLayers.initLayers(curScene);
 			tabNavigateTo(1);
 			
@@ -219,9 +220,9 @@ package editor.view.component.window
 				return false;
 			var index:int = curScene.entities.indexOf(enti);
 			curScene.entities.splice(index, 1);
-			enti.destroy();
 			if(enti.view)
 				sceneCanvas.removeItem(enti.view);
+			enti.destroy();
 			sceneEntitiesTree.refreshView(curScene);
 			return true;
 		}
