@@ -73,6 +73,8 @@ package editor.view.component
 		
 		override protected function itemClickHandler(evt:ListEvent):void {
 			super.itemClickHandler(evt);
+			if(selectedItem.@leaf == false)
+				return;
 			var enti:ComposedData = getEntiDataByXML(this.selectedItem as XML);
 			if(enti && enti.view) {
 				enti.view.selected = true;

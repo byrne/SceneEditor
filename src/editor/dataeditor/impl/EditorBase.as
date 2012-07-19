@@ -148,7 +148,7 @@ package editor.dataeditor.impl
 				compoment = _bindings[prop].ed_comp;
 				if(target is ComposedData && target.assigned(prop)) 
 					compoment[compoment.bindingProperty] = target[prop];
-				_bindings[prop].watchers.push(BindingUtils.bindProperty(target, prop, compoment, compoment.bindingProperty));
+				_bindings[prop].watchers.push(BindingUtils.bindProperty(target, prop, compoment, compoment.bindingProperty, true));
 			}
 		}
 		

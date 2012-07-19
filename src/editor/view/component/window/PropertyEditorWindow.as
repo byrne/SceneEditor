@@ -36,6 +36,7 @@ package editor.view.component.window
 		
 		override public function onClose(evt:CloseEvent=null):void {
 			super.onClose(evt);
+			removeElement(_content as IVisualElement);
 		}
 	}
 }

@@ -12,7 +12,7 @@
 		<child component="SingleLineText" view_label="类" property="class_name" />
 		<child component="SingleLineText" view_label="关键字" property="keyword" />
 		<child component="TextSelector" view_label="素材文件" property="resource" source="res.list"/>
-		<child component="SingleLineText" view_label="所属层" property="layer" default="physics" />
+		<child component="ReferenceChooser" view_label="所属层" property="layer" default="physics" type="SceneLayer" />
 		<child component="CheckBox" view_label="可见" property="visible" default="true" />
 		<child component="PositionEditor" />
 	</editor>

@@ -1,6 +1,7 @@
 package editor.mgr
 {
 	import editor.datatype.data.ComposedData;
+	import editor.datatype.data.Reference;
 	import editor.vo.SceneTemplate;
 	import editor.vo.ValueObjectBase;
 	
@@ -87,15 +88,32 @@ package editor.mgr
 				return setEntity(data, data.$uid, update);
 		}
 		
-		public function deleteEntity(data:*):Boolean {
+		public function deleteEntity(data:ComposedData):Boolean {
 			var keyword:String = getKey(data);
 			if(keyword != null) {
 				delete _entityKeyMap[data];
 				delete _entitiesCache[keyword];
+				updateReferences(data.$uid);
 				return true;
 			}
 			else
 				return false;
+		}
+		
+		private function updateReferences(uid:String):void {
+			for each(var data:ComposedData in _entitiesCache) {
+				clearReferenceTo(data, uid);
+			}
+		}
+		
+		private function clearReferenceTo(data:ComposedData, uid:String):void {
+			for(var prop:String in data) {
+				if(data[prop] is Reference && data[prop].key == uid)
+					data[prop] = new Reference;
+				else if(data[prop] is ComposedData)
+					clearReferenceTo(data[prop], uid);
+			}
+			return;
 		}
 		
 		public function hasKey(keyword:String):Boolean {

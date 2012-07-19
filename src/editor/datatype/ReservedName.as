@@ -14,7 +14,7 @@ package editor.datatype
 		
 		public static const LAYER:String = "layer";
 		
-		private static const _nameArr:Array = [RESOURCE, X, Y, VISIBLE, KEYWORD];
+		private static const _nameArr:Array = [RESOURCE, X, Y, VISIBLE, KEYWORD, LAYER];
 		
 		public function ReservedName()
 		{

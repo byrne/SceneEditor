@@ -117,7 +117,7 @@ package editor.view.scene
 			if(v == null || v == layer)
 				return;
 			if(parent && parent is PreviewCanvas)
-				(parent as PreviewCanvas).setLayer(this, layer);
+				(parent as PreviewCanvas).setLayer(this, v);
 			_layer = v;
 		}
 		
