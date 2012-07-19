@@ -35,7 +35,7 @@ package editor.dataeditor.impl
 			'Accordion': Accordion,
 			'AccordionContent': AccordionContent,
 			'TabNavigator': TabNavigator,
-			'ReferenceChooser': ReferenceChooser
+			'MemoryDataChooser': MemoryDataChooser
 		};
 	}
 }

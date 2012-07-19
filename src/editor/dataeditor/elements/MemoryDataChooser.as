@@ -11,12 +11,12 @@ package editor.dataeditor.elements
 	
 	import spark.components.ComboBox;
 	
-	public class ReferenceChooser extends ComboBox implements IEditorElement
+	public class MemoryDataChooser extends ComboBox implements IEditorElement
 	{
 		public var showTips:Boolean = false;
 		private var _types:Array;
 		
-		public function ReferenceChooser() {
+		public function MemoryDataChooser() {
 			super();
 			labelField = "keyword";
 			labelToItemFunction = myLabelToItemFunction;
