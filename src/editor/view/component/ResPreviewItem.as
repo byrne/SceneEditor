@@ -46,5 +46,8 @@ package editor.view.component
 		public function doRemoveFromSceneJob():void
 		{
 		}
+		
+		public function get lock():Boolean { return true; }
+		public function set lock(v:Boolean):void {}
 	}
 }

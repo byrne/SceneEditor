@@ -2,6 +2,7 @@
 <xml_root>
 	<sceneTemplate name="Street" class_name="SceneTemplate" width="960" height="560" entities="Decoration,Building,NPC,BossJunior">
 		<layers name="bg" class_name="SceneLayer"  type="normal"/>
+		<layers name="fg" class_name="SceneLayer"  type="normal"/>
 		<layers name="physics" class_name="SceneLayer" type="physics"/>
 	</sceneTemplate>
 	<sceneTemplate name="Page" class_name="SceneTemplate" width="960" height="560" entities="NPC">

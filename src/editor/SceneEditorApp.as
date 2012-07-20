@@ -206,6 +206,7 @@ package editor
 		
 		private function fileSaveHandler():void {
 			var scene:Scene = mainWnd.curScene; 
+			scene.sortEntities();
 			var xml:XML = XMLDataParser.toXML(scene, dataManager.types);
 			var fileName:String = StringUtil.substitute("{0}/{1}/{2}{3}"
 				, EditorGlobal.APP.getGlobalConfig(NameDef.CFG_SCENE_FILES_DIR) as String

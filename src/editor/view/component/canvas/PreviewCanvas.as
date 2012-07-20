@@ -167,8 +167,8 @@ package editor.view.component.canvas
 		public function setItemPos(obj:IDisplayElement, x:int, y:int):void {
 			if(!hasItem(obj))
 				return;
-			(obj as DisplayObject).x = axisXbase + x;
-			(obj as DisplayObject).y = axisYbase + y;
+			obj.x = axisXbase + x;
+			obj.y = axisYbase + y;
 			if(obj is EntityBaseView)
 				(obj as EntityBaseView).syncDataFromView();
 		}
@@ -176,7 +176,7 @@ package editor.view.component.canvas
 		public function getItemPos(obj:IDisplayElement):Point {
 			if(!hasItem(obj))
 				return null;
-			return new Point((obj as DisplayObject).x - axisXbase, (obj as DisplayObject).y - axisYbase);
+			return new Point(obj.x - axisXbase, obj.y - axisYbase);
 		}
 		
 		public function hasItem(obj:IDisplayElement):Boolean {
@@ -208,7 +208,10 @@ package editor.view.component.canvas
 		public function setItemLayer(obj:IDisplayElement, layer:String):Boolean {
 			if(!hasItem(obj))
 				return false;
-			this.setChildIndex(obj as DisplayObject, lastItemIndexWithLayer(layer)+1); 
+			var oldIndex:int = this.getChildIndex(obj as DisplayObject);
+			var index:int = lastItemIndexWithLayer(layer, obj) + 1;
+			this.setChildIndex(obj as DisplayObject, index); 
+			LogUtil.debug("arrange item index for layer change, from {0}, to {1}", oldIndex, index);
 			return true;
 		}
 		
@@ -231,8 +234,14 @@ package editor.view.component.canvas
 			var destIndex:int;
 			var destObj:IDisplayElement;
 			if(Math.abs(direction) == 1) {
-				destIndex = objIndex + direction;
-				destObj = destIndex<0 || destIndex>=this.numChildren ? null : this.getChildAt(destIndex) as IDisplayElement;
+				while(true) {
+					destIndex = objIndex + direction;
+					if(destIndex<0 || destIndex>=this.numChildren)
+						break;
+					destObj = this.getChildAt(destIndex) as IDisplayElement;
+					if(destObj != null)
+						break;
+				}
 				if(destObj && destObj.layer == obj.layer) {
 					this.setChildIndex(obj as DisplayObject, destIndex);
 					LogUtil.debug("arrange item index, from {0}, to {1}", objIndex, destIndex);
@@ -241,13 +250,13 @@ package editor.view.component.canvas
 			}
 		}
 		
-		private function lastItemIndexWithLayer(layerName:String):int {
+		private function lastItemIndexWithLayer(layerName:String, excludeObj:IDisplayElement=null):int {
 			if(_layers == null || layerName == null)
 				items.length - 1;
 			var obj:IDisplayElement;
 			for(var i:int=this.numChildren-1; i>=0; i--) {
-				obj = items[i] as IDisplayElement;
-				if(obj && obj.layer==layerName)
+				obj = this.getChildAt(i) as IDisplayElement;
+				if(obj && obj.layer==layerName && obj != excludeObj)
 					return i;
 			}
 			return items.length - 1;

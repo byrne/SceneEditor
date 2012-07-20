@@ -36,6 +36,7 @@ package editor.view.scene
 		
 		private var _dragStartPos:Point;
 		private var _layer:String;
+		private var _lock:Boolean;
 		
 		public function EntityBaseView(vo:Object)
 		{
@@ -46,14 +47,14 @@ package editor.view.scene
 //			syncDataToView();
 			var thisRef:EntityBaseView = this;
 			this.addEventListener(MouseEvent.MOUSE_DOWN, function(evt:MouseEvent):void {
-				if(!canSelect)
+				if(!canSelect || lock)
 					return;
 				_hasSelectMouseDown = true;
 				parentCanvas.startEntitiesDrag(thisRef);
 				evt.stopPropagation();
 			});
 			this.addEventListener(MouseEvent.MOUSE_UP, function(evt:MouseEvent):void {
-				if(!canSelect)
+				if(!canSelect || lock)
 					return;
 				if(_hasSelectMouseDown)
 					selected = true;
@@ -77,17 +78,17 @@ package editor.view.scene
 		public function doAddToSceneJod():void {
 			var contextMenuData:ContextMenuData = new ContextMenuData();
 			var menuItems:Array = [
-				{"label":"上移", "enabled":true, "handler":arrangeChangeHandler, "param":1}
-				,{"label":"移到顶层", "enabled":true, "handler":arrangeChangeHandler, "param":2}
-				,{"label":"下移", "enabled":true, "handler":arrangeChangeHandler, "param":-1}
-				,{"label":"移到底层", "enabled":true, "handler":arrangeChangeHandler, "param":-2}
+				{"label":"上移", "enabled":this.lock, "handler":arrangeChangeHandler, "param":1}
+				,{"label":"移到顶层", "enabled":this.lock, "handler":arrangeChangeHandler, "param":2}
+				,{"label":"下移", "enabled":this.lock, "handler":arrangeChangeHandler, "param":-1}
+				,{"label":"移到底层", "enabled":this.lock, "handler":arrangeChangeHandler, "param":-2}
 			];
 			contextMenuData.menuItems = menuItems;
 			EditorGlobal.APP.registerContextMenu(this, contextMenuData);
 		}
 		
 		protected function arrangeChangeHandler(direcion:int):void {
-			if(parentCanvas == null)
+			if(parentCanvas == null || lock)
 				return;
 			parentCanvas.arrangeItem(this, direcion);
 		}
@@ -104,7 +105,7 @@ package editor.view.scene
 		}
 		
 		public function set layer(v:String):void {
-			if(v == null || v == layer)
+			if(v == null || v == layer || lock)
 				return;
 			_layer = v;
 			if(parentCanvas) {
@@ -140,6 +141,8 @@ package editor.view.scene
 		}
 		
 		public function set scenePos(pos:Point):void {
+			if(lock)
+				return;
 			var parentCanvas:PreviewCanvas = this.parent as PreviewCanvas;
 			if(parentCanvas)
 				parentCanvas.setItemPos(this, pos.x, pos.y);
@@ -204,7 +207,7 @@ package editor.view.scene
 				_vo[ReservedName.Y] = scenePos.y;
 			}
 			
-			if(_vo.hasOwnProperty(ReservedName.LAYER)) {
+			if(_vo.hasOwnProperty(ReservedName.LAYER) && _vo[ReservedName.LAYER] != layer) {
 				if(parentCanvas)
 					parentCanvas.setItemLayer(this, layer);
 				_vo[ReservedName.LAYER] = layer;
@@ -214,5 +217,8 @@ package editor.view.scene
 		public function get parentCanvas():MainCanvas {
 			return this.parent as MainCanvas;
 		}
+		
+		public function get lock():Boolean { return _lock; }
+		public function set lock(v:Boolean):void { _lock = v; }
 	}
 }

@@ -1,6 +1,8 @@
 package editor.view.component.widget
 {
+	import editor.EditorGlobal;
 	import editor.constant.EventDef;
+	import editor.datatype.data.ComposedData;
 	import editor.event.DataEvent;
 	import editor.view.component.LayerItem;
 	import editor.view.mxml.skin.WgtLayersSkin;
@@ -50,11 +52,13 @@ package editor.view.component.widget
 			super();
 			setStyle("skinClass", WgtLayersSkin);
 			this.addEventListener(FlexEvent.CREATION_COMPLETE, createCompleteHandler);
+			var layerItem:LayerItem;
 			this.addEventListener(EventDef.LAYER_ITEM_INVISIBLE_CLICK, function(evt:DataEvent):void {
 				_makeAllLayersInvisible = true;
 			});
 			this.addEventListener(EventDef.LAYER_ITEM_LOCK_CLICK, function(evt:DataEvent):void {
 				_makeAllLayersLock = true;
+				layerItem = evt.data as LayerItem;
 			});
 		}
 		
@@ -69,7 +73,7 @@ package editor.view.component.widget
 				clearView();
 			_targetScene = scene;
 			for each(var sceneLayer:SceneLayer in scene.layers) {
-				addLayer(sceneLayer.keyword);
+				addLayer(sceneLayer.keyword, false);
 			}
 		}
 		
@@ -97,7 +101,7 @@ package editor.view.component.widget
 			});
 		}
 		
-		public function addLayer(name:String=null):void {
+		public function addLayer(name:String=null, addToSceneData:Boolean=true):void {
 			if(name == null)
 				name = "Layer "+(layersNumber+1).toString();
 			var layer:LayerItem = new LayerItem();
@@ -107,6 +111,14 @@ package editor.view.component.widget
 			layersContainer.addElement(layer);
 			_layers.push(layer);
 			refreshLayersView();
+			
+			if(addToSceneData) {
+				var sceneLayer:SceneLayer = new SceneLayer();
+				sceneLayer.keyword = name;
+				sceneLayer.type = "normal";
+				sceneLayer.class_name = "SceneLayer";
+				_targetScene.layers.push(sceneLayer);
+			}
 		}
 		
 		public function selectLayer(layerSelect:LayerItem):void {

@@ -12,6 +12,7 @@ package editor.view.component.window
 	import editor.utils.LogUtil;
 	import editor.utils.keyboard.KeyBoardMgr;
 	import editor.utils.keyboard.KeyShortcut;
+	import editor.view.component.LayerItem;
 	import editor.view.component.SceneEntitiesTree;
 	import editor.view.component.SceneListTree;
 	import editor.view.component.Toolbar;
@@ -19,9 +20,11 @@ package editor.view.component.window
 	import editor.view.component.canvas.MainCanvas;
 	import editor.view.component.widget.WgtPanel;
 	import editor.view.scene.EntityBaseView;
+	import editor.view.scene.IDisplayElement;
 	import editor.vo.Scene;
 	import editor.vo.SceneTemplate;
 	
+	import flash.display.DisplayObject;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
 	import flash.ui.Keyboard;
@@ -197,6 +200,17 @@ package editor.view.component.window
 				enti.view.canSelect = operateMode == NameDef.TBTN_SELECT;
 			}
 			refreshEntitiesTree();
+			listenLayersEvent();
+		}
+		
+		public function closeScene():void {
+			if(curScene == null)
+				return;
+			sceneCanvas.clearView();
+			sceneEntitiesTree.clearView();
+			if(parameterPanel.wgtLayers)
+				parameterPanel.wgtLayers.clearView();
+			removeLayersEvent();
 		}
 		
 		public function addEntity(enti:ComposedData, refreshView:Boolean=true):Boolean {
@@ -231,21 +245,38 @@ package editor.view.component.window
 			return curScene && curScene.hasEntity(enti);
 		}
 		
-		public function closeScene():void {
-			if(curScene == null)
-				return;
-			sceneCanvas.clearView();
-			sceneEntitiesTree.clearView();
-			if(parameterPanel.wgtLayers)
-				parameterPanel.wgtLayers.clearView();
-		}
-		
 		public function refreshEntitiesTree():void {
 			sceneEntitiesTree.refreshView(curScene);
 		}
 		
 		public function tabNavigateTo(index:int):void {
 			tabMenu.selectedIndex = index;
+		}
+		
+		private function listenLayersEvent():void {
+			this.addEventListener(EventDef.LAYER_ITEM_INVISIBLE_CLICK, layerVisibleChangeHandler);
+			this.addEventListener(EventDef.LAYER_ITEM_LOCK_CLICK, layerLockChangeHandler);
+		}
+		private function removeLayersEvent():void {
+			this.removeEventListener(EventDef.LAYER_ITEM_INVISIBLE_CLICK, layerVisibleChangeHandler);
+			this.removeEventListener(EventDef.LAYER_ITEM_LOCK_CLICK, layerLockChangeHandler);
+		}
+		
+		protected function layerVisibleChangeHandler(evt:DataEvent):void {
+			var layer:LayerItem = evt.data as LayerItem;
+			var entiVisibleChange:Function = function(enti:IDisplayElement):void {
+				if(enti.layer == layer.layerName)
+					enti.visible = layer.layerVisible;
+			};
+			sceneCanvas.entitiesDo(entiVisibleChange);
+		}
+		protected function layerLockChangeHandler(evt:DataEvent):void {
+			var layer:LayerItem = evt.data as LayerItem;
+			var entiLockChange:Function = function(enti:IDisplayElement):void {
+				if(enti.layer == layer.layerName)
+					enti.lock = layer.layerLock;
+			};
+			sceneCanvas.entitiesDo(entiLockChange);
 		}
 	}
 }
