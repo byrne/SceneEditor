@@ -12,5 +12,8 @@
 		<file url="test3/win.swf"/>
 		<file url="test3/lose.swf"/>
 	</filelist>
-	<file url="bg/HarbourBridge.swf" />
+	<directory url="entity" />
+	<directory url="building" />
+	<directory url="bg" />
+	
 </proj_res>

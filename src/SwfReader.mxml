@@ -22,6 +22,8 @@
 			import editor.utils.swf.SWF;
 			import editor.view.mxml.CustomListItemSkin;
 			
+			import flashx.textLayout.formats.Direction;
+			
 			import mx.collections.ArrayCollection;
 			import mx.controls.Alert;
 			import mx.events.ItemClickEvent;
@@ -60,6 +62,9 @@
 				var files:Array = [];
 				appendFileList(files, config["file"]);
 				var fileListsArr:Array = config["filelist"] is Array ? config["filelist"] as Array : [config["filelist"]];
+				
+				var folders:Array = config["directory"] is Array ? config["directory"] : [config["directory"]];
+				var baseDir:File = new File(base_dir);
 				for each(var list:Object in fileListsArr) {
 					appendFileList(files, list["file"], list.base_url);
 				} 
@@ -69,6 +74,10 @@
 					fileName = StringUtil.substitute("{0}/{1}", base_dir, fileName);
 					dumpSwfSymbolClass(fileName, output, output_json, symbols, output_list, base_dir);
 				}
+				for each(var item:Object in folders) {
+					dumpSwfForFolder(baseDir.resolvePath(item.url), output, output_json, symbols, output_list, base_dir);
+				}
+				
 			}
 			
 			private static function appendFileList(output:Array, src:*, baseDir:String=null):void {
@@ -76,7 +85,19 @@
 				for each(var file:Object in srcArr) {
 					output.push(baseDir ? baseDir+"/"+file.url : file.url);
 				}
-			} 
+			}
+			
+			private function dumpSwfForFolder(folder:File,  output:Object, output_json:String, outSymbolsArr:Array, output_list:String, base_dir:String):void {
+				if(folder == null || folder.exists == false || folder.isDirectory == false)
+					return;
+				var content:Array = folder.getDirectoryListing();
+				for each(var item:File in content) {
+					if(item.isDirectory)
+						dumpSwfForFolder(item, output, output_json, outSymbolsArr, output_list, base_dir);
+					else if(item.extension == "swf")
+						dumpSwfSymbolClass(item.nativePath, output, output_json, outSymbolsArr, output_list, base_dir);
+				}
+			}
 			
 			private static var remainSwfCnt:int;
 			private function dumpSwfSymbolClass(fileName:String, output:Object, output_json:String, outSymbolsArr:Array, output_list:String, base_dir:String):void {
