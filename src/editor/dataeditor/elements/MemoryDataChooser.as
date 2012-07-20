@@ -11,14 +11,12 @@ package editor.dataeditor.elements
 	
 	import spark.components.ComboBox;
 	
-	public class ReferenceChooser extends ComboBox implements IEditorElement
+	public class MemoryDataChooser extends ComboBox implements IEditorElement
 	{
-		public static const DEFAULT_SOURCE:String = "EditorGlobal.DATA_MEMORY|*";
 		public var showTips:Boolean = false;
 		private var _types:Array;
-		private var _source:String = DEFAULT_SOURCE;
 		
-		public function ReferenceChooser() {
+		public function MemoryDataChooser() {
 			super();
 			labelField = "keyword";
 			labelToItemFunction = myLabelToItemFunction;
@@ -53,17 +51,7 @@ package editor.dataeditor.elements
 			
 			dataProvider = new ArrayList(candidates);
 		}
-		
-		public function set source(v:String):void {
-			if(_source == v)
-				return;
-			_source = v;
-		}
-		
-		public function get source():String {
-			return _source;
-		}
-		
+				
 		public function get bindingProperty():Object {
 			return 'selectedItem';
 		}

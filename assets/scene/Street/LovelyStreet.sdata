@@ -1,73 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Scene>
+  <string property="type">Street</string>
+  <array property="layers">
+    <SceneLayer>
+      <string property="keyword">bg</string>
+      <string property="class_name">SceneLayer</string>
+      <string property="type">normal</string>
+    </SceneLayer>
+    <SceneLayer>
+      <string property="keyword">physics</string>
+      <string property="class_name">SceneLayer</string>
+      <string property="type">physics</string>
+    </SceneLayer>
+    <SceneLayer>
+      <string property="keyword">fg</string>
+      <string property="class_name">SceneLayer</string>
+      <string property="type">normal</string>
+    </SceneLayer>
+  </array>
+  <int property="width">960</int>
+  <string property="keyword">LovelyStreet</string>
+  <int property="height">560</int>
   <array property="entities">
     <Decoration uid="6F8DA8EA-67E4-2832-ABAA-99D7FF54B239">
-      <string property="keyword">Decoration_001</string>
-      <int property="x">-59</int>
-      <string property="class_name"></string>
+      <int property="x">-60</int>
       <string property="layer">bg</string>
-      <boolean property="visible">true</boolean>
-      <string property="resource">bg/HarbourBridge.swf - saybotmc</string>
       <int property="y">-131</int>
+      <boolean property="visible">true</boolean>
+      <string property="class_name"></string>
+      <string property="keyword">Decoration_001</string>
       <string property="enabled">true</string>
+      <string property="resource">bg/HarbourBridge.swf - saybotmc</string>
     </Decoration>
     <NPC uid="7DC10395-E380-AF41-6F87-751F838083DA">
-      <string property="layer">fg</string>
-      <int property="x">380</int>
       <string property="tip_msg">Hrrrrr</string>
-      <string property="class_name"></string>
+      <int property="x">380</int>
+      <string property="resource">idle.swf - saybotmc</string>
+      <string property="layer">fg</string>
       <int property="y">408</int>
       <string property="default_action">WALK</string>
-      <boolean property="enabled">true</boolean>
-      <string property="resource">idle.swf - saybotmc</string>
-      <boolean property="visible">true</boolean>
+      <string property="class_name"></string>
       <string property="keyword">Chewiee</string>
+      <boolean property="visible">true</boolean>
+      <boolean property="enabled">true</boolean>
     </NPC>
     <NPC uid="FE26F7D6-2C2F-0FAC-D9A3-9CD7961299B4">
-      <string property="layer">fg</string>
-      <int property="x">550</int>
       <string property="tip_msg"></string>
-      <string property="class_name"></string>
-      <int property="y">407</int>
+      <int property="x">687</int>
+      <string property="resource">lose.swf - saybotmc</string>
+      <string property="layer">fg</string>
+      <int property="y">405</int>
       <string property="default_action">IDLE</string>
-      <boolean property="enabled">true</boolean>
-      <string property="resource">idle.swf - saybotmc</string>
+      <string property="class_name"></string>
+      <string property="keyword">NPC_004</string>
       <boolean property="visible">true</boolean>
-      <string property="keyword">NPC_003</string>
+      <boolean property="enabled">true</boolean>
     </NPC>
     <BossJunior uid="088AFD5A-D782-C8BF-BCE4-793106AADA28">
-      <Reference property="minion">FE26F7D6-2C2F-0FAC-D9A3-9CD7961299B4</Reference>
       <boolean property="visible">true</boolean>
-      <int property="x">470</int>
       <string property="tip_msg">I'm a Boss</string>
+      <int property="x">470</int>
+      <boolean property="enabled">true</boolean>
       <string property="layer">fg</string>
       <int property="y">396</int>
       <string property="default_action">WALK</string>
-      <string property="resource">test.swf - saybotmc</string>
       <string property="class_name"></string>
-      <boolean property="enabled">true</boolean>
       <string property="keyword">Jabba</string>
+      <Reference property="minion">FE26F7D6-2C2F-0FAC-D9A3-9CD7961299B4</Reference>
+      <string property="resource">test.swf - saybotmc</string>
     </BossJunior>
+    <NPC uid="785370FC-84B1-4771-C63F-A277C2E42C13">
+      <string property="tip_msg"></string>
+      <int property="x">550</int>
+      <string property="resource">idle.swf - saybotmc</string>
+      <string property="layer">fg</string>
+      <int property="y">407</int>
+      <string property="default_action">IDLE</string>
+      <string property="class_name"></string>
+      <string property="keyword">NPC_003</string>
+      <boolean property="visible">true</boolean>
+      <boolean property="enabled">true</boolean>
+    </NPC>
   </array>
-  <array property="layers">
-    <SceneLayer>
-      <string property="class_name">SceneLayer</string>
-      <string property="type">normal</string>
-      <string property="keyword">bg</string>
-    </SceneLayer>
-    <SceneLayer>
-      <string property="class_name">SceneLayer</string>
-      <string property="type">physics</string>
-      <string property="keyword">physics</string>
-    </SceneLayer>
-    <SceneLayer>
-      <string property="class_name">SceneLayer</string>
-      <string property="type">normal</string>
-      <string property="keyword">fg</string>
-    </SceneLayer>
-  </array>
-  <string property="type">Street</string>
-  <int property="width">960</int>
-  <int property="height">560</int>
-  <string property="keyword">LovelyStreet</string>
 </Scene>
