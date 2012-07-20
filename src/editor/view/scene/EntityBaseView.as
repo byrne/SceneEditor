@@ -76,12 +76,17 @@ package editor.view.scene
 		}
 		
 		public function doAddToSceneJod():void {
+			refreshContextMenu();
+		}
+		
+		private function refreshContextMenu():void {
+			EditorGlobal.APP.unregisterContextMenu(this);
 			var contextMenuData:ContextMenuData = new ContextMenuData();
 			var menuItems:Array = [
-				{"label":"上移", "enabled":this.lock, "handler":arrangeChangeHandler, "param":1}
-				,{"label":"移到顶层", "enabled":this.lock, "handler":arrangeChangeHandler, "param":2}
-				,{"label":"下移", "enabled":this.lock, "handler":arrangeChangeHandler, "param":-1}
-				,{"label":"移到底层", "enabled":this.lock, "handler":arrangeChangeHandler, "param":-2}
+				{"label":"上移", "enabled":!this.lock, "handler":arrangeChangeHandler, "param":1}
+				,{"label":"移到顶层", "enabled":!this.lock, "handler":arrangeChangeHandler, "param":2}
+				,{"label":"下移", "enabled":!this.lock, "handler":arrangeChangeHandler, "param":-1}
+				,{"label":"移到底层", "enabled":!this.lock, "handler":arrangeChangeHandler, "param":-2}
 			];
 			contextMenuData.menuItems = menuItems;
 			EditorGlobal.APP.registerContextMenu(this, contextMenuData);
@@ -219,6 +224,11 @@ package editor.view.scene
 		}
 		
 		public function get lock():Boolean { return _lock; }
-		public function set lock(v:Boolean):void { _lock = v; }
+		public function set lock(v:Boolean):void {
+			if(_lock != v) {
+				_lock = v;
+				refreshContextMenu();
+			}
+		}
 	}
 }

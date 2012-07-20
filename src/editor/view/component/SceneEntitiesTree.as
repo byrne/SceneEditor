@@ -84,25 +84,40 @@ package editor.view.component
 		override protected function itemDoubleClickHandler(evt:ListEvent):void {
 			var something:XML = XMLDataParser.toXML(scene, EditorGlobal.DATA_MANAGER.types);
 			var enti:ComposedData = getEntiDataByXML(this.selectedItem as XML);
-			if(enti != null) {
-				EditorGlobal.PROPERTY_WND.title = "Editing "+enti.$type.name;
-				EditorGlobal.PROPERTY_WND.target = enti;
-				PopupMgr.getInstance().popupWindow(EditorGlobal.PROPERTY_WND);
-			}
+			editEntity(enti);
 		}
 		
 		override public function get contextMenuItems():Array {
 			var ret:Array = [];
 			var selectItem:XML = this.selectedItem as XML;
 			if(selectItem) {
+				var enti:ComposedData = getEntiDataByXML(this.selectedItem as XML); 
+				var isEntiLock:Boolean = enti && enti.view && enti.view.lock;
 				if(selectItem.@leaf == true) {
-					ret = ret.concat([{"label":"克隆", "enabled":true, "handler":ctmCloneInstance}
-						,{"label":"删除", "enabled":true, "handler":ctmDeleteInstance}]);
+					ret = ret.concat([{"label":"编辑", "enabled":true, "handler":ctmEditInstance}
+									 ,{"label":"克隆", "enabled":!isEntiLock, "handler":ctmCloneInstance}
+									 ,{"label":"删除", "enabled":!isEntiLock, "handler":ctmDeleteInstance}
+					]);
 				} else {
 					ret = ret.concat([{"label":"新建", "enabled":true, "handler":ctmNewInstance}]);
 				}
 			}
 			return ret;
+		}
+		
+		private function ctmEditInstance():void {
+			var enti:ComposedData = getEntiDataByXML(this.selectedItem as XML);
+			editEntity(enti);
+		}
+		
+		private function editEntity(enti:ComposedData):void {
+			if(enti == null) {
+				return;
+			}
+			var isEntiLock:Boolean = enti.view && enti.view.lock;
+			EditorGlobal.PROPERTY_WND.title = "Editing "+enti.$type.name;
+			EditorGlobal.PROPERTY_WND.target = enti;
+			PopupMgr.getInstance().popupWindow(EditorGlobal.PROPERTY_WND);
 		}
 		
 		private function ctmCloneInstance():void {
