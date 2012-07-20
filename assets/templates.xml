@@ -27,6 +27,7 @@
 		<property name="layer" type="string" />
 		<property name="resource" type="string"/>
 		<property name="visible" type="boolean" />
+		<property name="enabled" type="boolean" />
 	</type>
 	
 	<type name="Decoration" >
@@ -41,10 +42,7 @@
 	
 	<type name="Actor">
 		<inherit type="DisplayElement" />
-		<inherit type="Position" />
 		<property name="default_action" type="string" />
-		<property name="viewProxy" type="string" />
-		<property name="enabled" type="boolean" />
 	</type>
 	
 	<type name="NPC">

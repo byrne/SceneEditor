@@ -9,6 +9,7 @@ package editor.view.component.window
 	import editor.utils.FileSerializer;
 	import editor.utils.LogUtil;
 	import editor.utils.swf.SWF;
+	import editor.view.component.ResPreviewItem;
 	import editor.view.component.canvas.PreviewCanvas;
 	import editor.view.component.canvas.ResPreviewCanvas;
 	
@@ -41,7 +42,7 @@ package editor.view.component.window
 		private var resTreeXML:XML;
 		private var resTree:Tree;
 		
-		private var curPreviewItem:DisplayObject;
+		private var curPreviewItem:ResPreviewItem;
 		
 		public function ResLibraryWindow()
 		{
@@ -93,7 +94,7 @@ package editor.view.component.window
 				var symbol:String = selectXML.@["label"];
 				LogUtil.debug("select {0} {1}", swfFile, symbol);
 				ResMgr.getSwfSymbolByName(swfFile, symbol, function(cls:Class):void {
-					var previewItem:DisplayObject = SWF.buildSymbolInstance(cls);
+					var previewItem:ResPreviewItem = new ResPreviewItem(SWF.buildSymbolInstance(cls));
 					refreshPreview(previewItem);
 				});
 			}
@@ -109,7 +110,7 @@ package editor.view.component.window
 			curPreviewItem = null;
 		}
 		
-		private function refreshPreview(item:DisplayObject):void {
+		private function refreshPreview(item:ResPreviewItem):void {
 			clearPreview();
 			previewField.addItem(item);
 			curPreviewItem = item;

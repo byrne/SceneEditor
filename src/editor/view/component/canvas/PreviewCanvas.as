@@ -3,6 +3,8 @@ package editor.view.component.canvas
 	import editor.constant.NameDef;
 	import editor.utils.LogUtil;
 	import editor.view.scene.EntityBaseView;
+	import editor.view.scene.IDisplayElement;
+	import editor.vo.SceneLayer;
 	
 	import flash.display.DisplayObject;
 	import flash.display.Shape;
@@ -30,6 +32,8 @@ package editor.view.component.canvas
 		private var maskSprite:Sprite;
 		
 		public var draggable:Boolean;
+		
+		private var _layers:Array;
 		
 		public function PreviewCanvas(axisXBase:int = 0, axisYBase:int = 0)
 		{
@@ -138,31 +142,29 @@ package editor.view.component.canvas
 		}
 		
 		public function itemsDo(func:Function):void {
-			var obj:DisplayObject;
+			var obj:IDisplayElement;
 			for each(obj in items) {
 				func.call(null, obj);
 			}
 		}
 		
 		public function entitiesDo(func:Function):void {
-			var obj:DisplayObject;
+			var obj:IDisplayElement;
 			for each(obj in items) {
-				if(obj is EntityBaseView)
-					func.call(null, obj as EntityBaseView);
+				func.call(null, obj as IDisplayElement);
 			}
 		}
 		
-		public function addItem(obj:DisplayObject, x:int=0, y:int=0):void {
+		public function addItem(obj:IDisplayElement, x:int=0, y:int=0):void {
 			if(!hasItem(obj)) {
-				this.addChild(obj);
+				this.addChild(obj as DisplayObject);
 				items.push(obj);
-				if(obj is EntityBaseView)
-					(obj as EntityBaseView).doAddToSceneJod();
+				obj.doAddToSceneJod();
 			}
 			setItemPos(obj, x, y);
 		}
 		
-		public function setItemPos(obj:DisplayObject, x:int, y:int):void {
+		public function setItemPos(obj:IDisplayElement, x:int, y:int):void {
 			if(!hasItem(obj))
 				return;
 			obj.x = axisXbase + x;
@@ -171,23 +173,22 @@ package editor.view.component.canvas
 				(obj as EntityBaseView).syncDataFromView();
 		}
 		
-		public function getItemPos(obj:DisplayObject):Point {
+		public function getItemPos(obj:IDisplayElement):Point {
 			if(!hasItem(obj))
 				return null;
 			return new Point(obj.x - axisXbase, obj.y - axisYbase);
 		}
 		
-		public function hasItem(obj:DisplayObject):Boolean {
+		public function hasItem(obj:IDisplayElement):Boolean {
 			return items.indexOf(obj) >=0;
 		}
 		
-		public function removeItem(obj:DisplayObject):Boolean {
+		public function removeItem(obj:IDisplayElement):Boolean {
 			var itemIndex:int = items.indexOf(obj);
 			if(itemIndex >= 0) {
-				this.removeChild(obj);
+				this.removeChild(obj as DisplayObject);
 				items.splice(itemIndex, 1);
-				if(obj is EntityBaseView)
-					(obj as EntityBaseView).doRemoveFromSceneJob();
+					obj.doRemoveFromSceneJob();
 				return true;
 			}
 			return false;
@@ -195,16 +196,70 @@ package editor.view.component.canvas
 		
 		public function removeAllItems():void {
 			while(items.length > 0) {
-				removeItem(items[0] as DisplayObject);
+				removeItem(items[0] as IDisplayElement);
 			}
 		}
 		
 		public function clearView():void {
 			removeAllItems();
+			_layers = null;
 		}
 		
-		public function setLayer(child:DisplayObject, layer:String):void {
-			trace('改变层了， 这功能还没有，需要实现', layer);
+		public function setItemLayer(obj:IDisplayElement, layer:String):Boolean {
+			if(!hasItem(obj))
+				return false;
+			var oldIndex:int = this.getChildIndex(obj as DisplayObject);
+			var index:int = lastItemIndexWithLayer(layer, obj) + 1;
+			this.setChildIndex(obj as DisplayObject, index); 
+			LogUtil.debug("arrange item index for layer change, from {0}, to {1}", oldIndex, index);
+			return true;
+		}
+		
+		public function set layers(arr:Array):void {
+			_layers = arr;
+		}
+		
+		protected function layerName2Index(layerName:String):int {
+			for(var i:int=0; i<_layers.length; i++) {
+				if((_layers[i] as SceneLayer).keyword == layerName)
+					return i;
+			}
+			return -1;
+		}
+		
+		public function arrangeItem(obj:IDisplayElement, direction:int):void {
+			if(!hasItem(obj))
+				return;
+			var objIndex:int = this.getChildIndex(obj as DisplayObject);
+			var destIndex:int;
+			var destObj:IDisplayElement;
+			if(Math.abs(direction) == 1) {
+				while(true) {
+					destIndex = objIndex + direction;
+					if(destIndex<0 || destIndex>=this.numChildren)
+						break;
+					destObj = this.getChildAt(destIndex) as IDisplayElement;
+					if(destObj != null)
+						break;
+				}
+				if(destObj && destObj.layer == obj.layer) {
+					this.setChildIndex(obj as DisplayObject, destIndex);
+					LogUtil.debug("arrange item index, from {0}, to {1}", objIndex, destIndex);
+				}
+			} else if(Math.abs(direction) == 2) {
+			}
+		}
+		
+		private function lastItemIndexWithLayer(layerName:String, excludeObj:IDisplayElement=null):int {
+			if(_layers == null || layerName == null)
+				items.length - 1;
+			var obj:IDisplayElement;
+			for(var i:int=this.numChildren-1; i>=0; i--) {
+				obj = this.getChildAt(i) as IDisplayElement;
+				if(obj && obj.layer==layerName && obj != excludeObj)
+					return i;
+			}
+			return items.length - 1;
 		}
 	}
 }
