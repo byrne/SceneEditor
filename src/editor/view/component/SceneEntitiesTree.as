@@ -83,6 +83,8 @@ package editor.view.component
 		
 		override protected function itemDoubleClickHandler(evt:ListEvent):void {
 			var something:XML = XMLDataParser.toXML(scene, EditorGlobal.DATA_MANAGER.types);
+			if(selectedItem.@leaf == false)
+				return;
 			var enti:ComposedData = getEntiDataByXML(this.selectedItem as XML);
 			editEntity(enti);
 		}

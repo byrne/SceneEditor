@@ -11,40 +11,50 @@
 	<editor name="DisplayElementEditor" component="Form" >
 		<child component="SingleLineText" view_label="类" property="class_name" />
 		<child component="SingleLineText" view_label="关键字" property="keyword" />
-		<child component="PositionEditor" />
 		<child component="TextSelector" view_label="素材文件" property="resource" source="res.list"/>
-		<child component="SingleLineText" view_label="所属层" property="layer" default="bg" type="SceneLayer" />
+		<child component="MemoryDataChooser" view_label="所属层" property="layer" default="physics" type="SceneLayer" />
 		<child component="CheckBox" view_label="可见" property="visible" default="true" />
-		<child component="CheckBox" view_label="自动激活" property="enabled" default="true" />
+		<child component="PositionEditor" />
 	</editor>
 	
 	<editor name="DecorationEditor" component="Form" >
 		<child component="DisplayElementEditor" />
+		<child component="CheckBox" view_label="自动激活" property="enabled" default="true" />
 	</editor>
 	
 	<editor name="NPCEditor" component="Form" >
 		<child component="TabNavigator">
-			<child component="AccordionContent" label="'基本属性'" minWidth="400">
-				<child component="DisplayElementEditor" />
+			<child component="AccordionContent" label="'这是什么'" minWidth="400">
+				<child component="Form">
+					<child component="SingleLineText" view_label="名字" property="keyword" />
+					<child component="TextSelector" view_label="素材文件" property="resource" source="res.list" filter="npc.*" percentWidth="100"/>
+					<child component="SingleLineText" view_label="默认动作" property="default_action" default="IDLE"/>
+					<child component="SingleLineText" view_label="默认语言" property="tip_msg" />
+				</child>
 			</child>
 			<child component="AccordionContent" label="可选项" minWidth="400">
 				<child component="Form">
-					<child component="SingleLineText" view_label="默认动作" property="default_action" default="IDLE"/>
-					<child component="SingleLineText" view_label="TIPS" property="tip_msg" />
+					<child component="CheckBox" view_label="可见" property="visible" default="true" />
+					<child component="PositionEditor" view_label="坐标" />
 				</child>
 			</child>
 		</child>
 	</editor>
 	<editor name="BossJuniorEditor" component="Form" >
 		<child component="Accordion">
-			<child component="AccordionContent" label="'基本属性'" minWidth="400" >
-				<child component="DisplayElementEditor" />
+			<child component="AccordionContent" label="'这是什么'" minWidth="400" >
+				<child component="Form">
+					<child component="SingleLineText" view_label="名字" property="keyword" />
+					<child component="TextSelector" view_label="素材文件" property="resource" source="res.list"/>
+					<child component="SingleLineText" view_label="默认动作" property="default_action" default="IDLE"/>
+					<child component="SingleLineText" view_label="默认语言" property="tip_msg" />
+				</child>
 			</child>
 			<child component="AccordionContent" label="可选项"  minWidth="400" >
 				<child component="Form">
-					<child component="SingleLineText" view_label="默认动作" property="default_action" default="IDLE"/>
-					<child component="SingleLineText" view_label="TIPS" property="tip_msg" />
-					<child component="ReferenceChooser" view_label="随从" property="minion" type="NPC"/>	
+					<child component="CheckBox" view_label="可见" property="visible" default="true" />
+					<child component="PositionEditor" view_label="坐标" />
+					<child component="MemoryDataChooser" view_label="随从" property="minion" type="Actor"/>	
 				</child>
 			</child>
 		</child>

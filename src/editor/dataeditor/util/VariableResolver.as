@@ -12,7 +12,7 @@ package editor.dataeditor.util
 		private static const TYPE_FILE:String = 'file';
 		
 		private static const PATH_APPLICATION:String = 'app';
-		private static const PATH_WORKING:String = 'work';
+		private static const PATH_WORKING:String = 'working_dir';
 		private static const PATH_USER:String = 'user';
 		private static const PATH_DESKTOP:String = 'desktop';
 		private static const PATH_DOCUMENT:String = 'doc';
@@ -80,23 +80,11 @@ package editor.dataeditor.util
 			var file:File;
 			
 			switch(root) {
-				case PATH_APPLICATION:
-					file = File.applicationDirectory.resolvePath(path);
-					break;
-				case PATH_DESKTOP:
-					file = File.desktopDirectory.resolvePath(path);
-					break;
-				case PATH_DOCUMENT:
-					file = File.documentsDirectory.resolvePath(path);
-					break;
-				case PATH_USER:
-					file = File.userDirectory.resolvePath(path);
-					break;
-				case PATH_WORKING:
-					var temp:String = EditorGlobal.APP.working_dir;
-					var workingdir:File = new File(temp);
-					file = workingdir.resolvePath(path);
-					break;
+				case PATH_APPLICATION:	file = File.applicationDirectory.resolvePath(path); break;
+				case PATH_DESKTOP: 		file = File.desktopDirectory.resolvePath(path); break;
+				case PATH_DOCUMENT: 	file = File.documentsDirectory.resolvePath(path); break;
+				case PATH_USER: 		file = File.userDirectory.resolvePath(path); break;
+				case PATH_WORKING: 		file = (new File(EditorGlobal.APP.working_dir)).resolvePath(path); break;
 				default:
 					return null;
 			}

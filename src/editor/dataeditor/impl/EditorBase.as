@@ -84,6 +84,7 @@ package editor.dataeditor.impl
 				view = (componentClass as EditorBase).buildView(target, bindingMap);
 			if(view is IContainer)
 				processChildren(view as IContainer, target, bindingMap);
+			view.percentHeight = view.percentWidth = 100;
 			applyProperties(view);
 			return view;
 		}
@@ -142,6 +143,11 @@ package editor.dataeditor.impl
 				property[key].apply(target);
 		}
 		
+		/**
+		 * One way binding only, view -> data only. 
+		 * @param target data
+		 * 
+		 */
 		private function applyBindings(target:Object):void {
 			var compoment:IEditorElement;
 			for(var prop:String in _bindings) {

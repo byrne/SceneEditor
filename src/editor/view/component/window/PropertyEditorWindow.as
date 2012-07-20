@@ -30,7 +30,7 @@ package editor.view.component.window
 		}
 		
 		public function set content(view:IElement):void {
-			if(_content != null && _content.parent == this)
+			if(_content != null && _content.parent == this.contentGroup)
 				removeElement(_content as IVisualElement);
 			_content = view;
 			_content.percentHeight = 100;
