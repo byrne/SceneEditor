@@ -36,7 +36,7 @@ package editor.view.scene
 		
 		private var _dragStartPos:Point;
 		private var _layer:String;
-		private var _lock:Boolean;
+		private var _lock:Boolean = false;
 		
 		public function EntityBaseView(vo:Object)
 		{

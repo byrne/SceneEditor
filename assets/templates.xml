@@ -32,7 +32,6 @@
 	
 	<type name="Decoration" >
 		<inherit type="DisplayElement" />
-		<property name="enabled" type="string" />
 	</type>
 	
 	<type name="SceneLayer" >

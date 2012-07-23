@@ -25,6 +25,7 @@ package editor.view.component.window
 			if(data == null)
 				return;
 			var editorBase:EditorBase = EditorGlobal.DATA_MANAGER.getEditorByType(data.templateName);
+			this.editable = data.view ? !data.view.lock : true;
 			_data = data;
 			content = editorBase.getEditorFor(data);
 		}
