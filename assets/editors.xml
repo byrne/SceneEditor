@@ -27,20 +27,25 @@
 			<child component="AccordionContent" label="'基本属性'" minWidth="400">
 				<child component="DisplayElementEditor" />
 			</child>
-			<child component="AccordionContent" label="可选项" minWidth="400">
-				<child component="SingleLineText" view_label="默认动作" property="default_action" default="IDLE"/>
-				<child component="SingleLineText" view_label="默认语言" property="tip_msg" />
+			<child component="AccordionContent" label="额外属性" minWidth="400">
+				<child component="Form">
+					<child component="CheckBox" view_label="是否为角色" property="isRole" default="true" />
+					<child component="SingleLineText" view_label="默认动作" property="motion" />
+					<child component="SingleLineText" view_label="默认语言" property="speech" />
+				</child>
 			</child>
 		</child>
 	</editor>
+	
 	<editor name="BossJuniorEditor" component="Form" >
 		<child component="Accordion">
 			<child component="AccordionContent" label="'基本属性'" minWidth="400" >
 				<child component="DisplayElementEditor" />
 			</child>
 			<child component="AccordionContent" label="可选项" minWidth="400">
-				<child component="SingleLineText" view_label="默认动作" property="default_action" default="IDLE"/>
-				<child component="SingleLineText" view_label="默认语言" property="tip_msg" />
+				<child component="CheckBox" view_label="是否为角色" property="isRole" default="true" />
+				<child component="SingleLineText" view_label="默认动作" property="motion" />
+				<child component="SingleLineText" view_label="默认语言" property="speech" />
 				<child component="MemoryDataChooser" view_label="随从" property="minion" type="Actor"/>
 			</child>
 		</child>
