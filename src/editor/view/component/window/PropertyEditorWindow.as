@@ -12,8 +12,9 @@ package editor.view.component.window
 
 	public class PropertyEditorWindow extends TitleWindowBase
 	{
-		public var _content:IElement;
-		public var _data:ComposedData;
+		private var _content:IElement;
+		private var _data:ComposedData;
+		private var _editorBase:EditorBase;
 		
 		private var _editable:Boolean;
 		
@@ -24,10 +25,20 @@ package editor.view.component.window
 		public function set target(data:ComposedData):void {
 			if(data == null)
 				return;
-			var editorBase:EditorBase = EditorGlobal.DATA_MANAGER.getEditorByType(data.templateName);
-			this.editable = data.view ? !data.view.lock : true;
+			_editorBase = EditorGlobal.DATA_MANAGER.getEditorByType(data.templateName);
 			_data = data;
-			content = editorBase.getEditorFor(data);
+			content = _editorBase.getEditorFor(data);
+		}
+		
+		public function get editable():Boolean {
+			return _editable;
+		}
+		public function set editable(v:Boolean):void {
+			if(v == _editable)
+				return;
+			_editable = v;
+			if(_editorBase)
+				_editorBase.lock(!v);
 		}
 		
 		public function set content(view:IElement):void {
@@ -37,7 +48,6 @@ package editor.view.component.window
 			_content.percentHeight = 100;
 			_content.percentWidth = 100;
 			addElement(_content as IVisualElement);
-			makeTargetEditable();
 		}
 		
 		override public function onClose(evt:CloseEvent=null):void {
@@ -45,7 +55,7 @@ package editor.view.component.window
 			removeElement(_content as IVisualElement);
 		}
 		
-		public function get editable():Boolean { return _editable; }
+		/*public function get editable():Boolean { return _editable; }
 		public function set editable(v:Boolean):void { 
 			_editable = v;
 			makeTargetEditable();
@@ -57,6 +67,6 @@ package editor.view.component.window
 				displayContent.mouseEnabled = editable;
 				displayContent.mouseChildren = editable;
 			}
-		}
+		}*/
 	}
 }
