@@ -50,6 +50,12 @@ package editor.dataeditor.impl
 			this.componentClass = componentClass;
 		}
 		
+		public function lock(v:Boolean):void {
+			for each(var item:Object in _bindings) {
+				item.ed_comp.locked = v;
+			}
+		}
+		
 		/**
 		 * Get the editor for a data object. 
 		 * @param target the data object to modify

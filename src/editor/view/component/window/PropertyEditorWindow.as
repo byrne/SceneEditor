@@ -10,8 +10,10 @@ package editor.view.component.window
 
 	public class PropertyEditorWindow extends TitleWindowBase
 	{
-		public var _content:IElement;
-		public var _data:ComposedData;
+		private var _content:IElement;
+		private var _data:ComposedData;
+		private var _editorBase:EditorBase;
+		private var _editable:Boolean;
 		
 		public function PropertyEditorWindow(title:String) {
 			super(title, true, false);
@@ -20,9 +22,20 @@ package editor.view.component.window
 		public function set target(data:ComposedData):void {
 			if(data == null)
 				return;
-			var editorBase:EditorBase = EditorGlobal.DATA_MANAGER.getEditorByType(data.templateName);
+			_editorBase = EditorGlobal.DATA_MANAGER.getEditorByType(data.templateName);
 			_data = data;
-			content = editorBase.getEditorFor(data);
+			content = _editorBase.getEditorFor(data);
+		}
+		
+		public function get editable():Boolean {
+			return _editable;
+		}
+		public function set editable(v:Boolean):void {
+			if(v == _editable)
+				return;
+			_editable = v;
+			if(_editorBase)
+				_editorBase.lock(!v);
 		}
 		
 		public function set content(view:IElement):void {

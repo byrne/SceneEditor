@@ -14,5 +14,8 @@ package editor.dataeditor
 		function get bindingProperty():Object;
 		
 		function set defaultValue(value:Object):void;
+		
+		function get locked():Boolean;
+		function set locked(v:Boolean):void;
 	}
 }
