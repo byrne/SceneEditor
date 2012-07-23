@@ -153,6 +153,7 @@ package editor.view.component
 			if(val != _isLayerLock) {
 				_isLayerLock = val;
 				invalidateSkinState();
+				this.dispatchEvent(new DataEvent(EventDef.LAYER_LOCK_STATE_CHANGE, this, true));
 			}
 		}
 		
@@ -164,6 +165,7 @@ package editor.view.component
 			if(val != _isLayerVisible) {
 				_isLayerVisible = val;
 				invalidateSkinState();
+				this.dispatchEvent(new DataEvent(EventDef.LAYER_VISIBLE_STATE_CHANGE, this, true));
 			}
 		}
 		

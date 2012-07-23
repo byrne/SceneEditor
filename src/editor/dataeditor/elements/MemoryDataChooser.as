@@ -15,12 +15,31 @@ package editor.dataeditor.elements
 	{
 		public var showTips:Boolean = false;
 		private var _types:Array;
+		private var _locked:Boolean;
+		private var _user_enabled:Boolean;
 		
 		public function MemoryDataChooser() {
 			super();
 			labelField = "keyword";
 			labelToItemFunction = myLabelToItemFunction;
 			updateCandidates();
+		}
+		
+		public function get locked():Boolean { return _locked; }
+		public function set locked(v:Boolean):void {
+			if(_locked == v)
+				return;
+			else if(v)
+				super.enabled = !v;
+			else
+				super.enabled = _user_enabled;
+		}
+		
+		override public function set enabled(value:Boolean):void {
+			if(value == enabled)
+				return;
+			super.enabled = value;
+			_user_enabled = value;
 		}
 		
 		public function set type(v:String):void {

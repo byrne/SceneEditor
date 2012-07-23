@@ -97,6 +97,10 @@ package editor.view.component
 		}
 		
 		protected function itemClickHandler(evt:ListEvent):void {
+			updateContextMenu();
+		}
+		
+		public function updateContextMenu():void {
 			if(contextMenuEnabled) {
 				contextMenuData.menuItems = contextMenuItems;
 				EditorGlobal.APP.registerContextMenu(this, contextMenuData);

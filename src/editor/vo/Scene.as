@@ -1,7 +1,9 @@
 package editor.vo
 {
 	import editor.EditorGlobal;
+	import editor.datatype.ReservedName;
 	import editor.datatype.data.ComposedData;
+	import editor.utils.LogUtil;
 	
 	import flash.utils.Dictionary;
 
@@ -22,6 +24,16 @@ package editor.vo
 		public function Scene(properties:Object=null)
 		{
 			super(properties);
+			
+			var template:SceneTemplate = EditorGlobal.DATA_MEMORY.getSceneTeamplate(this.type);
+			for(var i:int=entities.length-1; i>=0; i--) {
+				var enti:ComposedData = entities[i] as ComposedData;
+				if(template.entities.indexOf(enti.templateName) < 0) {
+					LogUtil.warn("{0} don't display in scene {1}, {2} will be deleted when save scene", enti.templateName, this.keyword, enti[ReservedName.KEYWORD]);
+					entities.splice(i, 1);
+					EditorGlobal.DATA_MEMORY.deleteEntity(enti);
+				}
+			}
 		}
 		
 		public function get template():SceneTemplate {

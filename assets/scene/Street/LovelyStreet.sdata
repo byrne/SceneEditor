@@ -1,34 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Scene>
   <string property="type">Street</string>
-  <string property="keyword">LovelyStreet</string>
   <array property="layers">
     <SceneLayer>
-      <string property="class_name">SceneLayer</string>
       <string property="type">normal</string>
+      <string property="class_name">SceneLayer</string>
       <string property="keyword">bg</string>
     </SceneLayer>
     <SceneLayer>
-      <string property="class_name">SceneLayer</string>
       <string property="type">physics</string>
+      <string property="class_name">SceneLayer</string>
       <string property="keyword">physics</string>
     </SceneLayer>
   </array>
+  <int property="width">960</int>
   <array property="entities">
     <Decoration uid="6F8DA8EA-67E4-2832-ABAA-99D7FF54B239">
       <string property="resource">bg/HarbourBridge.swf - saybotmc</string>
-      <string property="keyword">Decoration_001</string>
       <int property="x">-59</int>
-      <string property="class_name"></string>
       <string property="layer">physics</string>
       <int property="y">-131</int>
       <boolean property="visible">true</boolean>
-      <string property="enabled">true</string>
+      <string property="class_name"></string>
+      <boolean property="enabled">true</boolean>
+      <string property="keyword">Decoration_001</string>
     </Decoration>
     <NPC uid="7DC10395-E380-AF41-6F87-751F838083DA">
       <string property="resource">entity\npc\carl\idle.swf - saybotmc</string>
-      <string property="keyword">Carl</string>
       <int property="x">128</int>
+      <string property="keyword">Carl</string>
       <int property="y">409</int>
       <string property="motion">CHEER</string>
       <string property="speech">嗯—嗯—现在，可别做让人害怕的动作！</string>
@@ -37,31 +37,14 @@
     </NPC>
     <NPC uid="76F1EC6D-D5D3-C4A0-6214-751F8381FE9E">
       <string property="resource">entity\npc\tommy\idle.swf - saybotmc</string>
-      <string property="keyword">Tommy</string>
       <int property="x">42</int>
+      <string property="keyword">Tommy</string>
       <int property="y">409</int>
       <string property="speech">我爱鼓的声音，它听起来是那么的轻松</string>
       <boolean property="visible">true</boolean>
       <boolean property="enabled">false</boolean>
     </NPC>
-    <Actor uid="748352E9-3FE0-6D44-3CAE-7EE64525BC6E">
-      <string property="resource">entity\pirate\Malei\idle.swf - saybotmc</string>
-      <string property="keyword">Minion1</string>
-      <int property="x">365</int>
-      <int property="y">335</int>
-      <boolean property="visible">true</boolean>
-      <boolean property="enabled">false</boolean>
-      <string property="motion">WETPANTS</string>
-    </Actor>
-    <Actor uid="A5F7523D-218A-F4B5-09A0-7EE64525244D">
-      <string property="resource">entity\pirate\Hekili\idle.swf - saybotmc</string>
-      <string property="keyword">Minion2</string>
-      <int property="x">530</int>
-      <int property="y">340</int>
-      <boolean property="visible">true</boolean>
-      <boolean property="enabled">false</boolean>
-      <string property="motion">CRY</string>
-    </Actor>
+
     <BossJunior uid="088AFD5A-D782-C8BF-BCE4-793106AADA28">
       <string property="keyword">Jabba</string>
       <int property="x">0</int>
@@ -70,12 +53,11 @@
       <int property="x">458</int>
       <int property="y">308</int>
       <string property="speech">I'm a Boss</string>
-      <boolean property="visible">false</boolean>
+      <boolean property="visible">true</boolean>
       <string property="resource">entity\pirate\Maikai\idle.swf - saybotmc</string>
-      <string property="motion">WALK</string>
       <boolean property="enabled">false</boolean>
     </BossJunior>
   </array>
-  <int property="width">960</int>
   <int property="height">560</int>
+  <string property="keyword">LovelyStreet</string>
 </Scene>
