@@ -42,12 +42,13 @@
 	
 	<type name="Actor">
 		<inherit type="DisplayElement" />
-		<property name="default_action" type="string" />
+		<property name="motion" type="string" />
 	</type>
 	
 	<type name="NPC">
 		<inherit  type="Actor" />
-		<property name="tip_msg" type="string" />
+		<property name="speech" type="string" />
+		<property name="isRole" type="boolean" />
 	</type>
 	
 	<type name="BossJunior">
