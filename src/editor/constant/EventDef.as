@@ -20,7 +20,9 @@ package editor.constant
 		public static const LAYER_ITEM_SELECT_ON:String = "evt_layer_item_select_on";
 		public static const LAYER_ITEM_DELETE:String = "evt_layer_item_delete";
 		public static const LAYER_ITEM_INVISIBLE_CLICK:String = "evt_layer_item_invisible_click";
+		public static const LAYER_VISIBLE_STATE_CHANGE:String = "evt_layer_visible_state_change";
 		public static const LAYER_ITEM_LOCK_CLICK:String = "evt_layer_item_lock_click";
+		public static const LAYER_LOCK_STATE_CHANGE:String = "evt_layer_lock_state_change";
 		
 //		public static const TREE_ITEM_DOUBLE_CLICK:String = "evt_tree_item_double_click";
 	}

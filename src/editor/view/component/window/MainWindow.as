@@ -254,12 +254,12 @@ package editor.view.component.window
 		}
 		
 		private function listenLayersEvent():void {
-			this.addEventListener(EventDef.LAYER_ITEM_INVISIBLE_CLICK, layerVisibleChangeHandler);
-			this.addEventListener(EventDef.LAYER_ITEM_LOCK_CLICK, layerLockChangeHandler);
+			this.addEventListener(EventDef.LAYER_VISIBLE_STATE_CHANGE, layerVisibleChangeHandler);
+			this.addEventListener(EventDef.LAYER_LOCK_STATE_CHANGE, layerLockChangeHandler);
 		}
 		private function removeLayersEvent():void {
-			this.removeEventListener(EventDef.LAYER_ITEM_INVISIBLE_CLICK, layerVisibleChangeHandler);
-			this.removeEventListener(EventDef.LAYER_ITEM_LOCK_CLICK, layerLockChangeHandler);
+			this.removeEventListener(EventDef.LAYER_VISIBLE_STATE_CHANGE, layerVisibleChangeHandler);
+			this.removeEventListener(EventDef.LAYER_LOCK_STATE_CHANGE, layerLockChangeHandler);
 		}
 		
 		protected function layerVisibleChangeHandler(evt:DataEvent):void {
@@ -277,6 +277,7 @@ package editor.view.component.window
 					enti.lock = layer.layerLock;
 			};
 			sceneCanvas.entitiesDo(entiLockChange);
+			sceneEntitiesTree.updateContextMenu();
 		}
 	}
 }

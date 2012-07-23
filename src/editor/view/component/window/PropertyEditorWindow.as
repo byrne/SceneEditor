@@ -5,6 +5,8 @@ package editor.view.component.window
 	import editor.dataeditor.impl.EditorBase;
 	import editor.datatype.data.ComposedData;
 	
+	import flash.display.DisplayObjectContainer;
+	
 	import mx.core.IVisualElement;
 	import mx.events.CloseEvent;
 
@@ -13,6 +15,7 @@ package editor.view.component.window
 		private var _content:IElement;
 		private var _data:ComposedData;
 		private var _editorBase:EditorBase;
+		
 		private var _editable:Boolean;
 		
 		public function PropertyEditorWindow(title:String) {
@@ -51,5 +54,19 @@ package editor.view.component.window
 			super.onClose(evt);
 			removeElement(_content as IVisualElement);
 		}
+		
+		/*public function get editable():Boolean { return _editable; }
+		public function set editable(v:Boolean):void { 
+			_editable = v;
+			makeTargetEditable();
+		}
+		
+		private function makeTargetEditable():void {
+			var displayContent:DisplayObjectContainer = _content as DisplayObjectContainer;
+			if(displayContent) {
+				displayContent.mouseEnabled = editable;
+				displayContent.mouseChildren = editable;
+			}
+		}*/
 	}
 }
