@@ -231,7 +231,7 @@ package editor.view.component.canvas
 			if(!hasItem(obj))
 				return;
 			var objIndex:int = this.getChildIndex(obj as DisplayObject);
-			var destIndex:int;
+			var destIndex:int = -1;
 			var destObj:IDisplayElement;
 			if(Math.abs(direction) == 1) {
 				while(true) {
@@ -242,11 +242,26 @@ package editor.view.component.canvas
 					if(destObj != null)
 						break;
 				}
-				if(destObj && destObj.layer == obj.layer) {
-					this.setChildIndex(obj as DisplayObject, destIndex);
-					LogUtil.debug("arrange item index, from {0}, to {1}", objIndex, destIndex);
-				}
+				
 			} else if(Math.abs(direction) == 2) {
+				var tempIndex:int = objIndex;
+				var tempObj:IDisplayElement;
+				while(true) {
+					tempIndex = tempIndex + (direction < 0 ? -1 : 1);
+					if(tempIndex<0 || tempIndex>=this.numChildren)
+						break;
+					tempObj = this.getChildAt(tempIndex) as IDisplayElement;
+					if(tempObj && tempObj.layer==obj.layer) {
+						destObj = tempObj;
+						destIndex = tempIndex;
+					} else if(tempObj) {
+						break;
+					}
+				}
+			}
+			if(destObj && destObj.layer==obj.layer && destIndex>=0) {
+				this.setChildIndex(obj as DisplayObject, destIndex);
+				LogUtil.debug("arrange item index, from {0}, to {1}", objIndex, destIndex);
 			}
 		}
 		

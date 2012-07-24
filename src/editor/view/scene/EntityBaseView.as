@@ -206,7 +206,7 @@ package editor.view.scene
 			}
 			
 			// layer
-			if(_vo.hasOwnProperty(ReservedName.LAYER)) {
+			if(_vo.hasOwnProperty(ReservedName.LAYER) && _vo[ReservedName.LAYER]!=layer) {
 				layer = _vo[ReservedName.LAYER];
 			}
 		}
