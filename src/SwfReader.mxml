@@ -107,7 +107,7 @@
 //				var base_dir:String = output["base_dir"];
 				swf.addEventListener(Event.COMPLETE, function(evt:Event):void {
 					var symbols:Array = swf.symbolClassNamesArr;
-					fileName = fileName.substr(base_dir.length+1);
+					fileName = fileName.substr(base_dir.length+1).replace(/\\/g, "/");
 					output["symbol_classes"][fileName] = symbols;
 					for each(var symbol:String in symbols) {
 						outSymbolsArr.push(fileName + " - " + symbol);
