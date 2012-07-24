@@ -119,6 +119,7 @@ package editor.view.component
 			var isEntiLock:Boolean = enti.view && enti.view.lock;
 			EditorGlobal.PROPERTY_WND.title = "Editing "+enti.$type.name;
 			EditorGlobal.PROPERTY_WND.target = enti;
+			EditorGlobal.PROPERTY_WND.editable = enti.view ? !enti.view.lock : true;
 			PopupMgr.getInstance().popupWindow(EditorGlobal.PROPERTY_WND);
 		}
 		

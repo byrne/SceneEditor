@@ -155,12 +155,22 @@ package editor.dataeditor.impl
 		 * 
 		 */
 		private function applyBindings(target:Object):void {
-			var compoment:IEditorElement;
+			var component:IEditorElement;
 			for(var prop:String in _bindings) {
-				compoment = _bindings[prop].ed_comp;
-				if(target is ComposedData && target.assigned(prop)) 
-					compoment[compoment.bindingProperty] = target[prop];
-				_bindings[prop].watchers.push(BindingUtils.bindProperty(target, prop, compoment, compoment.bindingProperty, true));
+				component = _bindings[prop].ed_comp;
+				if(target is ComposedData && target.assigned(prop)) {
+					if(component.bindingProperty is String)
+						component[component.bindingProperty] = target[prop];
+					else if(component.bindingProperty is Array) { 
+						// this is a little awkward, the property to bound is something like component.xxx.yyy.zzz,
+						// i.e. has a depth greater than 1, so we want component.xxx.yyy['zzz'] = target[prop];
+						var pointer:Object = component;
+						for(var i:int = 0; i < component.bindingProperty.length - 1; i++)
+							pointer = pointer[component.bindingProperty[i]];
+						pointer[component.bindingProperty[i]] = target[prop]
+					}
+				}
+				_bindings[prop].watchers.push(BindingUtils.bindProperty(target, prop, component, component.bindingProperty, true));
 			}
 		}
 		

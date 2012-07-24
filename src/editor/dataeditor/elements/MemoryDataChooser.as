@@ -17,6 +17,7 @@ package editor.dataeditor.elements
 		private var _types:Array;
 		private var _locked:Boolean;
 		private var _user_enabled:Boolean;
+		private var _itemProperty:String;
 		
 		public function MemoryDataChooser() {
 			super();
@@ -72,11 +73,18 @@ package editor.dataeditor.elements
 		}
 				
 		public function get bindingProperty():Object {
-			return 'selectedItem';
+			return _itemProperty == null ? 'selectedItem' : ['selectedItem', _itemProperty];
+		}
+		
+		public function get valueProperty():String {
+			return _itemProperty;
+		}
+		public function set valueProperty(v:String):void {
+			_itemProperty = v;
 		}
 		
 		public function set defaultValue(value:Object):void {
-			this[bindingProperty] = value;
+			this['selectedItem'] = value;
 		}
 		
 		protected function myLabelToItemFunction(value:String):Object {
