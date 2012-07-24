@@ -155,12 +155,12 @@ package editor.dataeditor.impl
 		 * 
 		 */
 		private function applyBindings(target:Object):void {
-			var compoment:IEditorElement;
+			var component:IEditorElement;
 			for(var prop:String in _bindings) {
-				compoment = _bindings[prop].ed_comp;
-				if(target is ComposedData && target.assigned(prop)) 
-					compoment[compoment.bindingProperty] = target[prop];
-				_bindings[prop].watchers.push(BindingUtils.bindProperty(target, prop, compoment, compoment.bindingProperty, true));
+				component = _bindings[prop].ed_comp;
+				if(target is ComposedData && target.assigned(prop))
+					component[component.bindingProperty] = target[prop];
+				_bindings[prop].watchers.push(BindingUtils.bindProperty(target, prop, component, component.bindingProperty, true));
 			}
 		}
 		
@@ -201,6 +201,7 @@ internal class PEBinding {
 	public function reset():void {
 		while(watchers.length > 0)
 			watchers.pop().unwatch();
+		ed_comp.reset();
 		// In case the next data to modify has not assigned values to all of its properties, if we do not
 		// clear the field editors, it would get the value from previous data during data binding.
 		if(editor_base.property.hasOwnProperty('defaultValue'))

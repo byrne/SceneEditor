@@ -95,5 +95,10 @@ package editor.dataeditor.elements
 			if(v is int)
 				this[bindingProperty] = v;
 		}
+		
+		public function reset():void {
+			_filter = null;
+			_source = null;
+		}
 	}
 }

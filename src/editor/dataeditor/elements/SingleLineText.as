@@ -35,5 +35,9 @@ package editor.dataeditor.elements
 		public function set defaultValue(v:Object):void {
 			this[bindingProperty] = (v == null) ? "" : String(v);
 		}
+		
+		public function reset():void {
+			text = null;
+		}
 	}
 }
