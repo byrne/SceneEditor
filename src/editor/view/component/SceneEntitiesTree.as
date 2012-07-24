@@ -12,6 +12,7 @@ package editor.view.component
 	import editor.vo.Scene;
 	
 	import mx.collections.ArrayCollection;
+	import mx.controls.Alert;
 	import mx.events.ListEvent;
 
 	public class SceneEntitiesTree extends TreeBase
@@ -60,7 +61,10 @@ package editor.view.component
 			var enti:ComposedData;
 			if(item.@leaf != true) {
 				var type:IDataType = EditorGlobal.DATA_MANAGER.getType(item.@label);
-				enti = type.construct();
+				if(type)
+					enti = type.construct();
+				else
+					Alert.show("没有找到"+item.@label+"对应的编辑器!");
 				return enti;
 			} else {
 				for each(enti in scene.entities) {

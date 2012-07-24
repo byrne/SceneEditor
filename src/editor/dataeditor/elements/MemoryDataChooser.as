@@ -157,5 +157,10 @@ package editor.dataeditor.elements
 			valueProperty = null;
 			type = null;
 		}
+		
+		public function destroy():void {
+			reset();
+			_pendingSelectedItem = null;
+		}
 	}
 }

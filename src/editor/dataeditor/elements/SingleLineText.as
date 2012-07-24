@@ -39,5 +39,9 @@ package editor.dataeditor.elements
 		public function reset():void {
 			text = null;
 		}
+		
+		public function destroy():void {
+			
+		}
 	}
 }

@@ -39,6 +39,7 @@ package editor.dataeditor.util
 						var stream:FileStream = new FileStream;
 						stream.open(file, FileMode.READ);
 						result = stream.readUTFBytes(stream.bytesAvailable).split("\n");
+						stream.close();
 					}
 					break;
 				default: 	// maybe we could add support for runtime variables some time? like TYPE_VAR

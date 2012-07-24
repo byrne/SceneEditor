@@ -41,5 +41,8 @@ package editor.dataeditor.elements
 			value = 0;
 			stepSize = 1;
 		}
+		
+		public function destroy():void {
+		}
 	}
 }

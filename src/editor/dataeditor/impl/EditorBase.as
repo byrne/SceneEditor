@@ -64,9 +64,8 @@ package editor.dataeditor.impl
 		 */
 		public function getEditorFor(data:Object):IElement {
 			if(_view)
-				removeBinding();
-			else
-				_view = buildView(data);
+				destroyOldView();
+			_view = buildView(data);
 			applyBindings(data);
 			return _view;
 		}
@@ -164,10 +163,12 @@ package editor.dataeditor.impl
 			}
 		}
 		
-		private function removeBinding():void {
-			for each (var pair:PEBinding in _bindings) {
-				pair.reset();
+		private function destroyOldView():void {
+			for (var key:* in _bindings) {
+				_bindings[key].discard();
+				delete _bindings[key];
 			}
+			_view.destroy();
 		}
 	}
 }
@@ -193,15 +194,17 @@ internal class PEBinding {
 	}
 	
 	public function discard():void {
-		reset();
+		reset(true);
 		ed_comp = null;
 		editor_base = null;
 	}
 	
-	public function reset():void {
+	public function reset(destroy:Boolean = false):void {
 		while(watchers.length > 0)
 			watchers.pop().unwatch();
 		ed_comp.reset();
+		if(destroy)
+			ed_comp.destroy();
 		// In case the next data to modify has not assigned values to all of its properties, if we do not
 		// clear the field editors, it would get the value from previous data during data binding.
 		if(editor_base.property.hasOwnProperty('defaultValue'))

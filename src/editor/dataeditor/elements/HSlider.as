@@ -40,5 +40,9 @@ package editor.dataeditor.elements
 		public function reset():void {
 			value = 0;
 		}
+		
+		public function destroy():void {
+			
+		}
 	}
 }

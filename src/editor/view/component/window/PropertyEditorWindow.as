@@ -34,8 +34,6 @@ package editor.view.component.window
 			return _editable;
 		}
 		public function set editable(v:Boolean):void {
-			if(v == _editable)
-				return;
 			_editable = v;
 			if(_editorBase)
 				_editorBase.lock(!v);

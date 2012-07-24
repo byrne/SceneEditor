@@ -100,5 +100,10 @@ package editor.dataeditor.elements
 			_filter = null;
 			_source = null;
 		}
+		
+		public function destroy():void {
+			reset();
+			dataProvider = null;
+		}
 	}
 }
