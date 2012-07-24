@@ -8,6 +8,7 @@ package editor.view.component.window
 	import editor.datatype.impl.parser.xml.XMLDataParser;
 	import editor.datatype.type.IDataType;
 	import editor.event.DataEvent;
+	import editor.mgr.PopupMgr;
 	import editor.utils.FileSerializer;
 	import editor.utils.LogUtil;
 	import editor.utils.keyboard.KeyBoardMgr;
@@ -256,10 +257,12 @@ package editor.view.component.window
 		private function listenLayersEvent():void {
 			this.addEventListener(EventDef.LAYER_VISIBLE_STATE_CHANGE, layerVisibleChangeHandler);
 			this.addEventListener(EventDef.LAYER_LOCK_STATE_CHANGE, layerLockChangeHandler);
+			this.addEventListener(EventDef.LAYER_NAME_CHANGE, layerNameChangeHandler);
 		}
 		private function removeLayersEvent():void {
 			this.removeEventListener(EventDef.LAYER_VISIBLE_STATE_CHANGE, layerVisibleChangeHandler);
 			this.removeEventListener(EventDef.LAYER_LOCK_STATE_CHANGE, layerLockChangeHandler);
+			this.removeEventListener(EventDef.LAYER_NAME_CHANGE, layerNameChangeHandler);
 		}
 		
 		protected function layerVisibleChangeHandler(evt:DataEvent):void {
@@ -278,6 +281,22 @@ package editor.view.component.window
 			};
 			sceneCanvas.entitiesDo(entiLockChange);
 			sceneEntitiesTree.updateContextMenu();
+		}
+		protected function layerNameChangeHandler(evt:DataEvent):void {
+			var oldName:String = (evt.data as Array)[0] as String;
+			var newName:String = (evt.data as Array)[1] as String;
+			LogUtil.debug("change layer name {0} => {1}", oldName, newName);
+		}
+		
+		public static function editEntity(enti:ComposedData):void {
+			if(enti == null) {
+				return;
+			}
+			var isEntiLock:Boolean = enti.view && enti.view.lock;
+			EditorGlobal.PROPERTY_WND.title = "Editing "+enti.$type.name;
+			EditorGlobal.PROPERTY_WND.target = enti;
+			EditorGlobal.PROPERTY_WND.editable = enti.view ? !enti.view.lock : true;
+			PopupMgr.getInstance().popupWindow(EditorGlobal.PROPERTY_WND);
 		}
 	}
 }

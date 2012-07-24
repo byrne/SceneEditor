@@ -7,6 +7,7 @@ package editor.view.component
 	import editor.datatype.type.IDataType;
 	import editor.mgr.EntityFactory;
 	import editor.mgr.PopupMgr;
+	import editor.view.component.window.MainWindow;
 	import editor.view.scene.EntityBaseView;
 	import editor.vo.Scene;
 	
@@ -83,10 +84,10 @@ package editor.view.component
 		
 		override protected function itemDoubleClickHandler(evt:ListEvent):void {
 			var something:XML = XMLDataParser.toXML(scene, EditorGlobal.DATA_MANAGER.types);
-			if(selectedItem.@leaf == false)
+			if(!selectedItem || selectedItem.@leaf == false)
 				return;
 			var enti:ComposedData = getEntiDataByXML(this.selectedItem as XML);
-			editEntity(enti);
+			MainWindow.editEntity(enti);
 		}
 		
 		override public function get contextMenuItems():Array {
@@ -109,18 +110,7 @@ package editor.view.component
 		
 		private function ctmEditInstance():void {
 			var enti:ComposedData = getEntiDataByXML(this.selectedItem as XML);
-			editEntity(enti);
-		}
-		
-		private function editEntity(enti:ComposedData):void {
-			if(enti == null) {
-				return;
-			}
-			var isEntiLock:Boolean = enti.view && enti.view.lock;
-			EditorGlobal.PROPERTY_WND.title = "Editing "+enti.$type.name;
-			EditorGlobal.PROPERTY_WND.target = enti;
-			EditorGlobal.PROPERTY_WND.editable = enti.view ? !enti.view.lock : true;
-			PopupMgr.getInstance().popupWindow(EditorGlobal.PROPERTY_WND);
+			MainWindow.editEntity(enti);
 		}
 		
 		private function ctmCloneInstance():void {
