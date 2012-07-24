@@ -70,9 +70,9 @@ package editor.view.scene
 				CommonUtil.unloadDisplay(_rigidBody);
 			}
 			_rigidBody = SWF.buildSymbolInstance(cls);
-			if(_rigidBody is MovieClip) {
-				(_rigidBody as MovieClip).gotoAndStop(1);
-			}
+//			if(_rigidBody is MovieClip) {
+//				(_rigidBody as MovieClip).gotoAndStop(1);
+//			}
 			this.addChildAt(_rigidBody, 0);
 			_indicator.boundBox = _rigidBody.getBounds(this);
 		}
@@ -86,6 +86,7 @@ package editor.view.scene
 			var contextMenuData:ContextMenuData = new ContextMenuData();
 			var menuItems:Array = [
 				{"label":"编辑", "enabled":true, "handler":editInstanceHandler}
+				,{"type":"separator"}
 				,{"label":"上移", "enabled":!this.lock, "handler":arrangeChangeHandler, "param":1}
 				,{"label":"移到顶层", "enabled":!this.lock, "handler":arrangeChangeHandler, "param":2}
 				,{"label":"下移", "enabled":!this.lock, "handler":arrangeChangeHandler, "param":-1}

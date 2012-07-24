@@ -258,13 +258,14 @@ package editor.view.component.window
 			this.addEventListener(EventDef.LAYER_VISIBLE_STATE_CHANGE, layerVisibleChangeHandler);
 			this.addEventListener(EventDef.LAYER_LOCK_STATE_CHANGE, layerLockChangeHandler);
 			this.addEventListener(EventDef.LAYER_NAME_CHANGE, layerNameChangeHandler);
+			this.addEventListener(EventDef.LAYER_ITEM_DELETE, layerDeleteHandler);
 		}
 		private function removeLayersEvent():void {
 			this.removeEventListener(EventDef.LAYER_VISIBLE_STATE_CHANGE, layerVisibleChangeHandler);
 			this.removeEventListener(EventDef.LAYER_LOCK_STATE_CHANGE, layerLockChangeHandler);
 			this.removeEventListener(EventDef.LAYER_NAME_CHANGE, layerNameChangeHandler);
+			this.removeEventListener(EventDef.LAYER_ITEM_DELETE, layerDeleteHandler);
 		}
-		
 		protected function layerVisibleChangeHandler(evt:DataEvent):void {
 			var layer:LayerItem = evt.data as LayerItem;
 			var entiVisibleChange:Function = function(enti:IDisplayElement):void {
@@ -286,6 +287,9 @@ package editor.view.component.window
 			var oldName:String = (evt.data as Array)[0] as String;
 			var newName:String = (evt.data as Array)[1] as String;
 			LogUtil.debug("change layer name {0} => {1}", oldName, newName);
+		}
+		protected function layerDeleteHandler(evt:DataEvent):void {
+			var layer:LayerItem = evt.data as LayerItem;
 		}
 		
 		public static function editEntity(enti:ComposedData):void {
