@@ -17,5 +17,8 @@ package editor.dataeditor.elements.container.featured
 		
 		public function set layoutContainer(v:ILayoutContainer):void {
 		}
+		
+		public function reset():void {
+		}
 	}
 }

@@ -5,6 +5,7 @@ package editor.view.component
 	import editor.view.mxml.skin.LayerItemSkin;
 	
 	import flash.display.Sprite;
+	import flash.events.FocusEvent;
 	import flash.events.MouseEvent;
 	
 	import mx.core.UIComponent;
@@ -51,6 +52,8 @@ package editor.view.component
 		
 		private var _isSelected:Boolean;
 		
+		private var _oldLayerName:String;
+		
 		public function LayerItem()
 		{
 			super();
@@ -70,6 +73,24 @@ package editor.view.component
 			btnLockUnselect.addEventListener(MouseEvent.CLICK, btnClickHandler);
 			
 			btnDelete.addEventListener(MouseEvent.CLICK, btnClickHandler);
+			
+			layerNameLabel.addEventListener(MouseEvent.DOUBLE_CLICK, startEditLayerNameHandler);
+		}
+		
+		protected function startEditLayerNameHandler(evt:MouseEvent):void {
+			if(!layerNameLabel || layerNameLabel.editable)
+				return;
+			_oldLayerName = layerNameLabel.text;
+			layerNameLabel.editable = true;
+			layerNameLabel.removeEventListener(MouseEvent.DOUBLE_CLICK, startEditLayerNameHandler);
+			layerNameLabel.addEventListener(FocusEvent.FOCUS_OUT, endEditLayerNameHandler);
+		}
+		
+		protected function endEditLayerNameHandler(evt:FocusEvent):void {
+			layerNameLabel.editable = false;
+			layerNameLabel.addEventListener(MouseEvent.DOUBLE_CLICK, startEditLayerNameHandler);
+			layerNameLabel.removeEventListener(FocusEvent.FOCUS_OUT, endEditLayerNameHandler);
+			this.dispatchEvent(new DataEvent(EventDef.LAYER_NAME_CHANGE, [_oldLayerName, layerNameLabel.text], true));
 		}
 		
 		protected function itemClickHandler(evt:MouseEvent):void {

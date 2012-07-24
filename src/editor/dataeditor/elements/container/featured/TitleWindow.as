@@ -38,5 +38,8 @@ package editor.dataeditor.elements.container.featured
 		override public function removeChild(child:DisplayObject):DisplayObject {
 			return layoutContainer.removeChild(child);
 		}
+		
+		public function reset():void {
+		}
 	}
 }

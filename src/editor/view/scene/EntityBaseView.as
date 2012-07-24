@@ -3,12 +3,14 @@ package editor.view.scene
 	import editor.EditorGlobal;
 	import editor.constant.EventDef;
 	import editor.datatype.ReservedName;
+	import editor.datatype.data.ComposedData;
 	import editor.event.DataEvent;
 	import editor.mgr.ResMgr;
 	import editor.utils.CommonUtil;
 	import editor.utils.swf.SWF;
 	import editor.view.component.canvas.MainCanvas;
 	import editor.view.component.canvas.PreviewCanvas;
+	import editor.view.component.window.MainWindow;
 	import editor.vo.ContextMenuData;
 	import editor.vo.SceneLayer;
 	
@@ -83,13 +85,18 @@ package editor.view.scene
 			EditorGlobal.APP.unregisterContextMenu(this);
 			var contextMenuData:ContextMenuData = new ContextMenuData();
 			var menuItems:Array = [
-				{"label":"上移", "enabled":!this.lock, "handler":arrangeChangeHandler, "param":1}
+				{"label":"编辑", "enabled":true, "handler":editInstanceHandler}
+				,{"label":"上移", "enabled":!this.lock, "handler":arrangeChangeHandler, "param":1}
 				,{"label":"移到顶层", "enabled":!this.lock, "handler":arrangeChangeHandler, "param":2}
 				,{"label":"下移", "enabled":!this.lock, "handler":arrangeChangeHandler, "param":-1}
 				,{"label":"移到底层", "enabled":!this.lock, "handler":arrangeChangeHandler, "param":-2}
 			];
 			contextMenuData.menuItems = menuItems;
 			EditorGlobal.APP.registerContextMenu(this, contextMenuData);
+		}
+		
+		private function editInstanceHandler():void {
+			MainWindow.editEntity(this.vo as ComposedData);
 		}
 		
 		protected function arrangeChangeHandler(direcion:int):void {

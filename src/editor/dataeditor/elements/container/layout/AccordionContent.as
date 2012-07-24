@@ -22,5 +22,8 @@ package editor.dataeditor.elements.container.layout
 		override public function removeChild(child:DisplayObject):DisplayObject {
 			return removeElement(child as IVisualElement) as DisplayObject;
 		}
+		
+		public function reset():void {
+		}
 	}
 }

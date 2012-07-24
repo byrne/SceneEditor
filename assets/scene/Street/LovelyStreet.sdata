@@ -12,52 +12,76 @@
       <string property="class_name">SceneLayer</string>
       <string property="keyword">physics</string>
     </SceneLayer>
+    <SceneLayer>
+      <string property="type">normal</string>
+      <string property="class_name">SceneLayer</string>
+      <string property="keyword">fg</string>
+    </SceneLayer>
   </array>
-  <int property="width">960</int>
   <array property="entities">
     <Decoration uid="6F8DA8EA-67E4-2832-ABAA-99D7FF54B239">
       <string property="resource">bg/HarbourBridge.swf - saybotmc</string>
-      <int property="x">-59</int>
-      <string property="layer">physics</string>
+      <int property="x">-58</int>
+      <string property="layer">bg</string>
       <int property="y">-131</int>
       <boolean property="visible">true</boolean>
       <string property="class_name"></string>
       <boolean property="enabled">true</boolean>
       <string property="keyword">Decoration_001</string>
     </Decoration>
-    <NPC uid="7DC10395-E380-AF41-6F87-751F838083DA">
-      <string property="resource">entity\npc\carl\idle.swf - saybotmc</string>
-      <int property="x">128</int>
-      <string property="keyword">Carl</string>
-      <int property="y">409</int>
-      <string property="motion">CHEER</string>
-      <string property="speech">嗯—嗯—现在，可别做让人害怕的动作！</string>
-      <boolean property="visible">true</boolean>
-      <boolean property="enabled">false</boolean>
-    </NPC>
     <NPC uid="76F1EC6D-D5D3-C4A0-6214-751F8381FE9E">
       <string property="resource">entity\npc\tommy\idle.swf - saybotmc</string>
       <int property="x">42</int>
       <string property="keyword">Tommy</string>
+      <string property="layer">fg</string>
+      <boolean property="visible">true</boolean>
       <int property="y">409</int>
       <string property="speech">我爱鼓的声音，它听起来是那么的轻松</string>
-      <boolean property="visible">true</boolean>
+      <boolean property="isRole">false</boolean>
       <boolean property="enabled">false</boolean>
     </NPC>
-
     <BossJunior uid="088AFD5A-D782-C8BF-BCE4-793106AADA28">
-      <string property="keyword">Jabba</string>
-      <int property="x">0</int>
-      <Reference property="minion">A5F7523D-218A-F4B5-09A0-7EE64525244D</Reference>
-      <int property="y">0</int>
-      <int property="x">458</int>
-      <int property="y">308</int>
-      <string property="speech">I'm a Boss</string>
-      <boolean property="visible">true</boolean>
       <string property="resource">entity\pirate\Maikai\idle.swf - saybotmc</string>
-      <boolean property="enabled">false</boolean>
+      <int property="x">401</int>
+      <boolean property="isRole">true</boolean>
+      <int property="y">414</int>
+      <Reference property="minion">null</Reference>
+      <string property="motion"></string>
+      <boolean property="visible">true</boolean>
+      <string property="keyword">Jabba</string>
+      <string property="layer">fg</string>
+      <string property="speech"></string>
+      <string property="class_name"></string>
+      <boolean property="enabled">true</boolean>
     </BossJunior>
+    <NPC uid="7EAFE090-E22F-8B23-83B3-B6C1E125FA99">
+      <string property="resource">entity\npc\donnie\idle.swf - saybotmc</string>
+      <int property="x">348</int>
+      <string property="keyword">NPC_003</string>
+      <string property="layer">fg</string>
+      <boolean property="visible">true</boolean>
+      <int property="y">394</int>
+      <string property="speech">嗯—嗯—现在，可别做让人害怕的动作！</string>
+      <string property="class_name"></string>
+      <string property="motion">CHEER</string>
+      <boolean property="isRole">true</boolean>
+      <boolean property="enabled">true</boolean>
+    </NPC>
+    <NPC uid="7DC10395-E380-AF41-6F87-751F838083DA">
+      <string property="resource">entity\npc\carl\idle.swf - saybotmc</string>
+      <int property="x">128</int>
+      <string property="keyword">Carl</string>
+      <string property="layer">fg</string>
+      <boolean property="visible">true</boolean>
+      <int property="y">409</int>
+      <string property="speech">嗯—嗯—现在，可别做让人害怕的动作！</string>
+      <string property="class_name"></string>
+      <string property="motion">CHEER</string>
+      <boolean property="isRole">true</boolean>
+      <boolean property="enabled">true</boolean>
+    </NPC>
   </array>
+  <int property="width">960</int>
   <int property="height">560</int>
   <string property="keyword">LovelyStreet</string>
 </Scene>

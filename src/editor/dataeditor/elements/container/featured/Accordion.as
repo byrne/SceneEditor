@@ -23,5 +23,9 @@ package editor.dataeditor.elements.container.featured
 		public function get layoutContainer():ILayoutContainer {
 			return null;
 		}
+		
+		public function reset():void {
+			
+		}
 	}
 }

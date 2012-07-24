@@ -158,18 +158,8 @@ package editor.dataeditor.impl
 			var component:IEditorElement;
 			for(var prop:String in _bindings) {
 				component = _bindings[prop].ed_comp;
-				if(target is ComposedData && target.assigned(prop)) {
-					if(component.bindingProperty is String)
-						component[component.bindingProperty] = target[prop];
-					else if(component.bindingProperty is Array) { 
-						// this is a little awkward, the property to bound is something like component.xxx.yyy.zzz,
-						// i.e. has a depth greater than 1, so we want component.xxx.yyy['zzz'] = target[prop];
-						var pointer:Object = component;
-						for(var i:int = 0; i < component.bindingProperty.length - 1; i++)
-							pointer = pointer[component.bindingProperty[i]];
-						pointer[component.bindingProperty[i]] = target[prop]
-					}
-				}
+				if(target is ComposedData && target.assigned(prop))
+					component[component.bindingProperty] = target[prop];
 				_bindings[prop].watchers.push(BindingUtils.bindProperty(target, prop, component, component.bindingProperty, true));
 			}
 		}
@@ -211,6 +201,7 @@ internal class PEBinding {
 	public function reset():void {
 		while(watchers.length > 0)
 			watchers.pop().unwatch();
+		ed_comp.reset();
 		// In case the next data to modify has not assigned values to all of its properties, if we do not
 		// clear the field editors, it would get the value from previous data during data binding.
 		if(editor_base.property.hasOwnProperty('defaultValue'))

@@ -210,7 +210,7 @@ package editor.view.component.canvas
 				return false;
 			var oldIndex:int = this.getChildIndex(obj as DisplayObject);
 			var index:int = lastItemIndexWithLayer(layer, obj) + 1;
-			this.setChildIndex(obj as DisplayObject, index); 
+			this.setChildIndex(obj as DisplayObject, index > (numChildren - 1) ? numChildren - 1 : index); 
 			LogUtil.debug("arrange item index for layer change, from {0}, to {1}", oldIndex, index);
 			return true;
 		}
