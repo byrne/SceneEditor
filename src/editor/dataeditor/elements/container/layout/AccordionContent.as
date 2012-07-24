@@ -1,5 +1,6 @@
 package editor.dataeditor.elements.container.layout
 {
+	import editor.dataeditor.IElement;
 	import editor.dataeditor.ILayoutContainer;
 	
 	import flash.display.DisplayObject;
@@ -24,6 +25,22 @@ package editor.dataeditor.elements.container.layout
 		}
 		
 		public function reset():void {
+		}
+		
+		public function destroy():void {
+			var child:DisplayObject;
+			var childrenToRemove:Array = [];
+			
+			for(var i:int = 0; i < numChildren; i++) {
+				child = getChildAt(i);
+				if(child is IElement)
+					childrenToRemove.push(child);
+			}
+			
+			for each(var item:IElement in childrenToRemove) {
+				removeChild(item as DisplayObject);
+				item.destroy();
+			}
 		}
 	}
 }

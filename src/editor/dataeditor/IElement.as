@@ -12,5 +12,6 @@ package editor.dataeditor
 	public interface IElement extends IUIComponent
 	{
 		function reset():void;
+		function destroy():void;
 	}
 }
