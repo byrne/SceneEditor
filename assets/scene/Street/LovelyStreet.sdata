@@ -38,7 +38,7 @@
       <string property="layer">fg</string>
       <int property="x">42</int>
       <int property="y">409</int>
-      <string property="resource">entity\npc\tommy\idle.swf - saybotmc</string>
+      <string property="resource">entity/npc/tommy/idle.swf - saybotmc</string>
       <boolean property="visible">true</boolean>
       <string property="keyword">Tommy</string>
       <boolean property="isRole">false</boolean>
@@ -57,14 +57,14 @@
       <boolean property="visible">true</boolean>
       <boolean property="isRole">true</boolean>
       <boolean property="enabled">true</boolean>
-      <string property="resource">entity\pirate\Maikai\idle.swf - saybotmc</string>
+      <string property="resource">entity/pirate/Maikai/idle.swf - saybotmc</string>
     </BossJunior>
     <NPC uid="7EAFE090-E22F-8B23-83B3-B6C1E125FA99">
       <string property="layer">fg</string>
       <int property="x">348</int>
       <string property="class_name"></string>
       <int property="y">394</int>
-      <string property="resource">entity\npc\donnie\idle.swf - saybotmc</string>
+      <string property="resource">entity/npc/donnie/idle.swf - saybotmc</string>
       <boolean property="visible">true</boolean>
       <string property="keyword">NPC_003</string>
       <string property="motion">CHEER</string>
@@ -79,7 +79,7 @@
       <int property="x">128</int>
       <string property="class_name"></string>
       <int property="y">409</int>
-      <string property="resource">entity\npc\carl\idle.swf - saybotmc</string>
+      <string property="resource">entity/npc/carl/idle.swf - saybotmc</string>
       <boolean property="visible">true</boolean>
       <string property="keyword">Carl</string>
       <string property="motion">CHEER</string>
