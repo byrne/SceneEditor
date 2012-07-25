@@ -290,6 +290,15 @@ package editor.view.component.window
 		}
 		protected function layerDeleteHandler(evt:DataEvent):void {
 			var layer:LayerItem = evt.data as LayerItem;
+			var callFunc:Function = function(enti:IDisplayElement):void {
+				if(enti.layer == layer.layerName) {
+					enti.layer = null;
+					if(enti is EntityBaseView) {
+						(enti as EntityBaseView).syncDataFromView();
+					}
+				}
+			};
+			sceneCanvas.entitiesDo(callFunc);
 		}
 		
 		public static function editEntity(enti:ComposedData):void {

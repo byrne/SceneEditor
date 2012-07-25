@@ -2,6 +2,7 @@ package editor.view.component.widget
 {
 	import editor.EditorGlobal;
 	import editor.constant.EventDef;
+	import editor.datatype.ReservedName;
 	import editor.datatype.data.ComposedData;
 	import editor.event.DataEvent;
 	import editor.view.component.LayerItem;
@@ -10,6 +11,7 @@ package editor.view.component.widget
 	import editor.vo.SceneLayer;
 	
 	import flash.events.MouseEvent;
+	import flash.net.Socket;
 	
 	import mx.events.FlexEvent;
 	
@@ -96,7 +98,7 @@ package editor.view.component.widget
 			this.addEventListener(EventDef.LAYER_ITEM_SELECT_ON, function(evt:DataEvent):void {
 				selectLayer(evt.data as LayerItem);
 			});
-			this.addEventListener(EventDef.LAYER_ITEM_DELETE, function(evt:DataEvent):void {
+			this.addEventListener(EventDef.LAYER_ITEM_DELETE_CLICK, function(evt:DataEvent):void {
 				deleteLayer(evt.data as LayerItem);
 			});
 		}
@@ -113,11 +115,12 @@ package editor.view.component.widget
 			refreshLayersView();
 			
 			if(addToSceneData) {
-				var sceneLayer:SceneLayer = new SceneLayer();
-				sceneLayer.keyword = name;
-				sceneLayer.type = "normal";
-				sceneLayer.class_name = "SceneLayer";
-				_targetScene.layers.push(sceneLayer);
+				var layerData:ComposedData = new ComposedData();
+				layerData[ReservedName.KEYWORD] = name;
+				layerData["type"] = "normal";
+				layerData["class_name"] = "SceneLayer";
+				var sceneLayer:SceneLayer = new SceneLayer(layerData);
+				_targetScene.addLayer(sceneLayer);
 			}
 		}
 		
@@ -133,7 +136,9 @@ package editor.view.component.widget
 			if(layerIndex >= 0) {
 				layersContainer.removeElement(layer);
 				_layers.splice(layerIndex, 1);
+				_targetScene.deleteLayer(layer.layerName);
 				refreshLayersView();
+				this.dispatchEvent(new DataEvent(EventDef.LAYER_ITEM_DELETE, layer, true));
 			}
 		}
 		

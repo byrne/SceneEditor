@@ -21,6 +21,8 @@ package editor.vo
 		
 		public var entities:Array;
 		
+		private var _layer2IndexDict:Dictionary;
+		
 		public function Scene(properties:Object=null)
 		{
 			super(properties);
@@ -34,6 +36,35 @@ package editor.vo
 					EditorGlobal.DATA_MEMORY.deleteEntity(enti);
 				}
 			}
+			updateLayer2IndexDict();
+		}
+		
+		private function updateLayer2IndexDict():void {
+			_layer2IndexDict = new Dictionary();
+			for(var i:int=0; i<layers.length; i++) {
+				_layer2IndexDict[(layers[i] as SceneLayer).keyword] = i;
+			}
+		}
+		
+		public function addLayer(layer:SceneLayer):void {
+			this.layers.push(layer);
+			updateLayer2IndexDict();
+			EditorGlobal.DATA_MEMORY.trySetEntity(layer as ComposedData);
+		}
+		
+		public function deleteLayer(layerName:String):void {
+			var layerIndex:int = getLayerIndex(layerName);
+			if(layerIndex >= 0) {
+				EditorGlobal.DATA_MEMORY.deleteEntity(layers[layerIndex] as ComposedData);
+				this.layers.splice(layerIndex, 1);
+				updateLayer2IndexDict();
+			}
+		}
+		
+		public function getLayerIndex(layerName:String):int {
+			if(_layer2IndexDict.hasOwnProperty(layerName))
+				return _layer2IndexDict[layerName] as int;
+			return -1;
 		}
 		
 		public function get template():SceneTemplate {

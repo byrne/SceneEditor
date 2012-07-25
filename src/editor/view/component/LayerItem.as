@@ -123,7 +123,7 @@ package editor.view.component
 					break;
 				
 				case btnDelete:
-					this.dispatchEvent(new DataEvent(EventDef.LAYER_ITEM_DELETE, this, true));
+					this.dispatchEvent(new DataEvent(EventDef.LAYER_ITEM_DELETE_CLICK, this, true));
 					break;
 			}
 			evt.stopImmediatePropagation();

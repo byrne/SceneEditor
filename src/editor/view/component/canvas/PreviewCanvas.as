@@ -210,7 +210,8 @@ package editor.view.component.canvas
 				return false;
 			var oldIndex:int = this.getChildIndex(obj as DisplayObject);
 			var index:int = lastItemIndexWithLayer(layer, obj) + 1;
-			this.setChildIndex(obj as DisplayObject, index > (numChildren - 1) ? numChildren - 1 : index); 
+			index = index > (numChildren - 1) ? numChildren - 1 : index;
+			this.setChildIndex(obj as DisplayObject, index); 
 			LogUtil.debug("arrange item index for layer change, from {0}, to {1}", oldIndex, index);
 			return true;
 		}
@@ -267,7 +268,7 @@ package editor.view.component.canvas
 		
 		private function lastItemIndexWithLayer(layerName:String, excludeObj:IDisplayElement=null):int {
 			if(_layers == null || layerName == null)
-				items.length - 1;
+				return items.length - 1;
 			var obj:IDisplayElement;
 			for(var i:int=this.numChildren-1; i>=0; i--) {
 				obj = this.getChildAt(i) as IDisplayElement;

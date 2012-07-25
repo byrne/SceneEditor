@@ -118,7 +118,7 @@ package editor.view.scene
 		}
 		
 		public function set layer(v:String):void {
-			if(v == null || v == layer || lock)
+			if(v == layer || lock)
 				return;
 			_layer = v;
 			if(parentCanvas) {
@@ -221,8 +221,8 @@ package editor.view.scene
 			}
 			
 			if(_vo.hasOwnProperty(ReservedName.LAYER) && _vo[ReservedName.LAYER] != layer) {
-				if(parentCanvas)
-					parentCanvas.setItemLayer(this, layer);
+//				if(parentCanvas)
+//					parentCanvas.setItemLayer(this, layer);
 				_vo[ReservedName.LAYER] = layer;
 			}
 		}
