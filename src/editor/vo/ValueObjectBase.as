@@ -61,5 +61,8 @@ package editor.vo
 			var myClass:Class = Object(this).constructor() as Class;
 			return new myClass(ObjectUtil.copy(this._properties));
 		}
+		public function get properties():Object {
+			return _properties;
+		}
 	}
 }

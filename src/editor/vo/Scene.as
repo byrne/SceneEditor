@@ -43,24 +43,27 @@ package editor.vo
 		
 		public function addLayer(layer:SceneLayer):void {
 			this.layers.push(layer);
-			EditorGlobal.DATA_MEMORY.trySetEntity(layer as ComposedData);
+			EditorGlobal.DATA_MEMORY.trySetEntity(layer.properties as ComposedData);
 			EditorGlobal.MAIN_WND.dispatchEvent(new Event(EventDef.LAYER_COUNT_CHANGE));
 		}
 		
 		public function deleteLayer(layerName:String):void {
 			var layerIndex:int = getLayerIndex(layerName);
 			if(layerIndex >= 0) {
-				EditorGlobal.DATA_MEMORY.deleteEntity(layers[layerIndex] as ComposedData);
+				EditorGlobal.DATA_MEMORY.deleteEntity((layers[layerIndex] as SceneLayer).properties as ComposedData);
 				this.layers.splice(layerIndex, 1);
 				EditorGlobal.MAIN_WND.dispatchEvent(new Event(EventDef.LAYER_COUNT_CHANGE));
 			}
 		}
 		
-		public function getLayerIndex(layerName:String):int {
-			if(_layer2IndexDict.hasOwnProperty(layerName))
-				return _layer2IndexDict[layerName] as int;
+		private function getLayerIndex(layerName:String):int
+		{
+			for(var i:int=0; i<this.layers.length; i++) {
+				if((this.layers[i] as SceneLayer).keyword == layerName)
+					return i;
+			}
 			return -1;
-		}
+		}		
 		
 		public function get template():SceneTemplate {
 			return EditorGlobal.DATA_MEMORY.getSceneTeamplate(type);

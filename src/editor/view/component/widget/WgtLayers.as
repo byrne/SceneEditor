@@ -115,7 +115,7 @@ package editor.view.component.widget
 			refreshLayersView();
 			
 			if(addToSceneData) {
-				var layerData:ComposedData = new ComposedData();
+				var layerData:ComposedData = EditorGlobal.DATA_MANAGER.getType('SceneLayer').construct();
 				layerData[ReservedName.KEYWORD] = name;
 				layerData["type"] = "normal";
 				layerData["class_name"] = "SceneLayer";

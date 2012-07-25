@@ -22,8 +22,7 @@ package editor.dataeditor.elements
 		private var _valuePropertyChanged:Boolean;
 		private var _typesChanged:Boolean;
 		private var _dataChanged:Boolean;
-		private var _pendingSelectedItem:Object;
-		private var _hasPendingSelectedItem:Boolean;
+		private var _pendingItem:*;
 		
 		public function MemoryDataChooser() {
 			super();
@@ -85,10 +84,12 @@ package editor.dataeditor.elements
 				updateCandidates();
 				_dataChanged = false;
 			}
-			if(_hasPendingSelectedItem) {
-				selectedItem = _pendingSelectedItem;
-				_hasPendingSelectedItem = false;
+			
+			if(_pendingItem != undefined) {
+				selectedItem = _pendingItem;
+				_pendingItem = undefined;
 			}
+			
 			super.commitProperties();	// 这行太坑了，一定要把它放在自己的commit后边，要不此次渲染不会刷新，要到下次才会.
 		}
 		
@@ -137,8 +138,7 @@ package editor.dataeditor.elements
 		
 		override public function set selectedItem(value:*):void {
 			if(dataProvider == null) {
-				_pendingSelectedItem = value;
-				_hasPendingSelectedItem = true;
+				_pendingItem = value;
 				return;
 			}
 			
@@ -148,6 +148,13 @@ package editor.dataeditor.elements
 				var refEnti:ComposedData = (value as Reference).dereference();
 				super.selectedItem = myLabelToItemFunction(refEnti ? refEnti[labelField] : null);
 			}
+		}
+		
+		override public function get selectedItem():* {
+			if (_pendingItem !== undefined)
+				return _pendingItem;
+			else
+				return super.selectedItem;
 		}
 		
 		public function reset():void {
@@ -160,7 +167,7 @@ package editor.dataeditor.elements
 		
 		public function destroy():void {
 			reset();
-			_pendingSelectedItem = null;
+			_pendingItem = null;
 		}
 	}
 }

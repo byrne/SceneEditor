@@ -269,8 +269,8 @@ package editor.view.component.canvas
 		}
 		
 		private function lastItemIndexWithLayer(layerName:String, excludeObj:IDisplayElement=null):int {
-			if(_layers == null || layerName == null)
-				return items.length - 1;
+			if(_layers == null || layerName == null) 
+				throw new Error("layerName 又是 null 了");
 			var obj:IDisplayElement;
 			var destLayerIndex:int = layerName2Index(layerName);
 			if(destLayerIndex == -1)
