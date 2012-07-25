@@ -190,7 +190,7 @@ package editor.view.component.window
 			var data:XML = XML(FileSerializer.readFromFile(fName));
 			var sceneData:Object = XMLDataParser.fromXML(data, EditorGlobal.DATA_MANAGER.types);
 			curScene = new Scene(sceneData);
-			sceneCanvas.layers = curScene.layers;
+			updateCanvasLayers();
 			parameterPanel.wgtLayers.initLayers(curScene);
 			tabNavigateTo(1);
 			
@@ -259,12 +259,14 @@ package editor.view.component.window
 			this.addEventListener(EventDef.LAYER_LOCK_STATE_CHANGE, layerLockChangeHandler);
 			this.addEventListener(EventDef.LAYER_NAME_CHANGE, layerNameChangeHandler);
 			this.addEventListener(EventDef.LAYER_ITEM_DELETE, layerDeleteHandler);
+			this.addEventListener(EventDef.LAYER_COUNT_CHANGE, updateCanvasLayers);
 		}
 		private function removeLayersEvent():void {
 			this.removeEventListener(EventDef.LAYER_VISIBLE_STATE_CHANGE, layerVisibleChangeHandler);
 			this.removeEventListener(EventDef.LAYER_LOCK_STATE_CHANGE, layerLockChangeHandler);
 			this.removeEventListener(EventDef.LAYER_NAME_CHANGE, layerNameChangeHandler);
 			this.removeEventListener(EventDef.LAYER_ITEM_DELETE, layerDeleteHandler);
+			this.removeEventListener(EventDef.LAYER_COUNT_CHANGE, updateCanvasLayers);
 		}
 		protected function layerVisibleChangeHandler(evt:DataEvent):void {
 			var layer:LayerItem = evt.data as LayerItem;
@@ -299,6 +301,9 @@ package editor.view.component.window
 				}
 			};
 			sceneCanvas.entitiesDo(callFunc);
+		}
+		public function updateCanvasLayers(evt:Event=null):void {
+			sceneCanvas.layers = curScene.layers;
 		}
 		
 		public static function editEntity(enti:ComposedData):void {

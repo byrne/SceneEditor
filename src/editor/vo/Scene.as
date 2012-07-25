@@ -1,10 +1,13 @@
 package editor.vo
 {
 	import editor.EditorGlobal;
+	import editor.constant.EventDef;
 	import editor.datatype.ReservedName;
 	import editor.datatype.data.ComposedData;
+	import editor.event.DataEvent;
 	import editor.utils.LogUtil;
 	
+	import flash.events.Event;
 	import flash.utils.Dictionary;
 
 	public class Scene extends ValueObjectBase
@@ -36,20 +39,12 @@ package editor.vo
 					EditorGlobal.DATA_MEMORY.deleteEntity(enti);
 				}
 			}
-			updateLayer2IndexDict();
-		}
-		
-		private function updateLayer2IndexDict():void {
-			_layer2IndexDict = new Dictionary();
-			for(var i:int=0; i<layers.length; i++) {
-				_layer2IndexDict[(layers[i] as SceneLayer).keyword] = i;
-			}
 		}
 		
 		public function addLayer(layer:SceneLayer):void {
 			this.layers.push(layer);
-			updateLayer2IndexDict();
 			EditorGlobal.DATA_MEMORY.trySetEntity(layer as ComposedData);
+			EditorGlobal.MAIN_WND.dispatchEvent(new Event(EventDef.LAYER_COUNT_CHANGE));
 		}
 		
 		public function deleteLayer(layerName:String):void {
@@ -57,7 +52,7 @@ package editor.vo
 			if(layerIndex >= 0) {
 				EditorGlobal.DATA_MEMORY.deleteEntity(layers[layerIndex] as ComposedData);
 				this.layers.splice(layerIndex, 1);
-				updateLayer2IndexDict();
+				EditorGlobal.MAIN_WND.dispatchEvent(new Event(EventDef.LAYER_COUNT_CHANGE));
 			}
 		}
 		

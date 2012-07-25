@@ -221,6 +221,8 @@ package editor.view.component.canvas
 		}
 		
 		protected function layerName2Index(layerName:String):int {
+			if(layerName==null)
+				return -1;
 			for(var i:int=0; i<_layers.length; i++) {
 				if((_layers[i] as SceneLayer).keyword == layerName)
 					return i;
@@ -260,7 +262,7 @@ package editor.view.component.canvas
 					}
 				}
 			}
-			if(destObj && destObj.layer==obj.layer && destIndex>=0) {
+			if(destObj && destObj.layer==obj.layer && destIndex>=0 && objIndex!=destIndex) {
 				this.setChildIndex(obj as DisplayObject, destIndex);
 				LogUtil.debug("arrange item index, from {0}, to {1}", objIndex, destIndex);
 			}
@@ -270,12 +272,24 @@ package editor.view.component.canvas
 			if(_layers == null || layerName == null)
 				return items.length - 1;
 			var obj:IDisplayElement;
+			var destLayerIndex:int = layerName2Index(layerName);
+			if(destLayerIndex == -1)
+				return items.length - 1;
+			var layerIndex:int;
+			var tempIndex:int;
 			for(var i:int=this.numChildren-1; i>=0; i--) {
 				obj = this.getChildAt(i) as IDisplayElement;
-				if(obj && obj.layer==layerName && obj != excludeObj)
-					return i;
+				if(obj && obj != excludeObj) {
+					tempIndex = i;
+					layerIndex = layerName2Index(obj.layer);
+					if(obj.layer==layerName || destLayerIndex>=layerIndex)
+						return i;
+				}
 			}
-			return items.length - 1;
+			if(destLayerIndex<layerIndex)
+				return tempIndex>0?tempIndex-1:0;
+			else
+				return items.length - 1;
 		}
 	}
 }
