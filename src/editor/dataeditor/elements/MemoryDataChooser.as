@@ -85,11 +85,6 @@ package editor.dataeditor.elements
 				_dataChanged = false;
 			}
 			
-			if(_pendingItem != undefined) {
-				selectedItem = _pendingItem;
-				_pendingItem = undefined;
-			}
-			
 			super.commitProperties();	// 这行太坑了，一定要把它放在自己的commit后边，要不此次渲染不会刷新，要到下次才会.
 		}
 		
@@ -113,7 +108,7 @@ package editor.dataeditor.elements
 			
 			dataProvider = new ArrayList(candidates);
 		}
-				
+		
 		public function get bindingProperty():Object {
 			return 'selectedItem';
 		}
@@ -137,24 +132,12 @@ package editor.dataeditor.elements
 		}
 		
 		override public function set selectedItem(value:*):void {
-			if(dataProvider == null) {
-				_pendingItem = value;
-				return;
-			}
-			
-			if(value is String)
-				super.selectedItem = myLabelToItemFunction(value);
-			else if(value is Reference && value != null) {
+			if(value is Reference && value != null) {
 				var refEnti:ComposedData = (value as Reference).dereference();
-				super.selectedItem = myLabelToItemFunction(refEnti ? refEnti[labelField] : null);
+				super.selectedItem = refEnti ? refEnti[labelField] : null;
 			}
-		}
-		
-		override public function get selectedItem():* {
-			if (_pendingItem !== undefined)
-				return _pendingItem;
 			else
-				return super.selectedItem;
+				super.selectedItem = value;
 		}
 		
 		public function reset():void {
